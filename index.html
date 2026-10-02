@@ -733,31 +733,52 @@
                 margin: 0 10px;
             }
         }
+
+.btn-seller {
+    background: #ff8c00;
+    border: 2px solid #ff8c00;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn-seller:hover {
+    background: #e07b00;
+    border-color: #e07b00;
+}
+
     </style>
 </head>
 <body>
     <!-- HEADER / NAVIGATION -->
     <header>
-        <div class="logo">
-            <i class="fas fa-home"></i> Estate<span>Haven</span>
+    <div class="logo">
+        <i class="fas fa-home"></i> Estate<span>Haven</span>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="listing.html">Listings</a></li>
+            <li><a href="seller-register.html">Sell Property</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="header-actions">
+        <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+        <button class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <div class="user-profile">
+            <i class="fas fa-user-circle"></i> John
         </div>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="listing.html">Listings</a></li>
-                <li><a href="agents.html">Agents</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <button class="btn-outline"><i class="fas fa-user-plus"></i> Sign Up</button>
-            <button class="btn-solid"><i class="fas fa-sign-in-alt"></i> Login</button>
-            <div class="user-profile">
-                <i class="fas fa-user-circle"></i> John
-            </div>
-        </div>
-    </header>
+    </div>
+</header>
 
     <!-- HERO SECTION -->
     <section class="hero">

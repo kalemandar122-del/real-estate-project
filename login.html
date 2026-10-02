@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | EstateHaven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #fafbfc;
+            color: #1e2b37;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- HEADER ---------- */
+        header {
+            background: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0b2b3c;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: #1e7e5c;
+            font-size: 30px;
+        }
+
+        .logo span {
+            color: #1e7e5c;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 16px;
+            transition: 0.2s;
+            padding-bottom: 4px;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #1e7e5c;
+            border-bottom: 2px solid #1e7e5c;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1e7e5c;
+            color: #1e7e5c;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline:hover {
+            background: #1e7e5c;
+            color: white;
+        }
+
+        .btn-seller {
+            background: #ff8c00;
+            border: 2px solid #ff8c00;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-seller:hover {
+            background: #e07b00;
+            border-color: #e07b00;
+        }
+
+        /* ---------- MAIN LOGIN AREA ---------- */
+        .login-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 5%;
+            background: linear-gradient(135deg, #eef7f2 0%, #fafbfc 60%, #fff8ee 100%);
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 25px 60px -15px rgba(11, 43, 60, 0.15);
+            border: 1px solid #e9f0ed;
+            overflow: hidden;
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
+            min-height: 560px;
+        }
+
+        /* Left Side - Illustration / Welcome */
+        .login-left {
+            flex: 1 1 45%;
+            background: linear-gradient(160deg, #1e7e5c 0%, #0f6b45 100%);
+            padding: 50px 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .login-left::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -60px;
+            left: -60px;
+        }
+
+        .login-left-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-left-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 26px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-left h2 {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+
+        .login-left p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .login-features {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .login-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .login-feature i {
+            width: 26px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .login-left-note {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            border-left: 3px solid #ff8c00;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-left-note strong {
+            color: white;
+        }
+
+        /* Right Side - Form */
+        .login-right {
+            flex: 1 1 55%;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-right h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0b2b3c;
+            margin-bottom: 8px;
+        }
+
+        .login-right .subtitle {
+            color: #7d8f9c;
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .input-wrap {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #d8e6df;
+            border-radius: 14px;
+            background: #fafdfb;
+            transition: 0.2s;
+            overflow: hidden;
+        }
+
+        .input-wrap:focus-within {
+            border-color: #1e7e5c;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(30, 126, 92, 0.08);
+        }
+
+        .input-wrap i {
+            color: #1e7e5c;
+            font-size: 16px;
+            padding: 0 16px;
+            flex-shrink: 0;
+        }
+
+        .input-wrap input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 16px 14px 0;
+            font-size: 15px;
+            color: #1e2b37;
+            outline: none;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .input-wrap input::placeholder {
+            color: #a3b1bb;
+        }
+
+        .input-wrap .toggle-password {
+            background: none;
+            border: none;
+            color: #7d8f9c;
+            font-size: 16px;
+            padding: 0 16px;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        .input-wrap .toggle-password:hover {
+            color: #1e7e5c;
+        }
+
+        /* Password hint / error */
+        .field-hint {
+            font-size: 12px;
+            margin-top: 6px;
+            min-height: 16px;
+        }
+
+        .field-hint.error { color: #e74c3c; }
+        .field-hint.success { color: #1e7e5c; }
+
+        /* Row: remember + forgot */
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 26px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .checkbox-remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            color: #4d5f6b;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-remember input {
+            accent-color: #1e7e5c;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            font-size: 13.5px;
+            color: #1e7e5c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .forgot-link:hover {
+            color: #0f6b45;
+            text-decoration: underline;
+        }
+
+        /* Login Button */
+        .btn-login {
+            width: 100%;
+            padding: 15px 24px;
+            background: #1e7e5c;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 18px rgba(30, 126, 92, 0.25);
+        }
+
+        .btn-login:hover {
+            background: #146349;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(30, 126, 92, 0.35);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 26px 0;
+            color: #a3b1bb;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e9f0ed;
+        }
+
+        /* Quick Login Demo */
+        .demo-box {
+            background: #fff8ee;
+            border: 1px dashed #ffc989;
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 24px;
+        }
+
+        .demo-box h4 {
+            font-size: 13px;
+            color: #b36a00;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-box p {
+            font-size: 12.5px;
+            color: #7d5c1a;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .demo-fill-btn {
+            background: #ff8c00;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .demo-fill-btn:hover {
+            background: #e07b00;
+        }
+
+        /* Register prompt */
+        .register-prompt {
+            text-align: center;
+            font-size: 14px;
+            color: #5b6f7c;
+            margin-top: 4px;
+        }
+
+        .register-prompt a {
+            color: #1e7e5c;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .register-prompt a:hover {
+            color: #0f6b45;
+            text-decoration: underline;
+        }
+
+        /* Error banner */
+        .error-banner {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 4px solid #e74c3c;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            color: #991b1b;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-banner.show {
+            display: flex;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .error-banner i {
+            color: #e74c3c;
+            font-size: 16px;
+        }
+
+        /* Loading spinner inside button */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-login.loading .spinner {
+            display: block;
+        }
+
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            background: #0b2b3c;
+            color: #cbd8e0;
+            padding: 30px 5% 20px;
+        }
+
+        .footer-bottom-simple {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: #8fa6b6;
+            font-size: 13.5px;
+        }
+
+        .footer-bottom-simple a {
+            color: #8fa6b6;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: 0.2s;
+        }
+
+        .footer-bottom-simple a:hover {
+            color: #6fc2a0;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 900px) {
+            header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 15px 5%;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .login-card {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .login-left {
+                padding: 36px 30px;
+            }
+
+            .login-left h2 {
+                font-size: 24px;
+            }
+
+            .login-left p {
+                font-size: 14px;
+            }
+
+            .login-right {
+                padding: 36px 30px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .login-wrapper {
+                padding: 24px 4%;
+            }
+
+            .login-left {
+                padding: 30px 24px;
+            }
+
+            .login-left-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 26px;
+                margin-bottom: 20px;
+            }
+
+            .login-left h2 {
+                font-size: 21px;
+            }
+
+            .login-right {
+                padding: 30px 24px;
+            }
+
+            .login-right h1 {
+                font-size: 23px;
+            }
+
+            .footer-bottom-simple {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-simple a {
+                margin: 0 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Listings</a></li>
+                <li><a href="post-property.html">Post Property</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+        </div>
+    </header>
+
+    <!-- LOGIN AREA -->
+    <div class="login-wrapper">
+        <div class="login-card">
+
+            <!-- LEFT SIDE -->
+            <div class="login-left">
+                <div class="login-left-content">
+                    <div class="login-left-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h2>Welcome Back to EstateHaven</h2>
+                    <p>Log in to manage your property listings, connect with buyers directly, and grow your real estate presence — all with zero brokerage.</p>
+
+                    <div class="login-features">
+                        <div class="login-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Manage all your listings in one place</span>
+                        </div>
+                        <div class="login-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Direct buyer inquiries via WhatsApp & call</span>
+                        </div>
+                        <div class="login-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Track views, leads & property status</span>
+                        </div>
+                        <div class="login-feature">
+                            <i class="fas fa-check"></i>
+                            <span>100% free — no hidden charges</span>
+                        </div>
+                    </div>
+
+                    <div class="login-left-note">
+                        <strong>🔒 Your data is safe.</strong> We use industry-standard encryption and never share your personal information with third parties.
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE - LOGIN FORM -->
+            <div class="login-right">
+                <h1>Seller Login</h1>
+                <p class="subtitle">Enter your credentials to access your dashboard.</p>
+
+                <!-- Error Banner -->
+                <div class="error-banner" id="errorBanner">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorText">Invalid credentials. Please try again.</span>
+                </div>
+
+                <!-- Demo Quick Login Box -->
+                <div class="demo-box">
+                    <h4><i class="fas fa-magic"></i> Demo Mode</h4>
+                    <p>New here? Register as a seller first, or use the demo account to explore the dashboard.</p>
+                    <button type="button" class="demo-fill-btn" onclick="fillDemoCredentials()">
+                        <i class="fas fa-bolt"></i> Fill Demo Credentials
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" onsubmit="handleLogin(event)">
+
+                    <!-- Email / Mobile -->
+                    <div class="form-group">
+                        <label>Email or Mobile Number <span style="color:#e74c3c;">*</span></label>
+                        <div class="input-wrap">
+                            <i class="fas fa-user"></i>
+                            <input
+                                type="text"
+                                id="loginIdentifier"
+                                placeholder="Enter email or 10-digit mobile"
+                                autocomplete="username"
+                                required>
+                        </div>
+                        <div class="field-hint" id="identifierHint"></div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label>Password <span style="color:#e74c3c;">*</span></label>
+                        <div class="input-wrap">
+                            <i class="fas fa-lock"></i>
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+                            <button type="button" class="toggle-password" onclick="togglePassword()" title="Show/Hide password">
+                                <i class="fas fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                        <div class="field-hint" id="passwordHint"></div>
+                    </div>
+
+                    <!-- Remember & Forgot -->
+                    <div class="form-row">
+                        <label class="checkbox-remember">
+                            <input type="checkbox" id="rememberMe" checked>
+                            Remember me
+                        </label>
+                        <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button type="submit" class="btn-login" id="loginBtn">
+                        <span class="spinner"></span>
+                        <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Login to Dashboard</span>
+                    </button>
+                </form>
+
+                <!-- Register Prompt -->
+                <p class="register-prompt" style="margin-top: 24px;">
+                    Don't have a seller account? <a href="seller-register.html">Register now</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-bottom-simple">
+            <div>© 2025 EstateHaven. All rights reserved. Made in India 🇮🇳</div>
+            <div>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+                <a href="#">Sitemap</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ========== PASSWORD TOGGLE ==========
+        function togglePassword() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // ========== SHOW ERROR ==========
+        function showError(message) {
+            const banner = document.getElementById('errorBanner');
+            document.getElementById('errorText').textContent = message;
+            banner.classList.add('show');
+            // Auto-hide after 5 seconds
+            setTimeout(() => banner.classList.remove('show'), 5000);
+        }
+
+        function hideError() {
+            document.getElementById('errorBanner').classList.remove('show');
+        }
+
+        // ========== DEMO CREDENTIALS FILL ==========
+        function fillDemoCredentials() {
+            // Create a demo seller if none exists
+            let sellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
+            const demoExists = sellers.some(s => s.email === 'demo@estatehaven.in');
+
+            if (!demoExists) {
+                const demoSeller = {
+                    id: 'SELLER_DEMO_001',
+                    registeredAt: new Date().toISOString(),
+                    fullName: 'Demo Seller',
+                    gender: 'Male',
+                    dob: '',
+                    sellerType: 'Property Owner (Self)',
+                    language: 'English',
+                    mobile: '9876543210',
+                    whatsapp: '9876543210',
+                    email: 'demo@estatehaven.in',
+                    altPhone: '',
+                    callTime: 'Anytime',
+                    contactPref: 'whatsapp',
+                    address1: '91 Springboard, Koramangala',
+                    address2: '',
+                    city: 'Bangalore',
+                    state: 'Karnataka',
+                    pincode: '560095',
+                    idType: 'Aadhaar Card',
+                    idNumber: 'XXXX-XXXX-1234',
+                    referral: 'Google Search',
+                    propertyCount: '1 Property',
+                    password: 'demo1234',
+                    passwordSet: true
+                };
+                sellers.push(demoSeller);
+                localStorage.setItem('estatehaven_sellers', JSON.stringify(sellers));
+            }
+
+            document.getElementById('loginIdentifier').value = 'demo@estatehaven.in';
+            document.getElementById('loginPassword').value = 'demo1234';
+            document.getElementById('identifierHint').textContent = 'Demo credentials filled — click Login.';
+            document.getElementById('identifierHint').className = 'field-hint success';
+            hideError();
+        }
+
+        // ========== LOGIN HANDLER ==========
+        function handleLogin(event) {
+            event.preventDefault();
+            hideError();
+
+            const identifier = document.getElementById('loginIdentifier').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const btn = document.getElementById('loginBtn');
+
+            // Basic validation
+            if (!identifier || !password) {
+                showError('Please fill in all fields.');
+                return;
+            }
+
+            // Show loading state
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            // Simulate network delay (remove in production)
+            setTimeout(() => {
+                const result = authenticateSeller(identifier, password);
+
+                if (result.success) {
+                    // Save current seller session
+                    localStorage.setItem('estatehaven_current_seller', JSON.stringify(result.seller));
+
+                    if (rememberMe) {
+                        localStorage.setItem('estatehaven_remember_me', 'true');
+                    } else {
+                        localStorage.removeItem('estatehaven_remember_me');
+                    }
+
+                    // Success feedback
+                    btn.querySelector('.btn-text').innerHTML = '<i class="fas fa-check"></i> Login Successful!';
+                    btn.style.background = '#0f6b45';
+
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        window.location.href = 'seller-dashboard.html';
+                    }, 700);
+                } else {
+                    // Reset button
+                    btn.classList.remove('loading');
+                    btn.disabled = false;
+                    showError(result.message);
+                }
+            }, 600);
+        }
+
+        // ========== AUTHENTICATION LOGIC ==========
+        function authenticateSeller(identifier, password) {
+            const sellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
+
+            if (sellers.length === 0) {
+                return {
+                    success: false,
+                    message: 'No seller account found. Please register first.'
+                };
+            }
+
+            // Normalize identifier (remove spaces, dashes for mobile)
+            const cleanId = identifier.replace(/[\s-]/g, '').toLowerCase();
+
+            const seller = sellers.find(s => {
+                const emailMatch = s.email && s.email.toLowerCase() === cleanId;
+                const mobileMatch = s.mobile && s.mobile.replace(/[\s-]/g, '') === cleanId;
+                const whatsappMatch = s.whatsapp && s.whatsapp.replace(/[\s-]/g, '') === cleanId;
+                return emailMatch || mobileMatch || whatsappMatch;
+            });
+
+            if (!seller) {
+                return {
+                    success: false,
+                    message: 'No account found with that email or mobile number.'
+                };
+            }
+
+            // Check password (demo only — real app should hash & compare server-side)
+            if (seller.password && seller.password === password) {
+                return { success: true, seller };
+            }
+
+            // Fallback: if password not stored (old records), accept any password >= 6 chars
+            if (!seller.password && password.length >= 6) {
+                // Upgrade old record with password
+                seller.password = password;
+                let allSellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
+                const idx = allSellers.findIndex(s => s.id === seller.id);
+                if (idx !== -1) {
+                    allSellers[idx].password = password;
+                    localStorage.setItem('estatehaven_sellers', JSON.stringify(allSellers));
+                }
+                return { success: true, seller };
+            }
+
+            return {
+                success: false,
+                message: 'Incorrect password. Please try again.'
+            };
+        }
+
+        // ========== AUTO-REDIRECT IF ALREADY LOGGED IN ==========
+        (function checkExistingSession() {
+            const currentSeller = localStorage.getItem('estatehaven_current_seller');
+            if (currentSeller) {
+                // Already logged in → redirect to dashboard
+                window.location.href = 'seller-dashboard.html';
+            }
+        })();
+
+        // ========== LIVE VALIDATION ==========
+        document.getElementById('loginIdentifier').addEventListener('input', function () {
+            const val = this.value.trim();
+            const hint = document.getElementById('identifierHint');
+
+            if (val.length === 0) {
+                hint.textContent = '';
+                hint.className = 'field-hint';
+                return;
+            }
+
+            if (val.includes('@')) {
+                // Email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(val)) {
+                    hint.textContent = '✓ Valid email format';
+                    hint.className = 'field-hint success';
+                } else {
+                    hint.textContent = 'Enter a valid email address';
+                    hint.className = 'field-hint error';
+                }
+            } else {
+                // Mobile
+                const cleaned = val.replace(/[\s-]/g, '');
+                if (cleaned.length === 10 && /^[6-9]\d{9}$/.test(cleaned)) {
+                    hint.textContent = '✓ Valid mobile number';
+                    hint.className = 'field-hint success';
+                } else if (cleaned.length === 10) {
+                    hint.textContent = 'Indian mobile numbers start with 6-9';
+                    hint.className = 'field-hint error';
+                } else {
+                    hint.textContent = `Enter 10-digit mobile (${cleaned.length}/10)`;
+                    hint.className = 'field-hint';
+                }
+            }
+        });
+
+        document.getElementById('loginPassword').addEventListener('input', function () {
+            const hint = document.getElementById('passwordHint');
+            if (this.value.length === 0) {
+                hint.textContent = '';
+                hint.className = 'field-hint';
+                return;
+            }
+            if (this.value.length < 6) {
+                hint.textContent = 'Password must be at least 6 characters';
+                hint.className = 'field-hint error';
+            } else {
+                hint.textContent = '✓ Password length OK';
+                hint.className = 'field-hint success';
+            }
+        });
+    </script>
+</body>
+</html>
