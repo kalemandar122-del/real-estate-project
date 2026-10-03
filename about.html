@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | EstateHaven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        /* HEADER */
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        /* HERO */
+        .about-hero { background: linear-gradient(135deg, #0b2b3c 0%, #1e4d3a 100%); color: white; padding: 80px 5% 90px; text-align: center; position: relative; overflow: hidden; }
+        .about-hero::before { content: ''; position: absolute; top: -150px; right: -100px; width: 400px; height: 400px; background: rgba(255,255,255,0.04); border-radius: 50%; }
+        .about-hero::after { content: ''; position: absolute; bottom: -200px; left: -100px; width: 500px; height: 500px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+        .about-hero-inner { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+        .about-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); color: #b8dfd0; padding: 8px 20px; border-radius: 40px; font-size: 13px; font-weight: 600; letter-spacing: 0.4px; margin-bottom: 24px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .about-hero h1 { font-size: 48px; font-weight: 700; line-height: 1.15; margin-bottom: 20px; letter-spacing: -0.5px; }
+        .about-hero h1 span { color: #6fc2a0; }
+        .about-hero p { font-size: 18px; color: rgba(255,255,255,0.85); line-height: 1.7; max-width: 720px; margin: 0 auto; }
+
+        /* STATS BAR */
+        .stats-bar { background: white; max-width: 1100px; margin: -50px auto 0; padding: 36px 40px; border-radius: 24px; box-shadow: 0 20px 50px -12px rgba(11,43,60,0.15); display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 30px; position: relative; z-index: 10; }
+        .stat-block { text-align: center; }
+        .stat-block h3 { font-size: 34px; font-weight: 700; color: #1e7e5c; line-height: 1; margin-bottom: 6px; }
+        .stat-block p { font-size: 13.5px; color: #7d8f9c; font-weight: 500; }
+
+        /* MAIN SECTIONS */
+        .about-section { max-width: 1200px; margin: 0 auto; padding: 70px 5% 20px; }
+        .about-section h2 { font-size: 32px; font-weight: 700; color: #0b2b3c; margin-bottom: 14px; letter-spacing: -0.4px; }
+        .about-section h2 i { color: #1e7e5c; margin-right: 10px; }
+        .about-section .section-desc { font-size: 16px; color: #5b6f7c; line-height: 1.7; max-width: 780px; margin-bottom: 40px; }
+
+        /* Mission & Vision */
+        .mv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 26px; }
+        .mv-card { background: white; border-radius: 22px; padding: 36px 32px; border: 1px solid #e9f0ed; box-shadow: 0 8px 24px rgba(0,0,0,0.03); transition: 0.25s; position: relative; overflow: hidden; }
+        .mv-card:hover { transform: translateY(-6px); box-shadow: 0 22px 40px -16px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+        .mv-icon { width: 64px; height: 64px; border-radius: 20px; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 22px; }
+        .mv-card h3 { font-size: 22px; font-weight: 700; color: #0b2b3c; margin-bottom: 12px; }
+        .mv-card p { font-size: 15px; color: #4d5f6b; line-height: 1.75; }
+        .mv-card.orange .mv-icon { background: #fff8ee; color: #ff8c00; }
+
+        /* Story Section */
+        .story-section { background: #eef7f2; padding: 70px 5%; margin-top: 40px; }
+        .story-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .story-text h2 { font-size: 32px; font-weight: 700; color: #0b2b3c; margin-bottom: 20px; letter-spacing: -0.4px; }
+        .story-text h2 i { color: #1e7e5c; margin-right: 10px; }
+        .story-text p { font-size: 15.5px; color: #2c3e50; line-height: 1.85; margin-bottom: 18px; }
+        .story-text p strong { color: #0b2b3c; }
+        .story-image { border-radius: 24px; overflow: hidden; box-shadow: 0 25px 50px -20px rgba(11,43,60,0.25); }
+        .story-image img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 400px; }
+
+        /* Why Choose Us */
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+        .why-card { background: white; border-radius: 20px; padding: 32px 26px; text-align: center; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); transition: 0.25s; }
+        .why-card:hover { transform: translateY(-6px); box-shadow: 0 22px 34px -16px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+        .why-icon { width: 70px; height: 70px; border-radius: 22px; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 20px; }
+        .why-card h4 { font-size: 18px; font-weight: 700; color: #0b2b3c; margin-bottom: 10px; }
+        .why-card p { font-size: 14.5px; color: #5b6f7c; line-height: 1.65; }
+
+        /* How It Works */
+        .how-section { background: white; padding: 70px 5%; margin-top: 40px; }
+        .how-inner { max-width: 1200px; margin: 0 auto; }
+        .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 40px; position: relative; }
+        .how-step { background: #f9fdfb; border-radius: 20px; padding: 32px 26px; border: 1px solid #e9f0ed; position: relative; transition: 0.25s; }
+        .how-step:hover { transform: translateY(-4px); box-shadow: 0 18px 30px -14px rgba(30,126,92,0.15); border-color: #b8dfd0; }
+        .step-num-circle { width: 52px; height: 52px; border-radius: 50%; background: #1e7e5c; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; margin-bottom: 20px; box-shadow: 0 6px 16px rgba(30,126,92,0.25); }
+        .how-step h4 { font-size: 18px; font-weight: 700; color: #0b2b3c; margin-bottom: 10px; }
+        .how-step p { font-size: 14.5px; color: #5b6f7c; line-height: 1.65; }
+
+        /* Team Section */
+        .team-section { max-width: 1200px; margin: 0 auto; padding: 70px 5% 20px; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px; margin-top: 40px; }
+        .team-card { background: white; border-radius: 22px; padding: 30px 22px; text-align: center; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); transition: 0.25s; }
+        .team-card:hover { transform: translateY(-6px); box-shadow: 0 22px 34px -16px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+        .team-photo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 18px; border: 4px solid #eef7f2; box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+        .team-card h4 { font-size: 17px; font-weight: 700; color: #0b2b3c; margin-bottom: 4px; }
+        .team-card .role { font-size: 13px; color: #1e7e5c; font-weight: 600; margin-bottom: 12px; }
+        .team-card p { font-size: 13.5px; color: #7d8f9c; line-height: 1.6; }
+        .team-social { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+        .team-social a { width: 34px; height: 34px; border-radius: 50%; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 14px; text-decoration: none; transition: 0.2s; }
+        .team-social a:hover { background: #1e7e5c; color: white; transform: translateY(-2px); }
+
+        /* Values Section */
+        .values-section { background: #0b2b3c; color: white; padding: 70px 5%; margin-top: 40px; }
+        .values-inner { max-width: 1200px; margin: 0 auto; }
+        .values-inner h2 { font-size: 32px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.4px; text-align: center; }
+        .values-inner h2 i { color: #6fc2a0; margin-right: 10px; }
+        .values-inner .section-desc { text-align: center; color: rgba(255,255,255,0.75); max-width: 700px; margin: 0 auto 50px; font-size: 16px; line-height: 1.7; }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 26px; }
+        .value-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 32px 26px; backdrop-filter: blur(10px); transition: 0.25s; }
+        .value-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(111,194,160,0.4); transform: translateY(-4px); }
+        .value-icon { width: 56px; height: 56px; border-radius: 18px; background: rgba(111,194,160,0.15); color: #6fc2a0; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+        .value-card h4 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+        .value-card p { font-size: 14.5px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+
+        /* CTA Section */
+        .cta-section { padding: 70px 5%; text-align: center; background: white; }
+        .cta-inner { max-width: 800px; margin: 0 auto; }
+        .cta-section h2 { font-size: 34px; font-weight: 700; color: #0b2b3c; margin-bottom: 16px; letter-spacing: -0.4px; }
+        .cta-section p { font-size: 16px; color: #5b6f7c; line-height: 1.7; margin-bottom: 32px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn-primary { background: #1e7e5c; color: white; padding: 15px 36px; border-radius: 50px; font-size: 16px; font-weight: 700; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 22px rgba(30,126,92,0.25); }
+        .cta-btn-primary:hover { background: #146349; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(30,126,92,0.35); }
+        .cta-btn-secondary { background: #eef7f2; color: #1e7e5c; padding: 15px 36px; border-radius: 50px; font-size: 16px; font-weight: 700; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; border: 2px solid #d4e8e0; }
+        .cta-btn-secondary:hover { background: #d4e8e0; transform: translateY(-2px); }
+
+        /* FOOTER */
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+            .about-hero h1 { font-size: 34px; }
+            .about-hero p { font-size: 16px; }
+            .story-inner { grid-template-columns: 1fr; gap: 30px; }
+            .stats-bar { padding: 28px 22px; gap: 20px; }
+            .stat-block h3 { font-size: 26px; }
+        }
+
+        @media (max-width: 550px) {
+            .about-hero { padding: 60px 5% 70px; }
+            .about-hero h1 { font-size: 26px; }
+            .about-section h2, .story-text h2, .values-inner h2, .cta-section h2 { font-size: 24px; }
+            .mv-card, .why-card, .how-step, .value-card { padding: 26px 22px; }
+            .cta-section h2 { font-size: 24px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Listings</a></li>
+                <li><a href="post-property.html">Post Property</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <div class="about-hero-inner">
+            <div class="about-badge">
+                <i class="fas fa-heart"></i> Trusted by 10,000+ families across India
+            </div>
+            <h1>We're making property buying <span>simple, honest & direct</span></h1>
+            <p>EstateHaven is India's zero-brokerage real estate platform that connects property owners directly with buyers and tenants. No middlemen. No hidden charges. Just transparent, verified listings.</p>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stat-block">
+            <h3>10K+</h3>
+            <p>Happy Families</p>
+        </div>
+        <div class="stat-block">
+            <h3>2.5K+</h3>
+            <p>Active Listings</p>
+        </div>
+        <div class="stat-block">
+            <h3>₹0</h3>
+            <p>Brokerage Fees</p>
+        </div>
+        <div class="stat-block">
+            <h3>100%</h3>
+            <p>Verified Owners</p>
+        </div>
+    </div>
+
+    <!-- MISSION & VISION -->
+    <section class="about-section">
+        <h2><i class="fas fa-bullseye"></i> Our Mission & Vision</h2>
+        <p class="section-desc">We exist to remove every unnecessary barrier between property owners and the people who want to live in them.</p>
+
+        <div class="mv-grid">
+            <div class="mv-card">
+                <div class="mv-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Our Mission</h3>
+                <p>To empower every Indian property owner to list, sell, or rent their property directly — with zero brokerage, full transparency, and instant reach to millions of genuine buyers and tenants.</p>
+            </div>
+            <div class="mv-card orange">
+                <div class="mv-icon"><i class="fas fa-eye"></i></div>
+                <h3>Our Vision</h3>
+                <p>To become India's most trusted real estate platform where every transaction happens between real people — no middlemen, no commissions, no hidden costs. Just honest deals powered by technology.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY SECTION -->
+    <section class="story-section">
+        <div class="story-inner">
+            <div class="story-text">
+                <h2><i class="fas fa-book-open"></i> Our Story</h2>
+                <p>EstateHaven was born out of frustration. Our founders spent months searching for a home and were met with the same story everywhere — pushy brokers, inflated prices, hidden charges, and endless commissions.</p>
+                <p>We realized the entire system was built to serve middlemen, not the people who actually owned or wanted to buy properties. So we decided to change it.</p>
+                <p><strong>In 2024, we launched EstateHaven</strong> — a platform that puts the owner and buyer in direct contact. No brokerage. No commission. No inflated pricing. Just honest listings from verified owners across India.</p>
+                <p>Today, we're proud to be India's fastest-growing zero-brokerage real estate platform, serving families in Mumbai, Delhi NCR, Bangalore, Pune, Hyderabad, Chennai, and beyond.</p>
+            </div>
+            <div class="story-image">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Modern home interior">
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="about-section">
+        <h2><i class="fas fa-star"></i> Why Choose EstateHaven</h2>
+        <p class="section-desc">We're not like other property portals. Here's what makes us different.</p>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <h4>Zero Brokerage</h4>
+                <p>No agents, no commissions, no hidden fees. What you see is what you pay — directly to the owner.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+                <h4>Verified Owners</h4>
+                <p>Every listing is backed by an ID-verified owner. We screen out brokers and fake listings aggressively.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fas fa-bolt"></i></div>
+                <h4>Instant Listings</h4>
+                <p>Owners can post a property in under 2 minutes. No waiting, no approval delays, no paperwork.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fas fa-comments"></i></div>
+                <h4>Direct Contact</h4>
+                <p>Buyers reach owners directly via WhatsApp, call, or email. Real conversations, real deals.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fas fa-map-marked-alt"></i></div>
+                <h4>Pan-India Reach</h4>
+                <p>From Mumbai to Bangalore to smaller cities — we connect buyers and sellers across India.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon"><i class="fas fa-lock"></i></div>
+                <h4>Privacy First</h4>
+                <p>Your contact details are only shared with genuine buyers. We never sell your data to third parties.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section">
+        <div class="how-inner">
+            <h2 style="font-size: 32px; font-weight: 700; color: #0b2b3c; margin-bottom: 14px; letter-spacing: -0.4px;">
+                <i class="fas fa-cogs" style="color: #1e7e5c; margin-right: 10px;"></i> How EstateHaven Works
+            </h2>
+            <p style="font-size: 16px; color: #5b6f7c; line-height: 1.7; max-width: 780px;">Simple, transparent, and fast. Here's how property owners and buyers connect on our platform.</p>
+
+            <div class="how-steps">
+                <div class="how-step">
+                    <div class="step-num-circle">1</div>
+                    <h4>Owner Registers</h4>
+                    <p>Property owners sign up with their verified ID in under a minute. Free forever.</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num-circle">2</div>
+                    <h4>Post Property</h4>
+                    <p>Fill a simple form, upload photos, set your price. Your listing goes live instantly.</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num-circle">3</div>
+                    <h4>Buyers Discover</h4>
+                    <p>Thousands of buyers and tenants find your property through our search and filters.</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num-circle">4</div>
+                    <h4>Connect Directly</h4>
+                    <p>Buyers reach you on WhatsApp, call, or email. You negotiate and close the deal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="team-section">
+        <h2 style="font-size: 32px; font-weight: 700; color: #0b2b3c; margin-bottom: 14px; letter-spacing: -0.4px;">
+            <i class="fas fa-users" style="color: #1e7e5c; margin-right: 10px;"></i> Meet the Team
+        </h2>
+        <p style="font-size: 16px; color: #5b6f7c; line-height: 1.7; max-width: 780px;">A small team of dreamers, doers, and problem-solvers building the future of Indian real estate.</p>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Omkar Kale" class="team-photo">
+                <h4>Omkar Kale</h4>
+                <div class="role">Founder & CEO</div>
+                <p>Building EstateHaven to make property transactions simple and honest for every Indian.</p>
+                <div class="team-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Sharma" class="team-photo">
+                <h4>Priya Sharma</h4>
+                <div class="role">Head of Product</div>
+                <p>Designing delightful experiences that make property listing effortless for owners.</p>
+                <div class="team-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Arjun Mehta" class="team-photo">
+                <h4>Arjun Mehta</h4>
+                <div class="role">Head of Engineering</div>
+                <p>Leading the tech that powers millions of property searches across India.</p>
+                <div class="team-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sneha Patil" class="team-photo">
+                <h4>Sneha Patil</h4>
+                <div class="role">Head of Trust & Safety</div>
+                <p>Ensuring every listing is verified and every user is protected on our platform.</p>
+                <div class="team-social">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VALUES SECTION -->
+    <section class="values-section">
+        <div class="values-inner">
+            <h2><i class="fas fa-heart"></i> Our Core Values</h2>
+            <p class="section-desc">These aren't just words on a wall — they're the principles that guide every decision we make.</p>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h4>Transparency</h4>
+                    <p>No hidden fees, no fine print, no surprises. Every listing shows real prices from real owners.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-handshake"></i></div>
+                    <h4>Trust</h4>
+                    <p>We verify every owner and every listing. Our users trust us because we earn it daily.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+                    <h4>Innovation</h4>
+                    <p>We use technology to solve real problems — not to create new ones. Simple, effective, powerful.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-users"></i></div>
+                    <h4>People First</h4>
+                    <p>Every feature we build starts with one question: "Does this help our users?" If not, we don't ship it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <div class="cta-inner">
+            <h2>Ready to find your dream home?</h2>
+            <p>Whether you're buying, renting, or listing a property — EstateHaven makes it simple, transparent, and completely free of brokerage.</p>
+            <div class="cta-buttons">
+                <a href="listing.html" class="cta-btn-primary">
+                    <i class="fas fa-search"></i> Browse Properties
+                </a>
+                <a href="seller-register.html" class="cta-btn-secondary">
+                    <i class="fas fa-plus-circle"></i> List Your Property
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 18px;">
+                    <i class="fas fa-home"></i> Estate<span style="color: #6fc2a0;">Haven</span>
+                </div>
+                <p>Your trusted partner in finding the perfect home. We connect people with properties they love — directly, with zero brokerage.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="listing.html">Listings</a></li>
+                    <li><a href="post-property.html">Post Property</a></li>
+                    <li><a href="seller-register.html">Sell Property</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Aurangabad, Maharashtra</li>
+                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 9876543210</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> kaleomkar@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 EstateHaven. All rights reserved. Made in India 🇮🇳</div>
+            <div>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

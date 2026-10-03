@@ -3,1370 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Your Property | DesiHomes</title>
+    <title>Property Listings | EstateHaven</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        /* HEADER */
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        /* PAGE HEADER */
+        .page-header { background: linear-gradient(105deg, #eef7f2 0%, #ffffff 100%); padding: 40px 5% 30px; border-bottom: 1px solid #e2ece7; }
+        .page-header-inner { max-width: 1400px; margin: 0 auto; }
+        .page-header h1 { font-size: 34px; font-weight: 700; color: #0b2b3c; margin-bottom: 8px; }
+        .page-header h1 i { color: #1e7e5c; margin-right: 10px; }
+        .breadcrumb { font-size: 14px; color: #6a7e8c; }
+        .breadcrumb a { color: #1e7e5c; text-decoration: none; font-weight: 500; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .results-count { margin-top: 12px; font-size: 15px; color: #5b6f7c; }
+        .results-count strong { color: #1e7e5c; font-size: 18px; }
+
+        /* FILTER BAR */
+        .filter-section { background: white; border-bottom: 1px solid #e9f0ed; box-shadow: 0 4px 12px rgba(0,0,0,0.02); padding: 20px 5%; position: sticky; top: 80px; z-index: 999; }
+        .filter-inner { max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        .filter-field { flex: 1 1 160px; display: flex; align-items: center; gap: 10px; background: #f4f8f6; padding: 11px 18px; border-radius: 50px; border: 1.5px solid transparent; transition: 0.2s; }
+        .filter-field:focus-within { border-color: #1e7e5c; background: white; box-shadow: 0 0 0 4px rgba(30,126,92,0.08); }
+        .filter-field i { color: #1e7e5c; font-size: 15px; flex-shrink: 0; }
+        .filter-field input, .filter-field select { border: none; background: transparent; outline: none; font-size: 14px; color: #1e2b37; width: 100%; font-weight: 500; cursor: pointer; font-family: inherit; }
+        .filter-field input::placeholder { color: #a3b1bb; font-weight: 400; }
+        .btn-apply-filter { background: #1e7e5c; color: white; border: none; padding: 12px 28px; border-radius: 50px; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-apply-filter:hover { background: #146349; }
+        .btn-reset { background: #f0f4f2; color: #5b6f7c; border: none; padding: 12px 20px; border-radius: 50px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .btn-reset:hover { background: #e2ece7; color: #1e7e5c; }
+
+        /* MAIN CONTENT */
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 30px 5% 60px; display: grid; grid-template-columns: 260px 1fr; gap: 30px; align-items: flex-start; }
+
+        /* SIDEBAR */
+        .sidebar { background: white; border-radius: 20px; padding: 24px; border: 1px solid #e9f0ed; box-shadow: 0 6px 18px rgba(0,0,0,0.03); position: sticky; top: 180px; }
+        .sidebar-title { font-size: 16px; font-weight: 700; color: #0b2b3c; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1.5px solid #eaf3ef; display: flex; align-items: center; gap: 8px; }
+        .sidebar-title i { color: #1e7e5c; }
+        .filter-group-sidebar { margin-bottom: 22px; }
+        .filter-group-sidebar:last-child { margin-bottom: 0; }
+        .filter-group-sidebar label { display: block; font-size: 13px; font-weight: 600; color: #2c3e50; margin-bottom: 10px; }
+        .radio-list { display: flex; flex-direction: column; gap: 8px; }
+        .radio-item { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #4d5f6b; cursor: pointer; padding: 6px 8px; border-radius: 8px; transition: 0.15s; user-select: none; }
+        .radio-item:hover { background: #f4f8f6; color: #1e7e5c; }
+        .radio-item input { accent-color: #1e7e5c; width: 15px; height: 15px; cursor: pointer; }
+
+        /* LISTINGS */
+        .listings-area { min-width: 0; }
+        .listings-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .listings-toolbar h2 { font-size: 20px; font-weight: 700; color: #0b2b3c; }
+        .sort-select { padding: 10px 18px; border-radius: 40px; border: 1.5px solid #d8e6df; background: white; font-size: 13.5px; color: #2c3e50; font-weight: 500; cursor: pointer; outline: none; font-family: inherit; }
+        .sort-select:focus { border-color: #1e7e5c; }
+
+        /* Property Grid */
+        .property-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+        .property-card { background: white; border-radius: 22px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.04); transition: 0.25s; border: 1px solid #e9f0ed; display: flex; flex-direction: column; }
+        .property-card:hover { transform: translateY(-6px); box-shadow: 0 22px 30px -12px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+
+        .property-img { position: relative; height: 200px; overflow: hidden; background: #f4f8f6; }
+        .property-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .property-card:hover .property-img img { transform: scale(1.05); }
+        .property-img .no-photo { display: flex; align-items: center; justify-content: center; height: 100%; color: #b8c9c0; font-size: 40px; }
+
+        .tag { position: absolute; top: 14px; left: 14px; background: #1e7e5c; color: white; padding: 6px 14px; border-radius: 30px; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+        .tag.rent { background: #bb7e2e; }
+        .tag.pg { background: #7c3aed; }
+
+        .favorite-icon { position: absolute; top: 14px; right: 14px; background: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #5b6f7c; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: 0.2s; }
+        .favorite-icon:hover { color: #e74c3c; transform: scale(1.08); }
+        .favorite-icon.active { color: #e74c3c; }
+
+        .photo-count { position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.6); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11.5px; display: flex; align-items: center; gap: 6px; }
+
+        .property-info { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+        .property-info h3 { font-size: 17px; font-weight: 700; color: #0b2b3c; margin-bottom: 6px; line-height: 1.3; }
+        .property-address { display: flex; align-items: flex-start; gap: 6px; color: #6a7e8c; font-size: 13px; margin-bottom: 8px; }
+        .property-address i { color: #1e7e5c; font-size: 13px; margin-top: 3px; }
+
+        .owner-line { display: flex; align-items: center; gap: 6px; color: #1e7e5c; font-size: 12.5px; font-weight: 600; margin-bottom: 14px; padding: 6px 10px; background: #eef7f2; border-radius: 8px; width: fit-content; }
+        .owner-line i { font-size: 12px; }
+
+        .property-features { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-bottom: 16px; background: #f7fbf9; padding: 10px 14px; border-radius: 12px; font-size: 12.5px; }
+        .property-features span { display: flex; align-items: center; gap: 6px; color: #2c3e50; font-weight: 500; }
+        .property-features i { color: #1e7e5c; font-size: 12.5px; }
+
+        .price-row { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px dashed #d8e6df; padding-top: 14px; margin-top: auto; gap: 10px; }
+        .price-block .price { font-size: 21px; font-weight: 700; color: #0b2b3c; line-height: 1.2; }
+        .price-block .price small { font-size: 12px; font-weight: 400; color: #8a9aa5; }
+        .price-block .per-sqft { font-size: 11.5px; color: #8a9aa5; margin-top: 2px; }
+
+        .btn-view-details { background: #eef7f2; color: #1e7e5c; border: none; padding: 10px 16px; border-radius: 30px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
+        .btn-view-details:hover { background: #1e7e5c; color: white; }
+
+        /* Empty State */
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 70px 30px; background: white; border-radius: 24px; border: 1px dashed #cde3d9; }
+        .empty-state i { font-size: 60px; color: #b8dfd0; margin-bottom: 20px; }
+        .empty-state h3 { font-size: 22px; color: #0b2b3c; margin-bottom: 10px; }
+        .empty-state p { color: #7d8f9c; font-size: 15px; margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto; }
+
+        /* Load More */
+        .load-more-wrap { text-align: center; margin-top: 40px; }
+        .btn-load-more { background: white; color: #1e7e5c; border: 2px solid #1e7e5c; padding: 13px 36px; border-radius: 50px; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-load-more:hover { background: #1e7e5c; color: white; }
+
+        .mobile-filter-btn { display: none; background: #1e7e5c; color: white; border: none; padding: 12px 22px; border-radius: 50px; font-weight: 600; font-size: 14px; cursor: pointer; align-items: center; gap: 8px; margin-bottom: 16px; width: 100%; justify-content: center; }
+
+        /* FOOTER */
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .main-content { grid-template-columns: 1fr; }
+            .sidebar { position: static; display: none; }
+            .sidebar.show { display: block; }
+            .mobile-filter-btn { display: flex; }
         }
-
-        body {
-            background-color: #f5f7fa;
-            color: #1a2b3c;
-            line-height: 1.5;
-        }
-
-        /* ---------- TOP BAR ---------- */
-        .top-bar {
-            background: #0a3d2e;
-            color: #d4e8e0;
-            padding: 8px 5%;
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .top-bar a {
-            color: #d4e8e0;
-            text-decoration: none;
-            margin-left: 16px;
-        }
-
-        .top-bar a:hover {
-            color: white;
-        }
-
-        /* ---------- HEADER ---------- */
-        header {
-            background: white;
-            padding: 0 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 72px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #0a3d2e;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-        }
-
-        .logo i {
-            color: #1b8c5e;
-            font-size: 28px;
-        }
-
-        .logo span {
-            color: #1b8c5e;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 24px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-weight: 500;
-            color: #2c3e50;
-            font-size: 15px;
-            padding-bottom: 4px;
-            transition: 0.2s;
-        }
-
-        nav ul li a:hover,
-        nav ul li a.active {
-            color: #1b8c5e;
-            border-bottom: 2px solid #1b8c5e;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #1b8c5e;
-            color: #1b8c5e;
-            padding: 7px 18px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-outline:hover {
-            background: #1b8c5e;
-            color: white;
-        }
-
-        .btn-solid {
-            background: #1b8c5e;
-            border: none;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-solid:hover {
-            background: #0f6b45;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 500;
-            background: #eaf3ef;
-            padding: 6px 14px 6px 8px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .user-profile i {
-            color: #1b8c5e;
-            font-size: 20px;
-        }
-
-        /* ---------- PAGE HEADER ---------- */
-        .page-header {
-            background: linear-gradient(105deg, #eaf6f0 0%, #ffffff 100%);
-            padding: 40px 5% 30px;
-            text-align: center;
-            border-bottom: 1px solid #e2ece7;
-        }
-
-        .page-header h1 {
-            font-size: 34px;
-            font-weight: 700;
-            color: #0a3d2e;
-            margin-bottom: 8px;
-        }
-
-        .page-header h1 i {
-            color: #1b8c5e;
-            margin-right: 10px;
-        }
-
-        .page-header p {
-            color: #4d5f6b;
-            font-size: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* ---------- FORM CONTAINER ---------- */
-        .form-wrapper {
-            max-width: 1100px;
-            margin: 30px auto 60px;
-            padding: 0 5%;
-        }
-
-        .form-card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2ece7;
-            overflow: hidden;
-        }
-
-        /* Progress Steps - CLICKABLE */
-        .form-steps {
-            display: flex;
-            background: #f9fdfb;
-            border-bottom: 1px solid #e2ece7;
-            padding: 0 30px;
-            flex-wrap: wrap;
-            user-select: none;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 20px 18px 0;
-            font-size: 14px;
-            font-weight: 600;
-            color: #8a9aa5;
-            position: relative;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .step:hover {
-            color: #1b8c5e;
-        }
-
-        .step.active {
-            color: #1b8c5e;
-        }
-
-        .step.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 20px;
-            height: 3px;
-            background: #1b8c5e;
-            border-radius: 3px 3px 0 0;
-        }
-
-        .step-num {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: #e2ece7;
-            color: #5b6f7c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-
-        .step.active .step-num {
-            background: #1b8c5e;
-            color: white;
-        }
-
-        /* Form Body */
-        .form-body {
-            padding: 36px 40px 40px;
-        }
-
-        /* Form Steps Content */
-        .form-step-content {
-            display: none;
-        }
-
-        .form-step-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0a3d2e;
-            margin-bottom: 22px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eaf3ef;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title i {
-            color: #1b8c5e;
-            font-size: 18px;
-        }
-
-        .section-sub {
-            font-size: 13px;
-            color: #7d8f9c;
-            margin-top: -16px;
-            margin-bottom: 22px;
-        }
-
-        /* Form Grid */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px 24px;
-            margin-bottom: 32px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .form-group label .required {
-            color: #e74c3c;
-            margin-left: 2px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1.5px solid #d8e6df;
-            background: #fafdfb;
-            font-size: 14px;
-            color: #1a2b3c;
-            outline: none;
-            transition: 0.2s;
-            font-family: inherit;
-            width: 100%;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1b8c5e;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(27, 140, 94, 0.08);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group select {
-            cursor: pointer;
-        }
-
-        .form-group .hint {
-            font-size: 12px;
-            color: #8a9aa5;
-        }
-
-        /* Input with prefix */
-        .input-prefix {
-            display: flex;
-            align-items: center;
-            border: 1.5px solid #d8e6df;
-            border-radius: 12px;
-            background: #fafdfb;
-            overflow: hidden;
-            transition: 0.2s;
-        }
-
-        .input-prefix:focus-within {
-            border-color: #1b8c5e;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(27, 140, 94, 0.08);
-        }
-
-        .input-prefix span {
-            padding: 0 14px;
-            background: #eaf3ef;
-            color: #1b8c5e;
-            font-weight: 700;
-            font-size: 15px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            min-height: 46px;
-        }
-
-        .input-prefix input {
-            border: none;
-            background: transparent;
-            padding: 12px 14px;
-            box-shadow: none !important;
-        }
-
-        /* Radio / Checkbox Groups - CLICKABLE */
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border: 1.5px solid #d8e6df;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #2c3e50;
-            cursor: pointer;
-            transition: 0.2s;
-            background: #fafdfb;
-            user-select: none;
-        }
-
-        .radio-option:hover {
-            border-color: #1b8c5e;
-            background: #f0faf5;
-        }
-
-        .radio-option input {
-            accent-color: #1b8c5e;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .radio-option.selected {
-            border-color: #1b8c5e;
-            background: #eaf3ef;
-            color: #0a3d2e;
-            font-weight: 600;
-        }
-
-        /* Photo Upload Area - CLICKABLE */
-        .photo-upload-area {
-            border: 2px dashed #b8dfd0;
-            border-radius: 16px;
-            background: #f9fdfb;
-            padding: 36px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-bottom: 12px;
-        }
-
-        .photo-upload-area:hover {
-            border-color: #1b8c5e;
-            background: #eaf3ef;
-            transform: translateY(-2px);
-        }
-
-        .photo-upload-area:active {
-            transform: translateY(0);
-        }
-
-        .photo-upload-area i {
-            font-size: 42px;
-            color: #1b8c5e;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .photo-upload-area h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #0a3d2e;
-            margin-bottom: 4px;
-        }
-
-        .photo-upload-area p {
-            font-size: 13px;
-            color: #7d8f9c;
-        }
-
-        .photo-upload-area input[type="file"] {
-            display: none;
-        }
-
-        .photo-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 16px;
-        }
-
-        .photo-preview .preview-item {
-            width: 90px;
-            height: 90px;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #e2ece7;
-        }
-
-        .photo-preview .preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .photo-preview .preview-item .remove {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .photo-preview .preview-item .remove:hover {
-            background: #e74c3c;
-        }
-
-        /* Contact Method Preference */
-        .contact-pref {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 4px;
-        }
-
-        .contact-pref .radio-option {
-            padding: 10px 20px;
-        }
-
-        /* Form Footer */
-        .form-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 34px;
-            padding-top: 26px;
-            border-top: 1.5px solid #eaf3ef;
-        }
-
-        .checkbox-agree {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13.5px;
-            color: #4d5f6b;
-            max-width: 520px;
-            cursor: pointer;
-        }
-
-        .checkbox-agree input {
-            accent-color: #1b8c5e;
-            width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .checkbox-agree a {
-            color: #1b8c5e;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .form-footer .btn-submit {
-            background: #1b8c5e;
-            color: white;
-            border: none;
-            padding: 14px 40px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s;
-            box-shadow: 0 6px 18px rgba(27, 140, 94, 0.25);
-        }
-
-        .form-footer .btn-submit:hover {
-            background: #0f6b45;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(27, 140, 94, 0.3);
-        }
-
-        .form-footer .btn-draft {
-            background: #eaf3ef;
-            color: #1b8c5e;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-footer .btn-draft:hover {
-            background: #d4e8e0;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: #eaf6f0;
-            border-left: 4px solid #1b8c5e;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 26px;
-            font-size: 13.5px;
-            color: #2c3e50;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .info-box i {
-            color: #1b8c5e;
-            font-size: 18px;
-            margin-top: 1px;
-        }
-
-        .info-box strong {
-            color: #0a3d2e;
-        }
-
-        /* Step Navigation Buttons */
-        .step-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .btn-nav {
-            padding: 12px 30px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-        }
-
-        .btn-prev {
-            background: #eaf3ef;
-            color: #1b8c5e;
-        }
-
-        .btn-prev:hover {
-            background: #d4e8e0;
-        }
-
-        .btn-next {
-            background: #1b8c5e;
-            color: white;
-            box-shadow: 0 4px 14px rgba(27, 140, 94, 0.2);
-        }
-
-        .btn-next:hover {
-            background: #0f6b45;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(27, 140, 94, 0.3);
-        }
-
-        .btn-prev:disabled,
-        .btn-next:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none;
-        }
-
-        /* ---------- FOOTER ---------- */
-        footer {
-            background: #0a3d2e;
-            color: #cbd8e0;
-            padding: 50px 5% 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1300px;
-            margin: 0 auto 40px;
-        }
-
-        .footer-col h4 {
-            color: white;
-            font-size: 17px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-col ul li a {
-            color: #a9bcc9;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        .footer-col ul li a:hover {
-            color: #6fc2a0;
-            padding-left: 4px;
-        }
-
-        .footer-col p {
-            line-height: 1.7;
-            color: #a9bcc9;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 14px;
-        }
-
-        .social-icons a {
-            background: #1e4d3a;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-            text-decoration: none;
-        }
-
-        .social-icons a:hover {
-            background: #1b8c5e;
-            transform: translateY(-2px);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #1e4d3a;
-            padding-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            color: #8fa6b6;
-            font-size: 13px;
-        }
-
-        .footer-bottom a {
-            color: #8fa6b6;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .footer-bottom a:hover {
-            color: #6fc2a0;
-        }
-
-        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 900px) {
-            header {
-                flex-wrap: wrap;
-                height: auto;
-                padding: 12px 5%;
-                gap: 12px;
-            }
-
-            nav ul {
-                gap: 14px;
-                flex-wrap: wrap;
-            }
-
-            .form-steps {
-                padding: 0 16px;
-                overflow-x: auto;
-                flex-wrap: nowrap;
-            }
-
-            .step {
-                font-size: 12px;
-                white-space: nowrap;
-                padding: 14px 12px 14px 0;
-            }
-
-            .form-body {
-                padding: 26px 22px 32px;
-            }
-
-            .form-footer {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .form-footer .btn-submit,
-            .form-footer .btn-draft {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .step-nav {
-                flex-direction: column;
-            }
-
-            .btn-nav {
-                width: 100%;
-                justify-content: center;
-            }
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+            .filter-section { position: static; padding: 16px 5%; }
+            .filter-field { flex: 1 1 100%; }
+            .btn-apply-filter, .btn-reset { flex: 1; justify-content: center; }
         }
-
         @media (max-width: 550px) {
-            .page-header h1 {
-                font-size: 26px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .radio-group {
-                flex-direction: column;
-            }
-
-            .radio-option {
-                width: 100%;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-bottom a {
-                margin: 0 8px;
-            }
+            .page-header h1 { font-size: 26px; }
+            .property-grid { grid-template-columns: 1fr; }
+            .listings-toolbar { flex-direction: column; align-items: flex-start; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        <div><i class="fas fa-phone-alt"></i> +91 98765 43210 &nbsp; | &nbsp; <i class="fas fa-envelope"></i> hello@desihomes.in</div>
-        <div>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-    </div>
-
     <!-- HEADER -->
     <header>
-        <a href="#" class="logo">
-            <i class="fas fa-home"></i> Desi<span>Homes</span>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
         </a>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Buy</a></li>
-                <li><a href="#">Rent</a></li>
-                <li><a href="#" class="active">Post Property</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html" class="active">Listings</a></li>
+                <li><a href="post-property.html">Post Property</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
         <div class="header-actions">
-            <button class="btn-outline"><i class="fas fa-user-plus"></i> Sign Up</button>
-            <button class="btn-solid"><i class="fas fa-sign-in-alt"></i> Login</button>
-            <div class="user-profile">
-                <i class="fas fa-user-circle"></i> Rajesh
-            </div>
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
         </div>
     </header>
 
     <!-- PAGE HEADER -->
     <div class="page-header">
-        <h1><i class="fas fa-plus-circle"></i> Post Your Property</h1>
-        <p>Fill in the details below to list your property and reach thousands of genuine buyers and tenants across India.</p>
+        <div class="page-header-inner">
+            <h1><i class="fas fa-building"></i> Property Listings in India</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> &nbsp;›&nbsp; <a href="listing.html">Listings</a> &nbsp;›&nbsp; All Properties
+            </div>
+            <div class="results-count">
+                Showing <strong id="resultsCount">0</strong> properties — direct from owners, zero brokerage
+            </div>
+        </div>
     </div>
 
-    <!-- FORM WRAPPER -->
-    <div class="form-wrapper">
-        <div class="form-card">
+    <!-- FILTER BAR -->
+    <div class="filter-section">
+        <div class="filter-inner">
+            <div class="filter-field">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search by locality, city, or property name...">
+            </div>
+            <div class="filter-field">
+                <i class="fas fa-home"></i>
+                <select id="filterType">
+                    <option value="">All Types</option>
+                    <option value="Apartment / Flat">Apartment / Flat</option>
+                    <option value="Independent House / Villa">Independent House / Villa</option>
+                    <option value="Builder Floor">Builder Floor</option>
+                    <option value="Plot / Land">Plot / Land</option>
+                    <option value="Studio Apartment">Studio Apartment</option>
+                    <option value="Penthouse">Penthouse</option>
+                    <option value="Farmhouse">Farmhouse</option>
+                    <option value="Commercial Office">Commercial Office</option>
+                    <option value="Commercial Shop">Commercial Shop</option>
+                </select>
+            </div>
+            <div class="filter-field">
+                <i class="fas fa-bed"></i>
+                <select id="filterBhk">
+                    <option value="">Any BHK</option>
+                    <option value="1 BHK">1 BHK</option>
+                    <option value="2 BHK">2 BHK</option>
+                    <option value="3 BHK">3 BHK</option>
+                    <option value="4 BHK">4 BHK</option>
+                    <option value="5 BHK">5 BHK</option>
+                    <option value="5+ BHK">5+ BHK</option>
+                </select>
+            </div>
+            <div class="filter-field">
+                <i class="fas fa-tag"></i>
+                <select id="filterListing">
+                    <option value="">Buy / Rent</option>
+                    <option value="sale">For Sale</option>
+                    <option value="rent">For Rent</option>
+                    <option value="pg">PG / Hostel</option>
+                </select>
+            </div>
+            <button class="btn-apply-filter" onclick="applyFilters()">
+                <i class="fas fa-filter"></i> Apply Filters
+            </button>
+            <button class="btn-reset" onclick="resetFilters()">
+                <i class="fas fa-redo"></i> Reset
+            </button>
+        </div>
+    </div>
 
-            <!-- PROGRESS STEPS (CLICKABLE) -->
-            <div class="form-steps" id="formSteps">
-                <div class="step active" data-step="0" onclick="goToStep(0)">
-                    <span class="step-num">1</span> Basic Details
-                </div>
-                <div class="step" data-step="1" onclick="goToStep(1)">
-                    <span class="step-num">2</span> Property Details
-                </div>
-                <div class="step" data-step="2" onclick="goToStep(2)">
-                    <span class="step-num">3</span> Photos & Pricing
-                </div>
-                <div class="step" data-step="3" onclick="goToStep(3)">
-                    <span class="step-num">4</span> Contact Info
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-title">
+                <i class="fas fa-sliders-h"></i> Refine Search
+            </div>
+
+            <div class="filter-group-sidebar">
+                <label>City</label>
+                <div class="radio-list" id="cityFilterList">
+                    <label class="radio-item"><input type="radio" name="city" value="" checked> All Cities</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Mumbai"> Mumbai</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Delhi NCR"> Delhi NCR</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Bangalore"> Bangalore</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Hyderabad"> Hyderabad</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Pune"> Pune</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Chennai"> Chennai</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Kolkata"> Kolkata</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Ahmedabad"> Ahmedabad</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Aurangabad"> Aurangabad</label>
+                    <label class="radio-item"><input type="radio" name="city" value="Other"> Other</label>
                 </div>
             </div>
 
-            <!-- FORM BODY -->
-            <form class="form-body" id="propertyForm" action="#" method="POST" enctype="multipart/form-data">
-
-                <!-- ==================== STEP 1: BASIC DETAILS ==================== -->
-                <div class="form-step-content active" data-step-content="0">
-                    <div class="info-box">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
-                            <strong>Note:</strong> Fields marked with <span style="color:#e74c3c;">*</span> are mandatory. Your listing will be reviewed and live within 24 hours.
-                        </div>
-                    </div>
-
-                    <div class="section-title">
-                        <i class="fas fa-clipboard-list"></i> Basic Details
-                    </div>
-                    <p class="section-sub">Tell us what you're listing — whether for sale or rent.</p>
-
-                    <div class="form-grid">
-                        <!-- Listing Type -->
-                        <div class="form-group full-width">
-                            <label>I want to <span class="required">*</span></label>
-                            <div class="radio-group">
-                                <label class="radio-option selected" onclick="selectRadio(this)">
-                                    <input type="radio" name="listing_type" value="sale" checked> Sell Property
-                                </label>
-                                <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="listing_type" value="rent"> Rent / Lease Property
-                                </label>
-                                <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="listing_type" value="pg"> PG / Hostel
-                                </label>
-                            </div>
-                        </div
-                        <!-- Property Type -->
-                        <div class="form-group">
-                            <label>Property Type <span class="required">*</span></label>
-                            <select required>
-                                <option value="">-- Select Property Type --</option>
-                                <option>Apartment / Flat</option>
-                                <option>Independent House / Villa</option>
-                                <option>Builder Floor</option>
-                                <option>Plot / Land</option>
-                                <option>Studio Apartment</option>
-                                <option>Penthouse</option>
-                                <option>Farmhouse</option>
-                                <option>Commercial Office</option>
-                                <option>Commercial Shop</option>
-                                <option>Warehouse / Godown</option>
-                            </select>
-                        </div>
-
-                        <!-- BHK -->
-                        <div class="form-group">
-                            <label>BHK Configuration <span class="required">*</span></label>
-                            <select required>
-                                <option value="">-- Select BHK --</option>
-                                <option>1 BHK</option>
-                                <option>2 BHK</option>
-                                <option>3 BHK</option>
-                                <option>4 BHK</option>
-                                <option>5 BHK</option>
-                                <option>5+ BHK</option>
-                                <option>Not Applicable (Plot/Land)</option>
-                            </select>
-                        </div>
-
-                        <!-- Property Age -->
-                        <div class="form-group">
-                            <label>Property Age</label>
-                            <select>
-                                <option value="">-- Select Age --</option>
-                                <option>Brand New / Under Construction</option>
-                                <option>Less than 1 Year</option>
-                                <option>1 - 3 Years</option>
-                                <option>3 - 5 Years</option>
-                                <option>5 - 10 Years</option>
-                                <option>10+ Years</option>
-                            </select>
-                        </div>
-
-                        <!-- Furnishing -->
-                        <div class="form-group">
-                            <label>Furnishing Status</label>
-                            <select>
-                                <option value="">-- Select --</option>
-                                <option>Unfurnished</option>
-                                <option>Semi-Furnished</option>
-                                <option>Fully Furnished</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Step Navigation -->
-                    <div class="step-nav">
-                        <button type="button" class="btn-nav btn-prev" disabled><i class="fas fa-arrow-left"></i> Previous</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep()">Next: Property Details <i class="fas fa-arrow-right"></i></button>
-                    </div>
+            <div class="filter-group-sidebar">
+                <label>Budget Range</label>
+                <div class="radio-list" id="budgetFilterList">
+                    <label class="radio-item"><input type="radio" name="budget" value="" checked> Any Budget</label>
+                    <label class="radio-item"><input type="radio" name="budget" value="0-2000000"> Under ₹20 Lakh</label>
+                    <label class="radio-item"><input type="radio" name="budget" value="2000000-5000000"> ₹20L - ₹50L</label>
+                    <label class="radio-item"><input type="radio" name="budget" value="5000000-10000000"> ₹50L - ₹1 Cr</label>
+                    <label class="radio-item"><input type="radio" name="budget" value="10000000-20000000"> ₹1 Cr - ₹2 Cr</label>
+                    <label class="radio-item"><input type="radio" name="budget" value="20000000-999999999"> ₹2 Cr +</label>
                 </div>
+            </div>
 
-                <!-- ==================== STEP 2: PROPERTY DETAILS ==================== -->
-                <div class="form-step-content" data-step-content="1">
-                    <div class="section-title">
-                        <i class="fas fa-map-marker-alt"></i> Location & Area Details
-                    </div>
-                    <p class="section-sub">Accurate location helps buyers find your property faster.</p>
-
-                    <div class="form-grid">
-                        <!-- City -->
-                        <div class="form-group">
-                            <label>City <span class="required">*</span></label>
-                            <select required>
-                                <option value="">-- Select City --</option>
-                                <option>Mumbai</option>
-                                <option>Delhi NCR</option>
-                                <option>Bangalore</option>
-                                <option>Hyderabad</option>
-                                <option>Pune</option>
-                                <option>Chennai</option>
-                                <option>Kolkata</option>
-                                <option>Ahmedabad</option>
-                                <option>Jaipur</option>
-                                <option>Lucknow</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-
-                        <!-- Locality -->
-                        <div class="form-group">
-                            <label>Locality / Area <span class="required">*</span></label>
-                            <input type="text" placeholder="e.g. Andheri West, Koramangala" required>
-                        </div>
-
-                        <!-- Landmark -->
-                        <div class="form-group">
-                            <label>Nearby Landmark</label>
-                            <input type="text" placeholder="e.g. Near Metro Station, Opposite Mall">
-                        </div>
-
-                        <!-- Pincode -->
-                        <div class="form-group">
-                            <label>PIN Code <span class="required">*</span></label>
-                            <input type="text" placeholder="e.g. 400053" pattern="[0-9]{6}" maxlength="6" required>
-                            <span class="hint">6-digit Indian PIN code</span>
-                        </div>
-
-                        <!-- Full Address -->
-                        <div class="form-group full-width">
-                            <label>Full Address <span class="required">*</span></label>
-                            <textarea placeholder="House/Flat No., Building Name, Street, Area, City, State, PIN" required></textarea>
-                        </div>
-
-                        <!-- Built-up Area -->
-                        <div class="form-group">
-                            <label>Built-up Area <span class="required">*</span></label>
-                            <div class="input-prefix">
-                                <input type="number" placeholder="e.g. 1450" min="1" required>
-                                <span>sq.ft.</span>
-                            </div>
-                        </div>
-
-                        <!-- Carpet Area -->
-                        <div class="form-group">
-                            <label>Carpet Area</label>
-                            <div class="input-prefix">
-                                <input type="number" placeholder="e.g. 1100" min="1">
-                                <span>sq.ft.</span>
-                            </div>
-                        </div>
-
-                        <!-- Plot Area -->
-                        <div class="form-group">
-                            <label>Plot / Land Area</label>
-                            <div class="input-prefix">
-                                <input type="number" placeholder="e.g. 2400" min="1">
-                                <span>sq.ft.</span>
-                            </div>
-                            <span class="hint">Fill if listing a plot or land</span>
-                        </div>
-
-                        <!-- Floor Details -->
-                        <div class="form-group">
-                            <label>Floor Details</label>
-                            <div style="display:flex; gap:10px;">
-                                <input type="number" placeholder="Current Floor" style="flex:1;" min="0">
-                                <input type="number" placeholder="Total Floors" style="flex:1;" min="1">
-                            </div>
-                        </div>
-
-                        <!-- Facing Direction -->
-                        <div class="form-group">
-                            <label>Facing Direction</label>
-                            <select>
-                                <option value="">-- Select --</option>
-                                <option>East</option>
-                                <option>West</option>
-                                <option>North</option>
-                                <option>South</option>
-                                <option>North-East</option>
-                                <option>North-West</option>
-                                <option>South-East</option>
-                                <option>South-West</option>
-                            </select>
-                        </div>
-
-                        <!-- Availability -->
-                        <div class="form-group">
-                            <label>Availability Status</label>
-                            <select>
-                                <option value="">-- Select --</option>
-                                <option>Ready to Move</option>
-                                <option>Under Construction</option>
-                                <option>Available from [Date]</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Step Navigation -->
-                    <div class="step-nav">
-                        <button type="button" class="btn-nav btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep()">Next: Photos & Pricing <i class="fas fa-arrow-right"></i></button>
-                    </div>
+            <div class="filter-group-sidebar">
+                <label>Furnishing</label>
+                <div class="radio-list" id="furnishingFilterList">
+                    <label class="radio-item"><input type="radio" name="furnishing" value="" checked> Any</label>
+                    <label class="radio-item"><input type="radio" name="furnishing" value="Unfurnished"> Unfurnished</label>
+                    <label class="radio-item"><input type="radio" name="furnishing" value="Semi-Furnished"> Semi-Furnished</label>
+                    <label class="radio-item"><input type="radio" name="furnishing" value="Fully Furnished"> Fully Furnished</label>
                 </div>
-                <!-- ==================== STEP 3: PHOTOS & PRICING ==================== -->
-                <div class="form-step-content" data-step-content="2">
-                    <div class="section-title">
-                        <i class="fas fa-rupee-sign"></i> Pricing & Photos
-                    </div>
-                    <p class="section-sub">Set a competitive price and upload clear photos to attract more buyers.</p>
+            </div>
 
-                    <div class="form-grid">
-                        <!-- Expected Price -->
-                        <div class="form-group">
-                            <label>Expected Price <span class="required">*</span></label>
-                            <div class="input-prefix">
-                                <span>₹</span>
-                                <input type="number" placeholder="e.g. 7500000" min="0" required>
-                            </div>
-                            <span class="hint">For sale: total price. For rent: monthly rent.</span>
-                        </div>
-
-                        <!-- Price Negotiable -->
-                        <div class="form-group">
-                            <label>Price Negotiable?</label>
-                            <select>
-                                <option>Yes</option>
-                                <option>No</option>
-                                <option>Fixed</option>
-                            </select>
-                        </div>
-
-                        <!-- Maintenance Charges -->
-                        <div class="form-group">
-                            <label>Monthly Maintenance</label>
-                            <div class="input-prefix">
-                                <span>₹</span>
-                                <input type="number" placeholder="e.g. 3500" min="0">
-                            </div>
-                            <span class="hint">If applicable</span>
-                        </div>
-
-                        <!-- Booking Amount -->
-                        <div class="form-group">
-                            <label>Booking Amount / Deposit</label>
-                            <div class="input-prefix">
-                                <span>₹</span>
-                                <input type="number" placeholder="e.g. 50000" min="0">
-                            </div>
-                            <span class="hint">For rentals: security deposit</span>
-                        </div>
-
-                        <!-- Photo Upload -->
-                        <div class="form-group full-width">
-                            <label>Upload Property Photos <span class="required">*</span></label>
-                            <div class="photo-upload-area" id="photoUploadArea">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <h4>Click to upload photos or drag & drop</h4>
-                                <p>Upload up to 15 photos. JPG, PNG, WEBP (Max 5MB each). First photo will be the cover.</p>
-                                <input type="file" id="photoInput" accept="image/*" multiple>
-                            </div>
-                            <div class="photo-preview" id="photoPreview">
-                                <!-- JS will add previews here -->
-                            </div>
-                        </div>
-
-                        <!-- Property Description -->
-                        <div class="form-group full-width">
-                            <label>Property Description</label>
-                            <textarea placeholder="Describe your property — highlights, amenities, nearby facilities, special features..." rows="4"></textarea>
-                            <span class="hint">A good description gets 3x more views.</span>
-                        </div>
-
-                        <!-- Amenities -->
-                        <div class="form-group full-width">
-                            <label>Amenities (Select all that apply)</label>
-                            <div class="radio-group" id="amenitiesGroup">
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="parking"> Car Parking
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="lift"> Lift / Elevator
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="security"> 24x7 Security
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="power"> Power Backup
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="water"> 24Hr Water
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="gym"> Gym
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="pool"> Swimming Pool
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="park"> Garden / Park
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="club"> Clubhouse
-                                </label>
-                                <label class="radio-option" onclick="toggleCheckbox(this)">
-                                    <input type="checkbox" value="wifi"> Wi-Fi Ready
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step Navigation -->
-                    <div class="step-nav">
-                        <button type="button" class="btn-nav btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep()">Next: Contact Info <i class="fas fa-arrow-right"></i></button>
-                    </div>
+            <div class="filter-group-sidebar">
+                <label>Availability</label>
+                <div class="radio-list" id="availabilityFilterList">
+                    <label class="radio-item"><input type="radio" name="availability" value="" checked> Any</label>
+                    <label class="radio-item"><input type="radio" name="availability" value="Ready to Move"> Ready to Move</label>
+                    <label class="radio-item"><input type="radio" name="availability" value="Under Construction"> Under Construction</label>
                 </div>
+            </div>
 
-                <!-- ==================== STEP 4: CONTACT INFO ==================== -->
-                <div class="form-step-content" data-step-content="3">
-                    <div class="section-title">
-                        <i class="fas fa-address-card"></i> Contact Details
-                    </div>
-                    <p class="section-sub">Buyers will use these details to reach you. Make sure they're correct.</p>
+            <button class="btn-apply-filter" style="width:100%; justify-content:center; margin-top:10px;" onclick="applySidebarFilters()">
+                <i class="fas fa-check"></i> Apply Filters
+            </button>
+        </aside>
 
-                    <div class="form-grid">
-                        <!-- Owner Name -->
-                        <div class="form-group">
-                            <label>Your Name <span class="required">*</span></label>
-                            <input type="text" placeholder="e.g. Rajesh Kumar" required>
-                        </div>
+        <!-- LISTINGS AREA -->
+        <div class="listings-area">
 
-                        <!-- I am -->
-                        <div class="form-group">
-                            <label>I am <span class="required">*</span></label>
-                            <select required>
-                                <option value="">-- Select --</option>
-                                <option>Owner</option>
-                                <option>Builder / Developer</option>
-                                <option>Tenant</option>
-                            </select>
-                        </div>
+            <button class="mobile-filter-btn" onclick="toggleSidebar()">
+                <i class="fas fa-sliders-h"></i> Show Filters
+            </button>
 
-                        <!-- WhatsApp Number -->
-                        <div class="form-group">
-                            <label>WhatsApp Number <span class="required">*</span></label>
-                            <div class="input-prefix">
-                                <span>+91</span>
-                                <input type="tel" placeholder="98765 43210" pattern="[0-9]{10}" maxlength="10" required>
-                            </div>
-                            <span class="hint">Buyers will see a direct "WhatsApp" button</span>
-                        </div>
+            <div class="listings-toolbar">
+                <h2 id="listingsTitle">All Properties</h2>
+                <select class="sort-select" id="sortSelect" onchange="applySort()">
+                    <option value="newest">Sort: Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="area-high">Area: Largest First</option>
+                </select>
+            </div>
 
-                        <!-- Alternate Phone -->
-                        <div class="form-group">
-                            <label>Alternate Phone Number</label>
-                            <div class="input-prefix">
-                                <span>+91</span>
-                                <input type="tel" placeholder="98765 43210" pattern="[0-9]{10}" maxlength="10">
-                            </div>
-                        </div>
+            <div class="property-grid" id="propertyGrid"></div>
 
-                        <!-- Email -->
-                        <div class="form-group">
-                            <label>Email Address <span class="required">*</span></label>
-                            <input type="email" placeholder="e.g. rajesh@example.com" required>
-                        </div>
-
-                        <!-- Preferred Contact Time -->
-                        <div class="form-group">
-                            <label>Best Time to Call</label>
-                            <select>
-                                <option value="">-- Select --</option>
-                                <option>Morning (9 AM - 12 PM)</option>
-                                <option>Afternoon (12 PM - 4 PM)</option>
-                                <option>Evening (4 PM - 8 PM)</option>
-                                <option>Anytime</option>
-                            </select>
-                        </div>
-
-                        <!-- Contact Preference -->
-                        <div class="form-group full-width">
-                            <label>Preferred Contact Method <span class="required">*</span></label>
-                            <div class="contact-pref">
-                                <label class="radio-option selected" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="whatsapp" checked> <i class="fab fa-whatsapp" style="color:#25D366;"></i> WhatsApp
-                                </label>
-                                <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="call"> <i class="fas fa-phone-alt" style="color:#1b8c5e;"></i> Phone Call
-                                </label>
-                                <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="email"> <i class="fas fa-envelope" style="color:#1b8c5e;"></i> Email
-                                </label>
-                                <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="all"> All Methods
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FORM FOOTER -->
-                    <div class="form-footer">
-                        <label class="checkbox-agree">
-                            <input type="checkbox" required>
-                            <span>I agree to DesiHomes' <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. I confirm that the information provided is accurate and I have the right to list this property.</span>
-                        </label>
-                        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                            <button type="button" class="btn-draft"><i class="fas fa-save"></i> Save Draft</button>
-                            <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Post Property FREE</button>
-                        </div>
-                    </div>
-
-                    <!-- Step Navigation -->
-                    <div class="step-nav" style="margin-top: 20px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
-                        <span></span>
-                    </div>
-                </div>
-
-            </form>
+            <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                <button class="btn-load-more" onclick="loadMore()">
+                    <i class="fas fa-plus"></i> Load More Properties
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1374,10 +340,10 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <div class="logo" style="color: white; margin-bottom: 16px; text-decoration: none;">
-                    <i class="fas fa-home"></i> Desi<span style="color: #6fc2a0;">Homes</span>
+                <div class="logo" style="color: white; margin-bottom: 18px;">
+                    <i class="fas fa-home"></i> Estate<span style="color: #6fc2a0;">Haven</span>
                 </div>
-                <p>India's trusted real estate platform. Connecting buyers, sellers, and renters across the country.</p>
+                <p>Your trusted partner in finding the perfect home. We connect people with properties they love — directly, with zero brokerage.</p>
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -1388,200 +354,511 @@
             <div class="footer-col">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Buy Property</a></li>
-                    <li><a href="#">Rent Property</a></li>
-                    <li><a href="#">Post Property</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="listing.html">Listings</a></li>
+                    <li><a href="post-property.html">Post Property</a></li>
+                    <li><a href="seller-register.html">Sell Property</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Popular Cities</h4>
                 <ul>
-                    <li><a href="#">Mumbai</a></li>
-                    <li><a href="#">Delhi NCR</a></li>
-                    <li><a href="#">Bangalore</a></li>
-                    <li><a href="#">Hyderabad</a></li>
-                    <li><a href="#">Pune</a></li>
+                    <li><a href="#" onclick="filterByCityFromFooter('Mumbai'); return false;">Mumbai</a></li>
+                    <li><a href="#" onclick="filterByCityFromFooter('Delhi NCR'); return false;">Delhi NCR</a></li>
+                    <li><a href="#" onclick="filterByCityFromFooter('Bangalore'); return false;">Bangalore</a></li>
+                    <li><a href="#" onclick="filterByCityFromFooter('Hyderabad'); return false;">Hyderabad</a></li>
+                    <li><a href="#" onclick="filterByCityFromFooter('Pune'); return false;">Pune</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Contact Info</h4>
                 <ul>
-                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> 91 Springboard, Koramangala, Bangalore</li>
-                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 98765 43210</li>
-                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> hello@desihomes.in</li>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Aurangabad, Maharashtra</li>
+                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 9876543210</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> kaleomkar@gmail.com</li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <div>© 2025 DesiHomes. All rights reserved. Made in India 🇮🇳</div>
+            <div>© 2025 EstateHaven. All rights reserved.</div>
             <div>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Sitemap</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
             </div>
         </div>
     </footer>
 
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // ========== STEP NAVIGATION ==========
-        let currentStep = 0;
-        const totalSteps = 4;
+        // ========== STATE ==========
+        let allProperties = [];
+        let filteredProperties = [];
+        let displayedCount = 0;
+        const ITEMS_PER_PAGE = 9;
 
-        function goToStep(step) {
-            if (step < 0 || step >= totalSteps) return;
-            currentStep = step;
+        let activeFilters = {
+            search: '',
+            propertyType: '',
+            bhk: '',
+            listingType: '',
+            city: '',
+            budgetMin: null,
+            budgetMax: null,
+            furnishing: '',
+            availability: ''
+        };
 
-            // Update step indicators
-            document.querySelectorAll('.step').forEach((el, i) => {
-                el.classList.toggle('active', i === step);
+        let currentSort = 'newest';
+
+        // ========== LOAD DATA ==========
+        function loadAllProperties() {
+            const stored = JSON.parse(localStorage.getItem('estatehaven_properties') || '[]');
+            console.log('📦 Raw properties from localStorage:', stored.length);
+
+            // Show only active properties (hide sold/rented/rejected)
+            allProperties = stored.filter(p => {
+                return p.status !== 'sold' && p.status !== 'rented' && p.status !== 'rejected';
             });
 
-            // Update step content
-            document.querySelectorAll('.form-step-content').forEach((el, i) => {
-                el.classList.toggle('active', i === step);
-            });
+            console.log('✅ Active properties to display:', allProperties.length);
+            if (allProperties.length > 0) {
+                console.table(allProperties.map(p => ({
+                    id: p.id,
+                    type: p.propertyType,
+                    bhk: p.bhk,
+                    city: p.city,
+                    price: p.price,
+                    seller: p.sellerName,
+                    status: p.status
+                })));
+            }
 
-            // Scroll to form top
-            document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function nextStep() {
-            if (currentStep < totalSteps - 1) {
-                goToStep(currentStep + 1);
+            // If no properties exist, add sample demo properties
+            if (allProperties.length === 0) {
+                console.log('📭 No real properties found. Showing demo properties.');
+                allProperties = getSampleProperties();
             }
         }
 
-        function prevStep() {
-            if (currentStep > 0) {
-                goToStep(currentStep - 1);
-            }
-        }
-
-        // ========== RADIO BUTTON SELECTION ==========
-        function selectRadio(label) {
-            const input = label.querySelector('input[type="radio"]');
-            if (!input) return;
-
-            // Remove selected from siblings in same name group
-            const name = input.name;
-            document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
-                radio.closest('.radio-option').classList.remove('selected');
-            });
-
-            // Add selected to clicked
-            input.checked = true;
-            label.classList.add('selected');
-        }
-
-        // ========== CHECKBOX TOGGLE ==========
-        function toggleCheckbox(label) {
-            const input = label.querySelector('input[type="checkbox"]');
-            if (!input) return;
-
-            // Toggle happens automatically via native checkbox click
-            // Just update the class after a tiny delay to reflect the new state
-            setTimeout(() => {
-                if (input.checked) {
-                    label.classList.add('selected');
-                } else {
-                    label.classList.remove('selected');
+        // ========== SAMPLE DEMO PROPERTIES ==========
+        function getSampleProperties() {
+            return [
+                {
+                    id: 'DEMO_001',
+                    sellerId: 'DEMO_SELLER',
+                    sellerName: 'Rajesh Kumar',
+                    sellerWhatsapp: '9876543210',
+                    sellerEmail: 'rajesh@example.com',
+                    sellerContactPref: 'whatsapp',
+                    postedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
+                    status: 'active',
+                    listingType: 'sale',
+                    propertyType: 'Apartment / Flat',
+                    bhk: '3 BHK',
+                    propertyAge: '1 - 3 Years',
+                    furnishing: 'Semi-Furnished',
+                    availability: 'Ready to Move',
+                    city: 'Mumbai',
+                    locality: 'Andheri West',
+                    landmark: 'Near Metro Station',
+                    pincode: '400053',
+                    fullAddress: 'Lokhandwala Complex, Andheri West, Mumbai',
+                    builtUpArea: '1450',
+                    carpetArea: '1100',
+                    plotArea: '',
+                    currentFloor: '12',
+                    totalFloors: '22',
+                    facing: 'East',
+                    price: '24500000',
+                    negotiable: 'Yes',
+                    maintenance: '5500',
+                    deposit: '',
+                    description: 'Premium 3 BHK apartment with modern amenities, sea-facing balcony, and 24x7 security.',
+                    amenities: ['Car Parking', 'Lift', '24x7 Security', 'Gym', 'Swimming Pool'],
+                    photos: ['https://images.unsplash.com/photo-1567496898669-ee935f5f647a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80']
+                },
+                {
+                    id: 'DEMO_002',
+                    sellerId: 'DEMO_SELLER_2',
+                    sellerName: 'Priya Sharma',
+                    sellerWhatsapp: '8765432109',
+                    sellerEmail: 'priya@example.com',
+                    sellerContactPref: 'call',
+                    postedAt: new Date(Date.now() - 5 * 86400000).toISOString(),
+                    status: 'active',
+                    listingType: 'rent',
+                    propertyType: 'Independent House / Villa',
+                    bhk: '2 BHK',
+                    propertyAge: '3 - 5 Years',
+                    furnishing: 'Fully Furnished',
+                    availability: 'Ready to Move',
+                    city: 'Bangalore',
+                    locality: 'Koramangala',
+                    landmark: 'Near 5th Block',
+                    pincode: '560095',
+                    fullAddress: '5th Block, Koramangala, Bangalore',
+                    builtUpArea: '1100',
+                    carpetArea: '950',
+                    plotArea: '',
+                    currentFloor: '0',
+                    totalFloors: '2',
+                    facing: 'North',
+                    price: '35000',
+                    negotiable: 'No',
+                    maintenance: '0',
+                    deposit: '200000',
+                    description: 'Beautiful independent house in the heart of Koramangala.',
+                    amenities: ['Car Parking', '24x7 Security', 'Power Backup'],
+                    photos: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80']
+                },
+                {
+                    id: 'DEMO_003',
+                    sellerId: 'DEMO_SELLER_3',
+                    sellerName: 'Amit Verma',
+                    sellerWhatsapp: '9812345678',
+                    sellerEmail: 'amit@example.com',
+                    sellerContactPref: 'whatsapp',
+                    postedAt: new Date(Date.now() - 1 * 86400000).toISOString(),
+                    status: 'active',
+                    listingType: 'sale',
+                    propertyType: 'Independent House / Villa',
+                    bhk: '4 BHK',
+                    propertyAge: 'Brand New / Under Construction',
+                    furnishing: 'Unfurnished',
+                    availability: 'Under Construction',
+                    city: 'Delhi NCR',
+                    locality: 'DLF Phase 5',
+                    landmark: 'Golf Course Road',
+                    pincode: '122002',
+                    fullAddress: 'DLF Phase 5, Golf Course Road, Gurgaon',
+                    builtUpArea: '3200',
+                    carpetArea: '2800',
+                    plotArea: '',
+                    currentFloor: '0',
+                    totalFloors: '3',
+                    facing: 'South-West',
+                    price: '67500000',
+                    negotiable: 'Yes',
+                    maintenance: '0',
+                    deposit: '',
+                    description: 'Luxury 4 BHK villa in prime location with private terrace.',
+                    amenities: ['Car Parking', '24x7 Security', 'Swimming Pool', 'Gym', 'Clubhouse'],
+                    photos: ['https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80']
                 }
-            }, 10);
+            ];
         }
 
-        // ========== PHOTO UPLOAD & PREVIEW ==========
-        const photoInput = document.getElementById('photoInput');
-        const photoPreview = document.getElementById('photoPreview');
-        const photoUploadArea = document.getElementById('photoUploadArea');
+        // ========== FORMATTERS ==========
+        function formatPrice(price, listingType) {
+            const num = Number(price) || 0;
+            let formatted = '';
+            if (num >= 10000000) formatted = '₹' + (num / 10000000).toFixed(2).replace(/\.00$/, '') + ' Cr';
+            else if (num >= 100000) formatted = '₹' + (num / 100000).toFixed(2).replace(/\.00$/, '') + ' L';
+            else if (num >= 1000) formatted = '₹' + (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            else formatted = '₹' + num;
 
-        // Click on the area triggers file input
-        photoUploadArea.addEventListener('click', function (e) {
-            if (e.target.tagName !== 'INPUT') {
-                photoInput.click();
+            if (listingType === 'rent' || listingType === 'pg') formatted += ' <small>/month</small>';
+            return formatted;
+        }
+
+        function getTypeLabel(listingType) {
+            const map = { sale: 'For Sale', rent: 'For Rent', pg: 'PG' };
+            return map[listingType] || 'For Sale';
+        }
+
+        function getTypeClass(listingType) {
+            const map = { sale: '', rent: 'rent', pg: 'pg' };
+            return map[listingType] || '';
+        }
+
+        // ========== FILTER LOGIC ==========
+        function applyAllFilters() {
+            filteredProperties = allProperties.filter(p => {
+                // Search text
+                if (activeFilters.search) {
+                    const search = activeFilters.search.toLowerCase();
+                    const searchable = [p.locality, p.city, p.propertyType, p.bhk, p.fullAddress, p.landmark, p.sellerName]
+                        .filter(Boolean).join(' ').toLowerCase();
+                    if (!searchable.includes(search)) return false;
+                }
+
+                if (activeFilters.propertyType && p.propertyType !== activeFilters.propertyType) return false;
+                if (activeFilters.bhk && p.bhk !== activeFilters.bhk) return false;
+                if (activeFilters.listingType && p.listingType !== activeFilters.listingType) return false;
+                if (activeFilters.city && p.city !== activeFilters.city) return false;
+
+                // Budget — NaN-safe
+                const hasBudget = activeFilters.budgetMin !== null 
+                    && activeFilters.budgetMax !== null
+                    && !isNaN(activeFilters.budgetMin) 
+                    && !isNaN(activeFilters.budgetMax);
+                if (hasBudget) {
+                    const price = Number(p.price) || 0;
+                    if (price < activeFilters.budgetMin || price > activeFilters.budgetMax) return false;
+                }
+
+                if (activeFilters.furnishing && p.furnishing !== activeFilters.furnishing) return false;
+                if (activeFilters.availability && p.availability !== activeFilters.availability) return false;
+
+                return true;
+            });
+
+            applySortToArray();
+            displayedCount = 0;
+            updateResultsCount();
+            renderProperties();
+        }
+
+        function applySortToArray() {
+            switch (currentSort) {
+                case 'price-low': filteredProperties.sort((a, b) => Number(a.price) - Number(b.price)); break;
+                case 'price-high': filteredProperties.sort((a, b) => Number(b.price) - Number(a.price)); break;
+                case 'area-high': filteredProperties.sort((a, b) => Number(b.builtUpArea || 0) - Number(a.builtUpArea || 0)); break;
+                case 'newest':
+                default: filteredProperties.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt)); break;
             }
-        });
+        }
 
-        // Handle file selection
-        photoInput.addEventListener('change', function () {
-            photoPreview.innerHTML = '';
-            const files = this.files;
-            if (files && files.length > 0) {
-                Array.from(files).forEach((file) => {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const div = document.createElement('div');
-                            div.className = 'preview-item';
-                            div.innerHTML = `
-                                <img src="${e.target.result}" alt="Preview">
-                                <div class="remove" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></div>
-                            `;
-                            photoPreview.appendChild(div);
-                        };
-                        reader.readAsDataURL(file);
+        function applySort() {
+            currentSort = document.getElementById('sortSelect').value;
+            applyAllFilters();
+        }
+
+        // ========== RENDER ==========
+        function updateResultsCount() {
+            document.getElementById('resultsCount').textContent = filteredProperties.length;
+        }
+
+        function renderProperties() {
+            const grid = document.getElementById('propertyGrid');
+
+            if (filteredProperties.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No Properties Found</h3>
+                        <p>We couldn't find any properties matching your filters. Try adjusting your search or reset the filters.</p>
+                        <button class="btn-apply-filter" onclick="resetFilters()" style="display:inline-flex;">
+                            <i class="fas fa-redo"></i> Reset Filters
+                        </button>
+                    </div>
+                `;
+                document.getElementById('loadMoreWrap').style.display = 'none';
+                return;
+            }
+
+            const nextBatch = filteredProperties.slice(displayedCount, displayedCount + ITEMS_PER_PAGE);
+            displayedCount += nextBatch.length;
+
+            if (displayedCount === nextBatch.length) grid.innerHTML = '';
+
+            nextBatch.forEach(prop => grid.appendChild(createPropertyCard(prop)));
+
+            const loadMoreWrap = document.getElementById('loadMoreWrap');
+            loadMoreWrap.style.display = (displayedCount < filteredProperties.length) ? 'block' : 'none';
+        }
+
+        function createPropertyCard(prop) {
+            const card = document.createElement('div');
+            card.className = 'property-card';
+
+            const coverPhoto = prop.photos && prop.photos.length > 0 ? prop.photos[0] : null;
+            const photoCount = prop.photos ? prop.photos.length : 0;
+            const typeLabel = getTypeLabel(prop.listingType);
+            const typeClass = getTypeClass(prop.listingType);
+            const locationText = [prop.locality, prop.city].filter(Boolean).join(', ');
+
+            const favorites = JSON.parse(localStorage.getItem('estatehaven_favorites') || '[]');
+            const isFav = favorites.includes(prop.id);
+
+            let perSqft = '';
+            if (prop.listingType === 'sale' && prop.builtUpArea && prop.price) {
+                const psf = Math.round(Number(prop.price) / Number(prop.builtUpArea));
+                perSqft = `₹${psf.toLocaleString('en-IN')} per sq.ft.`;
+            }
+
+            card.innerHTML = `
+                <div class="property-img">
+                    ${coverPhoto
+                        ? `<img src="${coverPhoto}" alt="${prop.propertyType}" loading="lazy">`
+                        : `<div class="no-photo"><i class="fas fa-image"></i></div>`
                     }
+                    <span class="tag ${typeClass}">${typeLabel}</span>
+                    <div class="favorite-icon ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${prop.id}')" title="Save to favorites">
+                        <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                    </div>
+                    ${photoCount > 1 ? `<div class="photo-count"><i class="fas fa-camera"></i> ${photoCount}</div>` : ''}
+                </div>
+                <div class="property-info">
+                    <h3>${prop.bhk || ''} ${prop.propertyType || 'Property'}</h3>
+                    <div class="property-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${locationText || 'Location not specified'}</span>
+                    </div>
+                    <div class="owner-line">
+                        <i class="fas fa-user-check"></i>
+                        Owner: ${prop.sellerName || 'Verified Owner'} • No Brokerage
+                    </div>
+                    <div class="property-features">
+                        ${prop.bhk ? `<span><i class="fas fa-bed"></i> ${prop.bhk}</span>` : ''}
+                        ${prop.builtUpArea ? `<span><i class="fas fa-vector-square"></i> ${prop.builtUpArea} sq.ft.</span>` : ''}
+                        ${prop.furnishing ? `<span><i class="fas fa-couch"></i> ${prop.furnishing}</span>` : ''}
+                    </div>
+                    <div class="price-row">
+                        <div class="price-block">
+                            <div class="price">${formatPrice(prop.price, prop.listingType)}</div>
+                            ${perSqft ? `<div class="per-sqft">${perSqft}</div>` : ''}
+                        </div>
+                        <a href="property-details.html?id=${prop.id}" class="btn-view-details">
+                            View <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function loadMore() { renderProperties(); }
+
+        // ========== FAVORITES ==========
+        function toggleFavorite(event, propertyId) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            let favorites = JSON.parse(localStorage.getItem('estatehaven_favorites') || '[]');
+            const icon = event.currentTarget;
+
+            if (favorites.includes(propertyId)) {
+                favorites = favorites.filter(id => id !== propertyId);
+                icon.classList.remove('active');
+                icon.querySelector('i').classList.remove('fas');
+                icon.querySelector('i').classList.add('far');
+            } else {
+                favorites.push(propertyId);
+                icon.classList.add('active');
+                icon.querySelector('i').classList.remove('far');
+                icon.querySelector('i').classList.add('fas');
+            }
+            localStorage.setItem('estatehaven_favorites', JSON.stringify(favorites));
+        }
+
+        // ========== FILTER ACTIONS ==========
+        function applyFilters() {
+            activeFilters.search = document.getElementById('searchInput').value.trim();
+            activeFilters.propertyType = document.getElementById('filterType').value;
+            activeFilters.bhk = document.getElementById('filterBhk').value;
+            activeFilters.listingType = document.getElementById('filterListing').value;
+
+            const cityRadio = document.querySelector('input[name="city"]:checked');
+            activeFilters.city = cityRadio ? cityRadio.value : '';
+
+            const budgetRadio = document.querySelector('input[name="budget"]:checked');
+            if (budgetRadio && budgetRadio.value) {
+                const parts = budgetRadio.value.split('-');
+                activeFilters.budgetMin = Number(parts[0]);
+                activeFilters.budgetMax = Number(parts[1]);
+            } else {
+                activeFilters.budgetMin = null;
+                activeFilters.budgetMax = null;
+            }
+
+            const furnishingRadio = document.querySelector('input[name="furnishing"]:checked');
+            activeFilters.furnishing = furnishingRadio ? furnishingRadio.value : '';
+
+            const availabilityRadio = document.querySelector('input[name="availability"]:checked');
+            activeFilters.availability = availabilityRadio ? availabilityRadio.value : '';
+
+            applyAllFilters();
+        }
+
+        function applySidebarFilters() { applyFilters(); }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterBhk').value = '';
+            document.getElementById('filterListing').value = '';
+
+            document.querySelectorAll('input[name="city"]')[0].checked = true;
+            document.querySelectorAll('input[name="budget"]')[0].checked = true;
+            document.querySelectorAll('input[name="furnishing"]')[0].checked = true;
+            document.querySelectorAll('input[name="availability"]')[0].checked = true;
+
+            activeFilters = {
+                search: '', propertyType: '', bhk: '', listingType: '',
+                city: '', budgetMin: null, budgetMax: null,
+                furnishing: '', availability: ''
+            };
+
+            currentSort = 'newest';
+            document.getElementById('sortSelect').value = 'newest';
+            applyAllFilters();
+        }
+
+        function filterByCityFromFooter(city) {
+            document.querySelectorAll('input[name="city"]').forEach(radio => {
+                if (radio.value === city) radio.checked = true;
+            });
+            applyFilters();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+        }
+
+        // ========== SEARCH ON ENTER ==========
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') applyFilters();
+        });
+
+        // ========== URL PARAMS ==========
+        function checkUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const city = params.get('city');
+            const type = params.get('type');
+            const listing = params.get('listing');
+
+            if (city) {
+                document.querySelectorAll('input[name="city"]').forEach(radio => {
+                    if (radio.value === city) radio.checked = true;
                 });
+                activeFilters.city = city;
             }
-        });
-
-        // ========== DRAG & DROP SUPPORT ==========
-        photoUploadArea.addEventListener('dragover', function (e) {
-            e.preventDefault();
-            this.style.borderColor = '#1b8c5e';
-            this.style.background = '#eaf3ef';
-        });
-
-        photoUploadArea.addEventListener('dragleave', function (e) {
-            e.preventDefault();
-            this.style.borderColor = '#b8dfd0';
-            this.style.background = '#f9fdfb';
-        });
-
-        photoUploadArea.addEventListener('drop', function (e) {
-            e.preventDefault();
-            this.style.borderColor = '#b8dfd0';
-            this.style.background = '#f9fdfb';
-
-            const files = e.dataTransfer.files;
-            if (files && files.length > 0) {
-                photoInput.files = files;
-                // Trigger the change event manually
-                const event = new Event('change', { bubbles: true });
-                photoInput.dispatchEvent(event);
+            if (type) {
+                document.getElementById('filterType').value = type;
+                activeFilters.propertyType = type;
             }
-        });
+            if (listing) {
+                document.getElementById('filterListing').value = listing;
+                activeFilters.listingType = listing;
+            }
+        }
 
-        // ========== INITIALIZE ==========
+        // ========== INIT ==========
         document.addEventListener('DOMContentLoaded', function () {
-            // Ensure first step is active
-            goToStep(0);
+            loadAllProperties();
+            checkUrlParams();
+            applyAllFilters();
+        });
 
-            // Handle radio option clicks (native fallback)
-            document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', function () {
-                    const name = this.name;
-                    document.querySelectorAll(`input[name="${name}"]`).forEach(r => {
-                        r.closest('.radio-option').classList.remove('selected');
-                    });
-                    if (this.checked) {
-                        this.closest('.radio-option').classList.add('selected');
-                    }
-                });
-            });
+        // ========== LIVE SYNC ACROSS TABS ==========
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'estatehaven_properties') {
+                console.log('🔄 Properties updated in another tab — refreshing...');
+                loadAllProperties();
+                applyAllFilters();
+            }
+        });
 
-            // Handle checkbox clicks (native fallback)
-            document.querySelectorAll('.radio-option input[type="checkbox"]').forEach(cb => {
-                cb.addEventListener('change', function () {
-                    if (this.checked) {
-                        this.closest('.radio-option').classList.add('selected');
-                    } else {
-                        this.closest('.radio-option').classList.remove('selected');
-                    }
-                });
-            });
+        // Refresh when tab becomes visible again
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) {
+                loadAllProperties();
+                applyAllFilters();
+            }
         });
     </script>
 </body>

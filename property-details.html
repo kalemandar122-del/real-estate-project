@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details | EstateHaven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        /* HEADER */
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        /* BREADCRUMB */
+        .breadcrumb-bar { background: white; padding: 16px 5%; border-bottom: 1px solid #e9f0ed; font-size: 14px; color: #6a7e8c; }
+        .breadcrumb-bar a { color: #1e7e5c; text-decoration: none; font-weight: 500; }
+        .breadcrumb-bar a:hover { text-decoration: underline; }
+
+        /* MAIN LAYOUT */
+        .details-wrapper { max-width: 1400px; margin: 30px auto 60px; padding: 0 5%; display: grid; grid-template-columns: 1fr 380px; gap: 30px; align-items: flex-start; }
+
+        /* LEFT COLUMN */
+        .main-col { min-width: 0; }
+
+        /* Photo Gallery */
+        .gallery { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9f0ed; margin-bottom: 24px; }
+        .gallery-main { position: relative; width: 100%; height: 460px; background: #f4f8f6; overflow: hidden; cursor: pointer; }
+        .gallery-main img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .gallery-main:hover img { transform: scale(1.02); }
+        .gallery-main .no-photo { display: flex; align-items: center; justify-content: center; height: 100%; color: #b8c9c0; font-size: 80px; }
+
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: 0.2s; border: none; font-size: 16px; color: #0b2b3c; }
+        .gallery-nav:hover { background: white; color: #1e7e5c; transform: translateY(-50%) scale(1.08); }
+        .gallery-nav.prev { left: 16px; }
+        .gallery-nav.next { right: 16px; }
+
+        .gallery-counter { position: absolute; bottom: 16px; right: 16px; background: rgba(0,0,0,0.65); color: white; padding: 6px 14px; border-radius: 30px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+
+        .gallery-actions { position: absolute; top: 16px; right: 16px; display: flex; gap: 10px; }
+        .gallery-action-btn { background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.2s; border: none; font-size: 16px; color: #5b6f7c; }
+        .gallery-action-btn:hover { color: #1e7e5c; transform: scale(1.08); }
+        .gallery-action-btn.active { color: #e74c3c; }
+
+        .gallery-thumbs { display: flex; gap: 10px; padding: 14px; overflow-x: auto; background: #fafdfb; }
+        .gallery-thumbs::-webkit-scrollbar { height: 6px; }
+        .gallery-thumbs::-webkit-scrollbar-thumb { background: #cde3d9; border-radius: 3px; }
+        .gallery-thumb { width: 80px; height: 60px; border-radius: 10px; overflow: hidden; flex-shrink: 0; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-thumb:hover { border-color: #b8dfd0; }
+        .gallery-thumb.active { border-color: #1e7e5c; }
+
+        /* Section Card */
+        .section-card { background: white; border-radius: 20px; padding: 28px 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #e9f0ed; margin-bottom: 24px; }
+
+        /* Title Block */
+        .title-block { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+        .title-block h1 { font-size: 26px; font-weight: 700; color: #0b2b3c; line-height: 1.3; flex: 1; }
+        .type-pill { padding: 6px 16px; border-radius: 40px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
+        .type-pill.sale { background: #1e7e5c; color: white; }
+        .type-pill.rent { background: #bb7e2e; color: white; }
+        .type-pill.pg { background: #7c3aed; color: white; }
+
+        .address-line { display: flex; align-items: flex-start; gap: 8px; color: #5b6f7c; font-size: 15px; margin-bottom: 18px; line-height: 1.5; }
+        .address-line i { color: #1e7e5c; font-size: 16px; margin-top: 3px; flex-shrink: 0; }
+
+        .owner-trust-line { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: #eef7f2; border-radius: 12px; color: #1e7e5c; font-weight: 600; font-size: 14px; border: 1px solid #d4e8e0; width: fit-content; }
+        .owner-trust-line i { font-size: 15px; }
+
+        /* Key Facts Grid */
+        .key-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; margin-top: 24px; padding-top: 24px; border-top: 1.5px solid #eaf3ef; }
+        .fact-item { display: flex; align-items: center; gap: 12px; }
+        .fact-item .fact-icon { width: 44px; height: 44px; border-radius: 14px; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .fact-item .fact-text .fact-label { font-size: 11.5px; color: #7d8f9c; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
+        .fact-item .fact-text .fact-value { font-size: 15px; color: #0b2b3c; font-weight: 700; }
+
+        /* Section titles */
+        .section-title-block { font-size: 20px; font-weight: 700; color: #0b2b3c; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 2px solid #eaf3ef; }
+        .section-title-block i { color: #1e7e5c; font-size: 18px; }
+
+        /* Details Grid */
+        .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 30px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #eaf3ef; font-size: 14.5px; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row .label { color: #7d8f9c; font-weight: 500; }
+        .detail-row .value { color: #0b2b3c; font-weight: 600; text-align: right; }
+
+        /* Description */
+        .description-text { font-size: 15px; color: #2c3e50; line-height: 1.8; white-space: pre-line; }
+
+        /* Amenities */
+        .amenities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+        .amenity-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f9fdfb; border-radius: 12px; font-size: 14px; color: #2c3e50; font-weight: 500; border: 1px solid #eaf3ef; }
+        .amenity-item i { color: #1e7e5c; font-size: 16px; }
+
+        /* RIGHT SIDEBAR */
+        .sidebar-col { position: sticky; top: 100px; }
+
+        /* Price Card */
+        .price-card { background: linear-gradient(150deg, #0b2b3c 0%, #1e4d3a 100%); color: white; border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: 0 12px 30px -10px rgba(11,43,60,0.3); position: relative; overflow: hidden; }
+        .price-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+        .price-card::after { content: ''; position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.04); border-radius: 50%; }
+        .price-card-inner { position: relative; z-index: 1; }
+        .price-label { font-size: 12.5px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; margin-bottom: 8px; }
+        .price-main { font-size: 32px; font-weight: 700; line-height: 1.1; margin-bottom: 6px; }
+        .price-main small { font-size: 15px; font-weight: 400; opacity: 0.8; }
+        .price-sub { font-size: 13.5px; opacity: 0.8; margin-bottom: 18px; }
+        .price-meta { display: flex; gap: 16px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.15); flex-wrap: wrap; }
+        .price-meta-item { flex: 1 1 40%; }
+        .price-meta-item .meta-label { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 2px; }
+        .price-meta-item .meta-value { font-size: 14px; font-weight: 600; }
+
+        /* Seller Card */
+        .seller-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); border: 1px solid #e9f0ed; }
+        .seller-card-header { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1.5px solid #eaf3ef; margin-bottom: 18px; }
+        .seller-avatar { width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg, #1e7e5c, #0f6b45); color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; flex-shrink: 0; }
+        .seller-info h4 { font-size: 17px; color: #0b2b3c; font-weight: 700; margin-bottom: 3px; }
+        .seller-info p { font-size: 12.5px; color: #7d8f9c; display: flex; align-items: center; gap: 6px; }
+        .seller-info p i { color: #1e7e5c; }
+
+        .verified-tag { display: inline-flex; align-items: center; gap: 5px; background: #eef7f2; color: #1e7e5c; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 4px; }
+
+        .contact-methods { display: flex; flex-direction: column; gap: 10px; }
+        .contact-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; border: none; font-family: inherit; }
+        .contact-btn.whatsapp { background: #25D366; color: white; box-shadow: 0 6px 18px rgba(37,211,102,0.3); }
+        .contact-btn.whatsapp:hover { background: #1da851; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(37,211,102,0.4); }
+        .contact-btn.call { background: #1e7e5c; color: white; box-shadow: 0 6px 18px rgba(30,126,92,0.25); }
+        .contact-btn.call:hover { background: #146349; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30,126,92,0.35); }
+        .contact-btn.email { background: #eef7f2; color: #1e7e5c; border: 1.5px solid #d4e8e0; }
+        .contact-btn.email:hover { background: #d4e8e0; transform: translateY(-2px); }
+
+        .seller-contact-details { margin-top: 18px; padding-top: 18px; border-top: 1.5px solid #eaf3ef; }
+        .contact-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13.5px; color: #2c3e50; }
+        .contact-row i { width: 20px; color: #1e7e5c; text-align: center; font-size: 14px; }
+        .contact-row a { color: #1e2b37; text-decoration: none; font-weight: 500; }
+        .contact-row a:hover { color: #1e7e5c; }
+
+        /* Safety Card */
+        .safety-card { background: #fff8ee; border: 1px solid #f5e6d3; border-radius: 16px; padding: 18px 20px; margin-top: 18px; }
+        .safety-card h5 { font-size: 13px; color: #b36a00; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .safety-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+        .safety-card ul li { font-size: 12.5px; color: #7d5c1a; line-height: 1.5; padding-left: 18px; position: relative; }
+        .safety-card ul li::before { content: '•'; position: absolute; left: 4px; color: #ff8c00; font-weight: 700; font-size: 16px; line-height: 1; top: 0; }
+
+        /* Not Found */
+        .not-found { text-align: center; padding: 80px 40px; background: white; border-radius: 24px; border: 1px dashed #cde3d9; max-width: 600px; margin: 40px auto; }
+        .not-found i { font-size: 70px; color: #b8dfd0; margin-bottom: 20px; }
+        .not-found h2 { font-size: 24px; color: #0b2b3c; margin-bottom: 10px; }
+        .not-found p { color: #7d8f9c; font-size: 15px; margin-bottom: 26px; }
+
+        /* Lightbox */
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
+        .lightbox.show { display: flex; }
+        .lightbox-img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 8px; }
+        .lightbox-close { position: absolute; top: 20px; right: 24px; color: white; font-size: 32px; cursor: pointer; background: none; border: none; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.2s; }
+        .lightbox-close:hover { background: rgba(255,255,255,0.1); }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 20px; transition: 0.2s; }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+        .lightbox-nav.prev { left: 24px; }
+        .lightbox-nav.next { right: 24px; }
+        .lightbox-counter { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: white; font-size: 15px; padding: 8px 20px; background: rgba(0,0,0,0.5); border-radius: 30px; }
+
+        /* Similar Properties */
+        .similar-section { max-width: 1400px; margin: 0 auto 60px; padding: 0 5%; }
+        .similar-section h2 { font-size: 24px; font-weight: 700; color: #0b2b3c; margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
+        .similar-section h2 i { color: #1e7e5c; }
+        .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
+        .similar-card { background: white; border-radius: 18px; overflow: hidden; border: 1px solid #e9f0ed; box-shadow: 0 4px 14px rgba(0,0,0,0.04); transition: 0.2s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .similar-card:hover { transform: translateY(-4px); box-shadow: 0 16px 26px -10px rgba(30,126,92,0.15); border-color: #b8dfd0; }
+        .similar-card .sim-img { height: 150px; background: #f4f8f6; overflow: hidden; }
+        .similar-card .sim-img img { width: 100%; height: 100%; object-fit: cover; }
+        .similar-card .sim-info { padding: 14px 16px; }
+        .similar-card .sim-info h4 { font-size: 14.5px; color: #0b2b3c; font-weight: 700; margin-bottom: 4px; }
+        .similar-card .sim-info .sim-loc { font-size: 12px; color: #7d8f9c; margin-bottom: 10px; }
+        .similar-card .sim-info .sim-price { font-size: 16px; font-weight: 700; color: #1e7e5c; }
+
+        /* FOOTER */
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .details-wrapper { grid-template-columns: 1fr; }
+            .sidebar-col { position: static; }
+            .gallery-main { height: 360px; }
+        }
+
+        @media (max-width: 900px) {
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+        }
+
+        @media (max-width: 550px) {
+            .gallery-main { height: 260px; }
+            .section-card { padding: 22px 20px; }
+            .title-block h1 { font-size: 20px; }
+            .price-main { font-size: 26px; }
+            .seller-card { padding: 20px; }
+            .details-wrapper { padding: 0 4%; margin: 20px auto 40px; }
+            .similar-section { padding: 0 4%; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html" class="active">Listings</a></li>
+                <li><a href="post-property.html">Post Property</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-bar">
+        <a href="index.html">Home</a> &nbsp;›&nbsp; <a href="listing.html">Listings</a> &nbsp;›&nbsp; <span id="breadcrumbTitle">Property Details</span>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="pageContent"></div>
+
+    <!-- SIMILAR PROPERTIES -->
+    <div class="similar-section" id="similarSection" style="display:none;">
+        <h2><i class="fas fa-th-large"></i> Similar Properties</h2>
+        <div class="similar-grid" id="similarGrid"></div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+        <button class="lightbox-nav prev" onclick="lightboxPrev()"><i class="fas fa-chevron-left"></i></button>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Property photo">
+        <button class="lightbox-nav next" onclick="lightboxNext()"><i class="fas fa-chevron-right"></i></button>
+        <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 18px;">
+                    <i class="fas fa-home"></i> Estate<span style="color: #6fc2a0;">Haven</span>
+                </div>
+                <p>Your trusted partner in finding the perfect home. We connect people with properties they love — directly, with zero brokerage.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="listing.html">Listings</a></li>
+                    <li><a href="post-property.html">Post Property</a></li>
+                    <li><a href="seller-register.html">Sell Property</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Aurangabad, Maharashtra</li>
+                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 9876543210</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> kaleomkar@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 EstateHaven. All rights reserved.</div>
+            <div>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ========== STATE ==========
+        let property = null;
+        let currentPhotoIndex = 0;
+        let lightboxIndex = 0;
+        let allPhotos = [];
+
+        // ========== FORMATTERS ==========
+        function formatPrice(price, listingType) {
+            const num = Number(price) || 0;
+            let formatted = '';
+            if (num >= 10000000) formatted = '₹' + (num / 10000000).toFixed(2).replace(/\.00$/, '') + ' Cr';
+            else if (num >= 100000) formatted = '₹' + (num / 100000).toFixed(2).replace(/\.00$/, '') + ' L';
+            else if (num >= 1000) formatted = '₹' + (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            else formatted = '₹' + num;
+
+            if (listingType === 'rent' || listingType === 'pg') formatted += ' <small>/month</small>';
+            return formatted;
+        }
+
+        function formatPriceShort(price) {
+            const num = Number(price) || 0;
+            if (num >= 10000000) return '₹' + (num / 10000000).toFixed(2).replace(/\.00$/, '') + ' Cr';
+            if (num >= 100000) return '₹' + (num / 100000).toFixed(2).replace(/\.00$/, '') + ' L';
+            if (num >= 1000) return '₹' + (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            return '₹' + num;
+        }
+
+        function getTypeLabel(listingType) {
+            const map = { sale: 'For Sale', rent: 'For Rent', pg: 'PG / Hostel' };
+            return map[listingType] || 'For Sale';
+        }
+
+        function getTypeClass(listingType) {
+            const map = { sale: 'sale', rent: 'rent', pg: 'pg' };
+            return map[listingType] || 'sale';
+        }
+
+        function formatDate(isoString) {
+            if (!isoString) return '—';
+            const d = new Date(isoString);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
+        // ========== LOAD PROPERTY ==========
+        function loadProperty() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            if (!id) {
+                showNotFound('No property ID provided.');
+                return null;
+            }
+
+            // Try localStorage first
+            const stored = JSON.parse(localStorage.getItem('estatehaven_properties') || '[]');
+            let found = stored.find(p => p.id === id);
+
+            // If not found, try demo properties (in case user opens a demo link)
+            if (!found) {
+                const demoProps = getDemoProperties();
+                found = demoProps.find(p => p.id === id);
+            }
+
+            if (!found) {
+                showNotFound('Property not found. It may have been removed or sold.');
+                return null;
+            }
+
+            property = found;
+            return property;
+        }
+
+        // ========== DEMO PROPERTIES FALLBACK ==========
+        function getDemoProperties() {
+            return [
+                {
+                    id: 'DEMO_001',
+                    sellerId: 'DEMO_SELLER',
+                    sellerName: 'Rajesh Kumar',
+                    sellerWhatsapp: '9876543210',
+                    sellerEmail: 'rajesh@example.com',
+                    sellerContactPref: 'whatsapp',
+                    postedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
+                    status: 'active',
+                    listingType: 'sale',
+                    propertyType: 'Apartment / Flat',
+                    bhk: '3 BHK',
+                    propertyAge: '1 - 3 Years',
+                    furnishing: 'Semi-Furnished',
+                    availability: 'Ready to Move',
+                    city: 'Mumbai',
+                    locality: 'Andheri West',
+                    landmark: 'Near Metro Station',
+                    pincode: '400053',
+                    fullAddress: 'Lokhandwala Complex, Andheri West, Mumbai, Maharashtra 400053',
+                    builtUpArea: '1450',
+                    carpetArea: '1100',
+                    plotArea: '',
+                    currentFloor: '12',
+                    totalFloors: '22',
+                    facing: 'East',
+                    price: '24500000',
+                    negotiable: 'Yes',
+                    maintenance: '5500',
+                    deposit: '',
+                    description: 'Premium 3 BHK apartment with modern amenities, sea-facing balcony, and 24x7 security. Walking distance to metro and market. Ideal for families looking for a peaceful yet connected lifestyle in the heart of Mumbai.',
+                    amenities: ['Car Parking', 'Lift', '24x7 Security', 'Gym', 'Swimming Pool', 'Clubhouse'],
+                    photos: [
+                        'https://images.unsplash.com/photo-1567496898669-ee935f5f647a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+                    ]
+                }
+            ];
+        }
+
+        // ========== SHOW NOT FOUND ==========
+        function showNotFound(message) {
+            document.getElementById('pageContent').innerHTML = `
+                <div class="not-found">
+                    <i class="fas fa-home"></i>
+                    <h2>Property Not Found</h2>
+                    <p>${message || 'The property you are looking for could not be found.'}</p>
+                    <a href="listing.html" class="btn-outline" style="padding: 12px 28px; font-size: 15px;">
+                        <i class="fas fa-arrow-left"></i> Browse All Listings
+                    </a>
+                </div>
+            `;
+        }
+
+        // ========== RENDER PAGE ==========
+        function renderPage() {
+            if (!property) return;
+
+            allPhotos = property.photos && property.photos.length > 0 ? property.photos : [];
+
+            const typeLabel = getTypeLabel(property.listingType);
+            const typeClass = getTypeClass(property.listingType);
+            const locationFull = [property.locality, property.city, property.pincode].filter(Boolean).join(', ');
+            const isRental = property.listingType === 'rent' || property.listingType === 'pg';
+
+            // Update breadcrumb
+            document.getElementById('breadcrumbTitle').textContent = `${property.bhk} ${property.propertyType} in ${property.locality || property.city}`;
+            document.title = `${property.bhk} ${property.propertyType} in ${property.locality} | EstateHaven`;
+
+            // Check favorite
+            const favorites = JSON.parse(localStorage.getItem('estatehaven_favorites') || '[]');
+            const isFav = favorites.includes(property.id);
+
+            const photoCount = allPhotos.length;
+
+            document.getElementById('pageContent').innerHTML = `
+                <div class="details-wrapper">
+                    <!-- LEFT COLUMN -->
+                    <div class="main-col">
+                        <!-- Photo Gallery -->
+                        <div class="gallery">
+                            <div class="gallery-main" id="galleryMain" onclick="openLightbox()">
+                                ${photoCount > 0
+                                    ? `<img id="mainPhoto" src="${allPhotos[0]}" alt="${property.propertyType}">`
+                                    : `<div class="no-photo"><i class="fas fa-image"></i></div>`
+                                }
+                                ${photoCount > 1 ? `
+                                    <button class="gallery-nav prev" onclick="event.stopPropagation(); prevPhoto()">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="gallery-nav next" onclick="event.stopPropagation(); nextPhoto()">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                ` : ''}
+                                ${photoCount > 0 ? `<div class="gallery-counter"><i class="fas fa-camera"></i> <span id="photoCounter">1 / ${photoCount}</span></div>` : ''}
+                                <div class="gallery-actions" onclick="event.stopPropagation();">
+                                    <button class="gallery-action-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite()" title="Save to favorites">
+                                        <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                                    </button>
+                                    <button class="gallery-action-btn" onclick="shareProperty()" title="Share">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            ${photoCount > 1 ? `
+                                <div class="gallery-thumbs" id="galleryThumbs">
+                                    ${allPhotos.map((photo, i) => `
+                                        <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="setPhoto(${i})">
+                                            <img src="${photo}" alt="Thumbnail ${i + 1}">
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <!-- Title & Basic Info -->
+                        <div class="section-card">
+                            <div class="title-block">
+                                <h1>${property.bhk || ''} ${property.propertyType || 'Property'}</h1>
+                                <span class="type-pill ${typeClass}">${typeLabel}</span>
+                            </div>
+                            <div class="address-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${property.fullAddress || locationFull || 'Address not specified'}</span>
+                            </div>
+                            <div class="owner-trust-line">
+                                <i class="fas fa-user-check"></i>
+                                Verified Owner Listing • Zero Brokerage
+                            </div>
+
+                            <!-- Key Facts -->
+                            <div class="key-facts">
+                                ${property.bhk ? `
+                                    <div class="fact-item">
+                                        <div class="fact-icon"><i class="fas fa-bed"></i></div>
+                                        <div class="fact-text">
+                                            <div class="fact-label">Configuration</div>
+                                            <div class="fact-value">${property.bhk}</div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                ${property.builtUpArea ? `
+                                    <div class="fact-item">
+                                        <div class="fact-icon"><i class="fas fa-vector-square"></i></div>
+                                        <div class="fact-text">
+                                            <div class="fact-label">Built-up Area</div>
+                                            <div class="fact-value">${property.builtUpArea} sq.ft.</div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                ${property.furnishing ? `
+                                    <div class="fact-item">
+                                        <div class="fact-icon"><i class="fas fa-couch"></i></div>
+                                        <div class="fact-text">
+                                            <div class="fact-label">Furnishing</div>
+                                            <div class="fact-value">${property.furnishing}</div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                ${property.availability ? `
+                                    <div class="fact-item">
+                                        <div class="fact-icon"><i class="fas fa-calendar-check"></i></div>
+                                        <div class="fact-text">
+                                            <div class="fact-label">Status</div>
+                                            <div class="fact-value">${property.availability}</div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Property Details -->
+                        <div class="section-card">
+                            <div class="section-title-block">
+                                <i class="fas fa-info-circle"></i> Property Details
+                            </div>
+                            <div class="details-grid">
+                                ${property.propertyType ? `<div class="detail-row"><span class="label">Property Type</span><span class="value">${property.propertyType}</span></div>` : ''}
+                                ${property.bhk ? `<div class="detail-row"><span class="label">BHK</span><span class="value">${property.bhk}</span></div>` : ''}
+                                ${property.propertyAge ? `<div class="detail-row"><span class="label">Property Age</span><span class="value">${property.propertyAge}</span></div>` : ''}
+                                ${property.furnishing ? `<div class="detail-row"><span class="label">Furnishing</span><span class="value">${property.furnishing}</span></div>` : ''}
+                                ${property.availability ? `<div class="detail-row"><span class="label">Availability</span><span class="value">${property.availability}</span></div>` : ''}
+                                ${property.builtUpArea ? `<div class="detail-row"><span class="label">Built-up Area</span><span class="value">${property.builtUpArea} sq.ft.</span></div>` : ''}
+                                ${property.carpetArea ? `<div class="detail-row"><span class="label">Carpet Area</span><span class="value">${property.carpetArea} sq.ft.</span></div>` : ''}
+                                ${property.plotArea ? `<div class="detail-row"><span class="label">Plot Area</span><span class="value">${property.plotArea} sq.ft.</span></div>` : ''}
+                                ${property.currentFloor || property.totalFloors ? `<div class="detail-row"><span class="label">Floor</span><span class="value">${property.currentFloor || '—'} / ${property.totalFloors || '—'}</span></div>` : ''}
+                                ${property.facing ? `<div class="detail-row"><span class="label">Facing</span><span class="value">${property.facing}</span></div>` : ''}
+                                ${property.landmark ? `<div class="detail-row"><span class="label">Landmark</span><span class="value">${property.landmark}</span></div>` : ''}
+                                ${property.pincode ? `<div class="detail-row"><span class="label">PIN Code</span><span class="value">${property.pincode}</span></div>` : ''}
+                            </div>
+                        </div>
+
+                        ${property.description ? `
+                            <div class="section-card">
+                                <div class="section-title-block">
+                                    <i class="fas fa-align-left"></i> Description
+                                </div>
+                                <div class="description-text">${property.description}</div>
+                            </div>
+                        ` : ''}
+
+                        ${property.amenities && property.amenities.length > 0 ? `
+                            <div class="section-card">
+                                <div class="section-title-block">
+                                    <i class="fas fa-concierge-bell"></i> Amenities
+                                </div>
+                                <div class="amenities-grid">
+                                    ${property.amenities.map(a => `
+                                        <div class="amenity-item">
+                                            <i class="fas ${getAmenityIcon(a)}"></i>
+                                            <span>${a}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- RIGHT SIDEBAR -->
+                    <div class="sidebar-col">
+                        <!-- Price Card -->
+                        <div class="price-card">
+                            <div class="price-card-inner">
+                                <div class="price-label">${isRental ? 'Monthly Rent' : 'Expected Price'}</div>
+                                <div class="price-main">${formatPrice(property.price, property.listingType)}</div>
+                                ${property.builtUpArea && property.listingType === 'sale' ? `
+                                    <div class="price-sub">₹${Math.round(Number(property.price) / Number(property.builtUpArea)).toLocaleString('en-IN')} per sq.ft.</div>
+                                ` : ''}
+                                <div class="price-meta">
+                                    ${property.negotiable ? `
+                                        <div class="price-meta-item">
+                                            <div class="meta-label">Negotiable</div>
+                                            <div class="meta-value">${property.negotiable}</div>
+                                        </div>
+                                    ` : ''}
+                                    ${property.maintenance && property.maintenance !== '0' ? `
+                                        <div class="price-meta-item">
+                                            <div class="meta-label">Maintenance</div>
+                                            <div class="meta-value">₹${Number(property.maintenance).toLocaleString('en-IN')}/mo</div>
+                                        </div>
+                                    ` : ''}
+                                    ${property.deposit && property.deposit !== '0' ? `
+                                        <div class="price-meta-item">
+                                            <div class="meta-label">Deposit</div>
+                                            <div class="meta-value">₹${Number(property.deposit).toLocaleString('en-IN')}</div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seller Card -->
+                        <div class="seller-card">
+                            <div class="seller-card-header">
+                                <div class="seller-avatar">${(property.sellerName || 'S').charAt(0).toUpperCase()}</div>
+                                <div class="seller-info">
+                                    <h4>${property.sellerName || 'Verified Owner'}</h4>
+                                    <p><i class="fas fa-shield-alt"></i> Direct Owner</p>
+                                    <span class="verified-tag"><i class="fas fa-check-circle"></i> Verified</span>
+                                </div>
+                            </div>
+
+                            <div class="contact-methods">
+                                ${property.sellerWhatsapp ? `
+                                    <a href="https://wa.me/91${property.sellerWhatsapp}?text=${encodeURIComponent('Hi, I saw your property on EstateHaven: ' + property.bhk + ' ' + property.propertyType + ' in ' + property.locality + '. Is it still available?')}" 
+                                       target="_blank" 
+                                       class="contact-btn whatsapp">
+                                        <i class="fab fa-whatsapp" style="font-size: 18px;"></i> WhatsApp Owner
+                                    </a>
+                                ` : ''}
+                                ${property.sellerWhatsapp ? `
+                                    <a href="tel:+91${property.sellerWhatsapp}" class="contact-btn call">
+                                        <i class="fas fa-phone-alt"></i> Call Now
+                                    </a>
+                                ` : ''}
+                                ${property.sellerEmail ? `
+                                    <a href="mailto:${property.sellerEmail}?subject=${encodeURIComponent('Inquiry about ' + property.bhk + ' ' + property.propertyType + ' in ' + property.locality)}" 
+                                       class="contact-btn email">
+                                        <i class="fas fa-envelope"></i> Email Owner
+                                    </a>
+                                ` : ''}
+                            </div>
+
+                            <div class="seller-contact-details">
+                                ${property.sellerWhatsapp ? `
+                                    <div class="contact-row">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <a href="https://wa.me/91${property.sellerWhatsapp}" target="_blank">+91 ${property.sellerWhatsapp}</a>
+                                    </div>
+                                ` : ''}
+                                ${property.sellerEmail ? `
+                                    <div class="contact-row">
+                                        <i class="fas fa-envelope"></i>
+                                        <a href="mailto:${property.sellerEmail}">${property.sellerEmail}</a>
+                                    </div>
+                                ` : ''}
+                                <div class="contact-row">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Posted ${formatDate(property.postedAt)}</span>
+                                </div>
+                            </div>
+
+                            <div class="safety-card">
+                                <h5><i class="fas fa-shield-alt"></i> Safety Tips</h5>
+                                <ul>
+                                    <li>Always meet the owner at the property in person</li>
+                                    <li>Never pay any advance before verifying documents</li>
+                                    <li>Verify ownership papers before any transaction</li>
+                                    <li>EstateHaven never asks for money on behalf of owners</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Load similar properties
+            loadSimilarProperties();
+        }
+
+        // ========== AMENITY ICONS ==========
+        function getAmenityIcon(amenity) {
+            const map = {
+                'Car Parking': 'fa-car',
+                'Lift': 'fa-elevator',
+                '24x7 Security': 'fa-shield-alt',
+                'Power Backup': 'fa-bolt',
+                '24Hr Water': 'fa-tint',
+                'Gym': 'fa-dumbbell',
+                'Swimming Pool': 'fa-swimmer',
+                'Garden / Park': 'fa-tree',
+                'Clubhouse': 'fa-building',
+                'Wi-Fi Ready': 'fa-wifi'
+            };
+            return map[amenity] || 'fa-check-circle';
+        }
+
+        // ========== PHOTO GALLERY ==========
+        function setPhoto(index) {
+            if (index < 0 || index >= allPhotos.length) return;
+            currentPhotoIndex = index;
+            document.getElementById('mainPhoto').src = allPhotos[index];
+            document.getElementById('photoCounter').textContent = `${index + 1} / ${allPhotos.length}`;
+            document.querySelectorAll('.gallery-thumb').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
+            });
+            // Scroll thumbnail into view
+            const thumbs = document.getElementById('galleryThumbs');
+            if (thumbs) {
+                const activeThumb = thumbs.children[index];
+                if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function nextPhoto() {
+            setPhoto((currentPhotoIndex + 1) % allPhotos.length);
+        }
+
+        function prevPhoto() {
+            setPhoto((currentPhotoIndex - 1 + allPhotos.length) % allPhotos.length);
+        }
+
+        // ========== LIGHTBOX ==========
+        function openLightbox() {
+            if (allPhotos.length === 0) return;
+            lightboxIndex = currentPhotoIndex;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function updateLightbox() {
+            document.getElementById('lightboxImg').src = allPhotos[lightboxIndex];
+            document.getElementById('lightboxCounter').textContent = `${lightboxIndex + 1} / ${allPhotos.length}`;
+        }
+
+        function lightboxNext() {
+            lightboxIndex = (lightboxIndex + 1) % allPhotos.length;
+            updateLightbox();
+        }
+
+        function lightboxPrev() {
+            lightboxIndex = (lightboxIndex - 1 + allPhotos.length) % allPhotos.length;
+            updateLightbox();
+        }
+
+        // Lightbox keyboard nav
+        document.addEventListener('keydown', function (e) {
+            const lb = document.getElementById('lightbox');
+            if (!lb.classList.contains('show')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') lightboxNext();
+            if (e.key === 'ArrowLeft') lightboxPrev();
+        });
+
+        // ========== FAVORITES ==========
+        function toggleFavorite() {
+            if (!property) return;
+            let favorites = JSON.parse(localStorage.getItem('estatehaven_favorites') || '[]');
+            const btn = document.querySelector('.gallery-action-btn.active, .gallery-action-btn[title="Save to favorites"]');
+            const icon = btn.querySelector('i');
+
+            if (favorites.includes(property.id)) {
+                favorites = favorites.filter(id => id !== property.id);
+                btn.classList.remove('active');
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            } else {
+                favorites.push(property.id);
+                btn.classList.add('active');
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            }
+            localStorage.setItem('estatehaven_favorites', JSON.stringify(favorites));
+        }
+
+        // ========== SHARE ==========
+        function shareProperty() {
+            const url = window.location.href;
+            const title = `${property.bhk} ${property.propertyType} in ${property.locality} - ${formatPriceShort(property.price)}`;
+
+            if (navigator.share) {
+                navigator.share({ title: title, text: 'Check out this property on EstateHaven', url: url })
+                    .catch(() => {});
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('✅ Link copied to clipboard!');
+                }).catch(() => {
+                    prompt('Copy this link:', url);
+                });
+            }
+        }
+
+        // ========== SIMILAR PROPERTIES ==========
+        function loadSimilarProperties() {
+            const stored = JSON.parse(localStorage.getItem('estatehaven_properties') || '[]');
+            let all = stored.filter(p => p.status !== 'sold' && p.status !== 'rented' && p.status !== 'rejected');
+
+            // Add demo if empty
+            if (all.length === 0) {
+                all = getDemoProperties();
+            }
+
+            // Filter similar: same city OR same property type, exclude current
+            const similar = all.filter(p => 
+                p.id !== property.id && 
+                (p.city === property.city || p.propertyType === property.propertyType)
+            ).slice(0, 4);
+
+            if (similar.length === 0) return;
+
+            document.getElementById('similarSection').style.display = 'block';
+            document.getElementById('similarGrid').innerHTML = similar.map(p => `
+                <a href="property-details.html?id=${p.id}" class="similar-card">
+                    <div class="sim-img">
+                        ${p.photos && p.photos.length > 0 
+                            ? `<img src="${p.photos[0]}" alt="${p.propertyType}">`
+                            : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#b8c9c0;font-size:32px;"><i class="fas fa-image"></i></div>`
+                        }
+                    </div>
+                    <div class="sim-info">
+                        <h4>${p.bhk || ''} ${p.propertyType || 'Property'}</h4>
+                        <div class="sim-loc"><i class="fas fa-map-marker-alt" style="color:#1e7e5c;"></i> ${p.locality || p.city}</div>
+                        <div class="sim-price">${formatPriceShort(p.price)}${p.listingType === 'rent' ? '/mo' : ''}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', function () {
+            const p = loadProperty();
+            if (p) {
+                renderPage();
+            }
+
+            // Live refresh if properties change in another tab
+            window.addEventListener('storage', function (e) {
+                if (e.key === 'estatehaven_properties') {
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

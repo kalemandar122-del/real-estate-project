@@ -6,778 +6,133 @@
     <title>Register as Seller | EstateHaven</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-solid { background: #1e7e5c; border: 2px solid #1e7e5c; color: white; padding: 8px 22px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-solid:hover { background: #146349; border-color: #146349; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        .page-header { background: linear-gradient(105deg, #eef7f2 0%, #ffffff 100%); padding: 45px 5% 35px; text-align: center; border-bottom: 1px solid #e2ece7; }
+        .page-header h1 { font-size: 36px; font-weight: 700; color: #0b2b3c; margin-bottom: 10px; }
+        .page-header h1 i { color: #ff8c00; margin-right: 10px; }
+        .page-header p { color: #4d5f6b; font-size: 16px; max-width: 650px; margin: 0 auto; }
+
+        .form-wrapper { max-width: 1000px; margin: 35px auto 70px; padding: 0 5%; }
+        .form-card { background: white; border-radius: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); border: 1px solid #e2ece7; overflow: hidden; }
+
+        .form-steps { display: flex; background: #f9fdfb; border-bottom: 1px solid #e2ece7; padding: 0 30px; flex-wrap: wrap; }
+        .step { display: flex; align-items: center; gap: 10px; padding: 18px 20px 18px 0; font-size: 14px; font-weight: 600; color: #8a9aa5; position: relative; cursor: pointer; transition: color 0.2s; user-select: none; }
+        .step:hover { color: #1e7e5c; }
+        .step.active { color: #1e7e5c; }
+        .step.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 20px; height: 3px; background: #1e7e5c; border-radius: 3px 3px 0 0; }
+        .step-num { width: 26px; height: 26px; border-radius: 50%; background: #e2ece7; color: #5b6f7c; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; transition: 0.2s; }
+        .step.active .step-num { background: #1e7e5c; color: white; }
+
+        .form-body { padding: 36px 40px 40px; }
+        .form-step-content { display: none; }
+        .form-step-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title { font-size: 18px; font-weight: 700; color: #0b2b3c; margin-bottom: 22px; padding-bottom: 10px; border-bottom: 2px solid #eaf3ef; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: #1e7e5c; font-size: 18px; }
+        .section-sub { font-size: 13px; color: #7d8f9c; margin-top: -16px; margin-bottom: 22px; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px 24px; margin-bottom: 32px; }
+        .form-group { display: flex; flex-direction: column; gap: 7px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-size: 13.5px; font-weight: 600; color: #2c3e50; }
+        .form-group label .required { color: #e74c3c; margin-left: 2px; }
+        .form-group input, .form-group select, .form-group textarea { padding: 12px 16px; border-radius: 12px; border: 1.5px solid #d8e6df; background: #fafdfb; font-size: 14px; color: #1e2b37; outline: none; transition: 0.2s; font-family: inherit; width: 100%; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #1e7e5c; background: white; box-shadow: 0 0 0 4px rgba(30,126,92,0.08); }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-group .hint { font-size: 12px; color: #8a9aa5; }
+
+        .input-prefix { display: flex; align-items: center; border: 1.5px solid #d8e6df; border-radius: 12px; background: #fafdfb; overflow: hidden; transition: 0.2s; }
+        .input-prefix:focus-within { border-color: #1e7e5c; background: white; box-shadow: 0 0 0 4px rgba(30,126,92,0.08); }
+        .input-prefix span { padding: 0 14px; background: #eef7f2; color: #1e7e5c; font-weight: 700; font-size: 15px; height: 100%; display: flex; align-items: center; min-height: 46px; }
+        .input-prefix input { border: none; background: transparent; padding: 12px 14px; box-shadow: none !important; }
+
+        .radio-group { display: flex; flex-wrap: wrap; gap: 12px; }
+        .radio-option { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1.5px solid #d8e6df; border-radius: 40px; font-size: 14px; font-weight: 500; color: #2c3e50; cursor: pointer; transition: 0.2s; background: #fafdfb; user-select: none; }
+        .radio-option:hover { border-color: #1e7e5c; background: #f0faf5; }
+        .radio-option input { accent-color: #1e7e5c; width: 16px; height: 16px; cursor: pointer; }
+        .radio-option.selected { border-color: #1e7e5c; background: #eef7f2; color: #0b2b3c; font-weight: 600; }
+
+        .info-box { background: #fff8ee; border-left: 4px solid #ff8c00; padding: 14px 18px; border-radius: 12px; margin-bottom: 26px; font-size: 13.5px; color: #2c3e50; display: flex; align-items: flex-start; gap: 12px; }
+        .info-box i { color: #ff8c00; font-size: 18px; margin-top: 1px; }
+
+        .step-nav { display: flex; justify-content: space-between; margin-top: 30px; gap: 12px; flex-wrap: wrap; }
+        .btn-nav { padding: 12px 30px; border-radius: 40px; font-weight: 600; font-size: 15px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; border: none; }
+        .btn-prev { background: #eef7f2; color: #1e7e5c; }
+        .btn-prev:hover { background: #d4e8e0; }
+        .btn-next { background: #1e7e5c; color: white; box-shadow: 0 4px 14px rgba(30,126,92,0.2); }
+        .btn-next:hover { background: #146349; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,126,92,0.3); }
+        .btn-prev:disabled, .btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; box-shadow: none; }
+
+        .form-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 34px; padding-top: 26px; border-top: 1.5px solid #eaf3ef; }
+        .checkbox-agree { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: #4d5f6b; max-width: 520px; cursor: pointer; }
+        .checkbox-agree input { accent-color: #1e7e5c; width: 18px; height: 18px; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
+        .checkbox-agree a { color: #1e7e5c; text-decoration: none; font-weight: 600; }
+        .btn-submit { background: #ff8c00; color: white; border: none; padding: 14px 40px; border-radius: 40px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; box-shadow: 0 6px 18px rgba(255,140,0,0.3); }
+        .btn-submit:hover { background: #e07b00; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255,140,0,0.4); }
+
+        .success-message { display: none; text-align: center; padding: 60px 30px; }
+        .success-message.show { display: block; }
+        .success-icon { width: 90px; height: 90px; background: #eef7f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 44px; color: #1e7e5c; }
+        .success-message h2 { font-size: 28px; color: #0b2b3c; margin-bottom: 12px; }
+        .success-message p { color: #5b6f7c; font-size: 16px; max-width: 500px; margin: 0 auto 30px; line-height: 1.6; }
+        .success-message .btn-solid { display: inline-flex; padding: 12px 32px; font-size: 15px; }
+
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
 
-        body {
-            background-color: #fafbfc;
-            color: #1e2b37;
-            line-height: 1.5;
-        }
-
-        /* ---------- HEADER ---------- */
-        header {
-            background: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
-            padding: 0 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 26px;
-            font-weight: 700;
-            color: #0b2b3c;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .logo i {
-            color: #1e7e5c;
-            font-size: 30px;
-        }
-
-        .logo span {
-            color: #1e7e5c;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 28px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-weight: 500;
-            color: #2c3e50;
-            font-size: 16px;
-            transition: 0.2s;
-            padding-bottom: 4px;
-        }
-
-        nav ul li a:hover,
-        nav ul li a.active {
-            color: #1e7e5c;
-            border-bottom: 2px solid #1e7e5c;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #1e7e5c;
-            color: #1e7e5c;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-outline:hover {
-            background: #1e7e5c;
-            color: white;
-        }
-
-        .btn-solid {
-            background: #1e7e5c;
-            border: 2px solid #1e7e5c;
-            color: white;
-            padding: 8px 22px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-solid:hover {
-            background: #146349;
-            border-color: #146349;
-        }
-
-        .btn-seller {
-            background: #ff8c00;
-            border: 2px solid #ff8c00;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 14px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-seller:hover {
-            background: #e07b00;
-            border-color: #e07b00;
-        }
-
-        /* ---------- PAGE HEADER ---------- */
-        .page-header {
-            background: linear-gradient(105deg, #eef7f2 0%, #ffffff 100%);
-            padding: 45px 5% 35px;
-            text-align: center;
-            border-bottom: 1px solid #e2ece7;
-        }
-
-        .page-header h1 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #0b2b3c;
-            margin-bottom: 10px;
-        }
-
-        .page-header h1 i {
-            color: #ff8c00;
-            margin-right: 10px;
-        }
-
-        .page-header p {
-            color: #4d5f6b;
-            font-size: 16px;
-            max-width: 650px;
-            margin: 0 auto;
-        }
-
-        /* ---------- FORM WRAPPER ---------- */
-        .form-wrapper {
-            max-width: 1000px;
-            margin: 35px auto 70px;
-            padding: 0 5%;
-        }
-
-        .form-card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2ece7;
-            overflow: hidden;
-        }
-
-        /* Progress Steps */
-        .form-steps {
-            display: flex;
-            background: #f9fdfb;
-            border-bottom: 1px solid #e2ece7;
-            padding: 0 30px;
-            flex-wrap: wrap;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 20px 18px 0;
-            font-size: 14px;
-            font-weight: 600;
-            color: #8a9aa5;
-            position: relative;
-            cursor: pointer;
-            transition: color 0.2s;
-            user-select: none;
-        }
-
-        .step:hover {
-            color: #1e7e5c;
-        }
-
-        .step.active {
-            color: #1e7e5c;
-        }
-
-        .step.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 20px;
-            height: 3px;
-            background: #1e7e5c;
-            border-radius: 3px 3px 0 0;
-        }
-
-        .step-num {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: #e2ece7;
-            color: #5b6f7c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-
-        .step.active .step-num {
-            background: #1e7e5c;
-            color: white;
-        }
-
-        /* Form Body */
-        .form-body {
-            padding: 36px 40px 40px;
-        }
-
-        .form-step-content {
-            display: none;
-        }
-
-        .form-step-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0b2b3c;
-            margin-bottom: 22px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eaf3ef;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title i {
-            color: #1e7e5c;
-            font-size: 18px;
-        }
-
-        .section-sub {
-            font-size: 13px;
-            color: #7d8f9c;
-            margin-top: -16px;
-            margin-bottom: 22px;
-        }
-
-        /* Form Grid */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px 24px;
-            margin-bottom: 32px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .form-group label .required {
-            color: #e74c3c;
-            margin-left: 2px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1.5px solid #d8e6df;
-            background: #fafdfb;
-            font-size: 14px;
-            color: #1e2b37;
-            outline: none;
-            transition: 0.2s;
-            font-family: inherit;
-            width: 100%;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1e7e5c;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(30, 126, 92, 0.08);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group .hint {
-            font-size: 12px;
-            color: #8a9aa5;
-        }
-
-        /* Input with prefix */
-        .input-prefix {
-            display: flex;
-            align-items: center;
-            border: 1.5px solid #d8e6df;
-            border-radius: 12px;
-            background: #fafdfb;
-            overflow: hidden;
-            transition: 0.2s;
-        }
-
-        .input-prefix:focus-within {
-            border-color: #1e7e5c;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(30, 126, 92, 0.08);
-        }
-
-        .input-prefix span {
-            padding: 0 14px;
-            background: #eef7f2;
-            color: #1e7e5c;
-            font-weight: 700;
-            font-size: 15px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            min-height: 46px;
-        }
-
-        .input-prefix input {
-            border: none;
-            background: transparent;
-            padding: 12px 14px;
-            box-shadow: none !important;
-        }
-
-        /* Radio/Checkbox Options */
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border: 1.5px solid #d8e6df;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #2c3e50;
-            cursor: pointer;
-            transition: 0.2s;
-            background: #fafdfb;
-            user-select: none;
-        }
-
-        .radio-option:hover {
-            border-color: #1e7e5c;
-            background: #f0faf5;
-        }
-
-        .radio-option input {
-            accent-color: #1e7e5c;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .radio-option.selected {
-            border-color: #1e7e5c;
-            background: #eef7f2;
-            color: #0b2b3c;
-            font-weight: 600;
-        }
-
-        /* Info Box */
-        .info-box {
-            background: #fff8ee;
-            border-left: 4px solid #ff8c00;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 26px;
-            font-size: 13.5px;
-            color: #2c3e50;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .info-box i {
-            color: #ff8c00;
-            font-size: 18px;
-            margin-top: 1px;
-        }
-
-        /* Step Navigation */
-        .step-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .btn-nav {
-            padding: 12px 30px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-        }
-
-        .btn-prev {
-            background: #eef7f2;
-            color: #1e7e5c;
-        }
-
-        .btn-prev:hover {
-            background: #d4e8e0;
-        }
-
-        .btn-next {
-            background: #1e7e5c;
-            color: white;
-            box-shadow: 0 4px 14px rgba(30, 126, 92, 0.2);
-        }
-
-        .btn-next:hover {
-            background: #146349;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(30, 126, 92, 0.3);
-        }
-
-        .btn-prev:disabled,
-        .btn-next:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none;
-        }
-
-        /* Form Footer */
-        .form-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 34px;
-            padding-top: 26px;
-            border-top: 1.5px solid #eaf3ef;
-        }
-
-        .checkbox-agree {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13.5px;
-            color: #4d5f6b;
-            max-width: 520px;
-            cursor: pointer;
-        }
-
-        .checkbox-agree input {
-            accent-color: #1e7e5c;
-            width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .checkbox-agree a {
-            color: #1e7e5c;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .btn-submit {
-            background: #ff8c00;
-            color: white;
-            border: none;
-            padding: 14px 40px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s;
-            box-shadow: 0 6px 18px rgba(255, 140, 0, 0.3);
-        }
-
-        .btn-submit:hover {
-            background: #e07b00;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(255, 140, 0, 0.4);
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 60px 30px;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        .success-icon {
-            width: 90px;
-            height: 90px;
-            background: #eef7f2;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 44px;
-            color: #1e7e5c;
-        }
-
-        .success-message h2 {
-            font-size: 28px;
-            color: #0b2b3c;
-            margin-bottom: 12px;
-        }
-
-        .success-message p {
-            color: #5b6f7c;
-            font-size: 16px;
-            max-width: 500px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-        }
-
-        .success-message .btn-solid {
-            display: inline-flex;
-            padding: 12px 32px;
-            font-size: 15px;
-        }
-
-        /* ---------- FOOTER ---------- */
-        footer {
-            background: #0b2b3c;
-            color: #cbd8e0;
-            padding: 50px 5% 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            max-width: 1300px;
-            margin: 0 auto 40px;
-        }
-
-        .footer-col h4 {
-            color: white;
-            font-size: 18px;
-            margin-bottom: 22px;
-            font-weight: 600;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col ul li {
-            margin-bottom: 12px;
-        }
-
-        .footer-col ul li a {
-            color: #a9bcc9;
-            text-decoration: none;
-            transition: 0.2s;
-            font-size: 15px;
-        }
-
-        .footer-col ul li a:hover {
-            color: #6fc2a0;
-            padding-left: 5px;
-        }
-
-        .footer-col p {
-            line-height: 1.7;
-            color: #a9bcc9;
-            font-size: 15px;
-            margin-bottom: 18px;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 16px;
-        }
-
-        .social-icons a {
-            background: #1e3a4b;
-            color: white;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-            text-decoration: none;
-        }
-
-        .social-icons a:hover {
-            background: #1e7e5c;
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #1e3a4b;
-            padding-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            color: #8fa6b6;
-            font-size: 14px;
-        }
-
-        .footer-bottom a {
-            color: #8fa6b6;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .footer-bottom a:hover {
-            color: #6fc2a0;
-        }
-
-        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 900px) {
-            header {
-                flex-wrap: wrap;
-                height: auto;
-                padding: 15px 5%;
-                gap: 15px;
-            }
-
-            nav ul {
-                gap: 16px;
-                flex-wrap: wrap;
-            }
-
-            .form-steps {
-                padding: 0 16px;
-                overflow-x: auto;
-                flex-wrap: nowrap;
-            }
-
-            .step {
-                font-size: 12px;
-                white-space: nowrap;
-                padding: 14px 12px 14px 0;
-            }
-
-            .form-body {
-                padding: 26px 22px 32px;
-            }
-
-            .step-nav {
-                flex-direction: column;
-            }
-
-            .btn-nav {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .form-footer {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .btn-submit {
-                width: 100%;
-                justify-content: center;
-            }
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+            .form-steps { padding: 0 16px; overflow-x: auto; flex-wrap: nowrap; }
+            .step { font-size: 12px; white-space: nowrap; padding: 14px 12px 14px 0; }
+            .form-body { padding: 26px 22px 32px; }
+            .step-nav { flex-direction: column; }
+            .btn-nav { width: 100%; justify-content: center; }
+            .form-footer { flex-direction: column; align-items: stretch; }
+            .btn-submit { width: 100%; justify-content: center; }
         }
-
         @media (max-width: 550px) {
-            .page-header h1 {
-                font-size: 26px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .radio-group {
-                flex-direction: column;
-            }
-
-            .radio-option {
-                width: 100%;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-bottom a {
-                margin: 0 10px;
-            }
+            .page-header h1 { font-size: 26px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .radio-group { flex-direction: column; }
+            .radio-option { width: 100%; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
     <header>
         <a href="index.html" class="logo">
             <i class="fas fa-home"></i> Estate<span>Haven</span>
@@ -787,28 +142,24 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="listing.html">Listings</a></li>
                 <li><a href="seller-register.html" class="active">Sell Property</a></li>
-                <li><a href="blog.html">Blog</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
         <div class="header-actions">
             <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
-            <button class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
         </div>
     </header>
 
-    <!-- PAGE HEADER -->
     <div class="page-header">
         <h1><i class="fas fa-user-tie"></i> Register as a Seller</h1>
         <p>Join thousands of property owners who trust EstateHaven. Fill in your details below to start listing your properties directly — no agents, no brokerage.</p>
     </div>
 
-    <!-- FORM WRAPPER -->
     <div class="form-wrapper">
         <div class="form-card" id="formCard">
 
-            <!-- PROGRESS STEPS -->
-            <div class="form-steps">
+            <div class="form-steps" id="formSteps">
                 <div class="step active" data-step="0" onclick="goToStep(0)">
                     <span class="step-num">1</span> Personal Info
                 </div>
@@ -823,15 +174,14 @@
                 </div>
             </div>
 
-            <!-- FORM BODY -->
             <form class="form-body" id="sellerForm" onsubmit="handleSubmit(event)">
 
-                <!-- ==================== STEP 1: PERSONAL INFO ==================== -->
+                <!-- STEP 1 -->
                 <div class="form-step-content active" data-step-content="0">
                     <div class="info-box">
                         <i class="fas fa-info-circle"></i>
                         <div>
-                            <strong>Zero Brokerage Platform:</strong> EstateHaven connects you directly with buyers/tenants. 
+                            <strong>Zero Brokerage Platform:</strong> EstateHaven connects you directly with buyers/tenants.
                             Only genuine owners and builders are allowed. Agents/brokers are strictly not permitted.
                         </div>
                     </div>
@@ -842,13 +192,10 @@
                     <p class="section-sub">Tell us a bit about yourself. This helps us verify your account.</p>
 
                     <div class="form-grid">
-                        <!-- Full Name -->
                         <div class="form-group">
                             <label>Full Name <span class="required">*</span></label>
                             <input type="text" id="fullName" placeholder="e.g. Rajesh Kumar" required>
                         </div>
-
-                        <!-- Gender -->
                         <div class="form-group">
                             <label>Gender</label>
                             <select id="gender">
@@ -859,14 +206,10 @@
                                 <option>Prefer not to say</option>
                             </select>
                         </div>
-
-                        <!-- Date of Birth -->
                         <div class="form-group">
                             <label>Date of Birth</label>
                             <input type="date" id="dob">
                         </div>
-
-                        <!-- I am -->
                         <div class="form-group">
                             <label>I am a <span class="required">*</span></label>
                             <select id="sellerType" required>
@@ -878,8 +221,6 @@
                             </select>
                             <span class="hint">No agents/brokers allowed on this platform</span>
                         </div>
-
-                        <!-- Preferred Language -->
                         <div class="form-group">
                             <label>Preferred Language</label>
                             <select id="language">
@@ -895,14 +236,13 @@
                         </div>
                     </div>
 
-                    <!-- Step Navigation -->
                     <div class="step-nav">
                         <button type="button" class="btn-nav btn-prev" disabled><i class="fas fa-arrow-left"></i> Previous</button>
                         <button type="button" class="btn-nav btn-next" onclick="nextStep()">Next: Contact Details <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
 
-                <!-- ==================== STEP 2: CONTACT DETAILS ==================== -->
+                <!-- STEP 2 -->
                 <div class="form-step-content" data-step-content="1">
                     <div class="section-title">
                         <i class="fas fa-address-card"></i> Contact Details
@@ -910,7 +250,6 @@
                     <p class="section-sub">Buyers and tenants will use these details to reach you. Make sure they're correct.</p>
 
                     <div class="form-grid">
-                        <!-- Mobile Number -->
                         <div class="form-group">
                             <label>Mobile Number <span class="required">*</span></label>
                             <div class="input-prefix">
@@ -919,8 +258,6 @@
                             </div>
                             <span class="hint">We'll send an OTP to verify</span>
                         </div>
-
-                        <!-- WhatsApp Number -->
                         <div class="form-group">
                             <label>WhatsApp Number <span class="required">*</span></label>
                             <div class="input-prefix">
@@ -929,14 +266,10 @@
                             </div>
                             <span class="hint">Buyers will see a direct "WhatsApp" button</span>
                         </div>
-
-                        <!-- Email -->
                         <div class="form-group">
                             <label>Email Address <span class="required">*</span></label>
                             <input type="email" id="email" placeholder="e.g. rajesh@example.com" required>
                         </div>
-
-                        <!-- Alternate Phone -->
                         <div class="form-group">
                             <label>Alternate Phone Number</label>
                             <div class="input-prefix">
@@ -944,8 +277,6 @@
                                 <input type="tel" id="altPhone" placeholder="98765 43210" pattern="[0-9]{10}" maxlength="10">
                             </div>
                         </div>
-
-                        <!-- Best Time to Call -->
                         <div class="form-group">
                             <label>Best Time to Call</label>
                             <select id="callTime">
@@ -956,21 +287,19 @@
                                 <option>Anytime</option>
                             </select>
                         </div>
-
-                        <!-- Preferred Contact Method -->
                         <div class="form-group full-width">
                             <label>Preferred Contact Method <span class="required">*</span></label>
                             <div class="radio-group" id="contactPrefGroup">
                                 <label class="radio-option selected" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="whatsapp" checked> 
+                                    <input type="radio" name="contact_pref" value="whatsapp" checked>
                                     <i class="fab fa-whatsapp" style="color:#25D366;"></i> WhatsApp
                                 </label>
                                 <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="call"> 
+                                    <input type="radio" name="contact_pref" value="call">
                                     <i class="fas fa-phone-alt" style="color:#1e7e5c;"></i> Phone Call
                                 </label>
                                 <label class="radio-option" onclick="selectRadio(this)">
-                                    <input type="radio" name="contact_pref" value="email"> 
+                                    <input type="radio" name="contact_pref" value="email">
                                     <i class="fas fa-envelope" style="color:#1e7e5c;"></i> Email
                                 </label>
                                 <label class="radio-option" onclick="selectRadio(this)">
@@ -980,14 +309,13 @@
                         </div>
                     </div>
 
-                    <!-- Step Navigation -->
                     <div class="step-nav">
                         <button type="button" class="btn-nav btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
                         <button type="button" class="btn-nav btn-next" onclick="nextStep()">Next: Address & Identity <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
 
-                <!-- ==================== STEP 3: ADDRESS & IDENTITY ==================== -->
+                <!-- STEP 3 -->
                 <div class="form-step-content" data-step-content="2">
                     <div class="section-title">
                         <i class="fas fa-map-marker-alt"></i> Address & Identity Verification
@@ -995,19 +323,14 @@
                     <p class="section-sub">Your details are safe with us. We use this only for verification.</p>
 
                     <div class="form-grid">
-                        <!-- Address Line 1 -->
                         <div class="form-group full-width">
                             <label>Address Line 1 <span class="required">*</span></label>
                             <input type="text" id="address1" placeholder="House/Flat No., Building Name, Street" required>
                         </div>
-
-                        <!-- Address Line 2 -->
                         <div class="form-group full-width">
                             <label>Address Line 2</label>
                             <input type="text" id="address2" placeholder="Area, Landmark (optional)">
                         </div>
-
-                        <!-- City -->
                         <div class="form-group">
                             <label>City <span class="required">*</span></label>
                             <select id="city" required>
@@ -1026,8 +349,6 @@
                                 <option>Other</option>
                             </select>
                         </div>
-
-                        <!-- State -->
                         <div class="form-group">
                             <label>State <span class="required">*</span></label>
                             <select id="state" required>
@@ -1046,15 +367,11 @@
                                 <option>Other</option>
                             </select>
                         </div>
-
-                        <!-- PIN Code -->
                         <div class="form-group">
                             <label>PIN Code <span class="required">*</span></label>
                             <input type="text" id="pincode" placeholder="e.g. 400053" pattern="[0-9]{6}" maxlength="6" required>
                             <span class="hint">6-digit Indian PIN code</span>
                         </div>
-
-                        <!-- ID Type -->
                         <div class="form-group">
                             <label>ID Proof Type <span class="required">*</span></label>
                             <select id="idType" required>
@@ -1066,8 +383,6 @@
                                 <option>Voter ID</option>
                             </select>
                         </div>
-
-                        <!-- ID Number -->
                         <div class="form-group">
                             <label>ID Number <span class="required">*</span></label>
                             <input type="text" id="idNumber" placeholder="Enter your ID number" required>
@@ -1075,14 +390,13 @@
                         </div>
                     </div>
 
-                    <!-- Step Navigation -->
                     <div class="step-nav">
                         <button type="button" class="btn-nav btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
                         <button type="button" class="btn-nav btn-next" onclick="nextStep()">Next: Account Setup <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
 
-                <!-- ==================== STEP 4: ACCOUNT SETUP ==================== -->
+                <!-- STEP 4 -->
                 <div class="form-step-content" data-step-content="3">
                     <div class="section-title">
                         <i class="fas fa-lock"></i> Account Setup
@@ -1090,21 +404,16 @@
                     <p class="section-sub">Create your login credentials to manage your listings.</p>
 
                     <div class="form-grid">
-                        <!-- Password -->
                         <div class="form-group">
                             <label>Create Password <span class="required">*</span></label>
                             <input type="password" id="password" placeholder="Minimum 8 characters" minlength="8" required>
                             <span class="hint">Use letters, numbers & symbols for security</span>
                         </div>
-
-                        <!-- Confirm Password -->
                         <div class="form-group">
                             <label>Confirm Password <span class="required">*</span></label>
                             <input type="password" id="confirmPassword" placeholder="Re-enter password" minlength="8" required>
                             <span class="hint" id="passwordHint"></span>
                         </div>
-
-                        <!-- How did you hear about us -->
                         <div class="form-group">
                             <label>How did you hear about us?</label>
                             <select id="referral">
@@ -1116,8 +425,6 @@
                                 <option>Other</option>
                             </select>
                         </div>
-
-                        <!-- Number of Properties -->
                         <div class="form-group">
                             <label>How many properties do you want to list?</label>
                             <select id="propertyCount">
@@ -1130,12 +437,11 @@
                         </div>
                     </div>
 
-                    <!-- Terms -->
                     <div class="form-footer">
                         <label class="checkbox-agree">
                             <input type="checkbox" id="termsCheck" required>
-                            <span>I agree to EstateHaven's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. 
-                            I confirm that I am the rightful owner (or authorized representative) of the properties I list, 
+                            <span>I agree to EstateHaven's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+                            I confirm that I am the rightful owner (or authorized representative) of the properties I list,
                             and I am <strong>not a broker/agent</strong>.</span>
                         </label>
                         <button type="submit" class="btn-submit">
@@ -1143,7 +449,6 @@
                         </button>
                     </div>
 
-                    <!-- Step Navigation -->
                     <div class="step-nav" style="margin-top: 20px;">
                         <button type="button" class="btn-nav btn-prev" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Previous</button>
                         <span></span>
@@ -1152,7 +457,6 @@
 
             </form>
 
-            <!-- SUCCESS MESSAGE -->
             <div class="success-message" id="successMessage">
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
@@ -1161,14 +465,14 @@
                 <p>Welcome to EstateHaven, <strong id="successName">Seller</strong>! Your seller account has been created successfully. You can now list your properties directly and connect with buyers — zero brokerage, 100% direct.</p>
                 <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
                     <a href="post-property.html" class="btn-solid"><i class="fas fa-plus-circle"></i> List Your First Property</a>
-                    <a href="index.html" class="btn-outline"><i class="fas fa-home"></i> Go to Homepage</a>
+                    <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Go to Login</a>
+                    <a href="index.html" class="btn-outline"><i class="fas fa-home"></i> Homepage</a>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -1189,7 +493,7 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="listing.html">Listings</a></li>
                     <li><a href="seller-register.html">Sell Property</a></li>
-                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="agent.html">Verified Owners</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
@@ -1222,7 +526,6 @@
         </div>
     </footer>
 
-    <!-- ==================== JAVASCRIPT ==================== -->
     <script>
         // ========== STEP NAVIGATION ==========
         let currentStep = 0;
@@ -1264,11 +567,13 @@
 
             const requiredFields = stepContent.querySelectorAll('input[required], select[required], textarea[required]');
             let valid = true;
+            let firstInvalid = null;
 
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     field.style.borderColor = '#e74c3c';
                     field.style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.1)';
+                    if (!firstInvalid) firstInvalid = field;
                     valid = false;
                 } else {
                     field.style.borderColor = '';
@@ -1278,6 +583,7 @@
 
             if (!valid) {
                 alert('Please fill all required fields before proceeding.');
+                if (firstInvalid) firstInvalid.focus();
             }
 
             return valid;
@@ -1305,6 +611,7 @@
         function checkPasswordMatch() {
             if (confirmPasswordInput.value === '') {
                 passwordHint.textContent = '';
+                confirmPasswordInput.style.borderColor = '';
                 return;
             }
             if (passwordInput.value === confirmPasswordInput.value) {
@@ -1325,14 +632,25 @@
         function handleSubmit(event) {
             event.preventDefault();
 
-            // Final validation
-            if (!validateStep(0) || !validateStep(1) || !validateStep(2) || !validateStep(3)) {
-                return;
+            // Final validation for all steps
+            for (let i = 0; i < totalSteps; i++) {
+                if (!validateStep(i)) {
+                    goToStep(i);
+                    return;
+                }
             }
 
             // Check password match
             if (passwordInput.value !== confirmPasswordInput.value) {
                 alert('Passwords do not match. Please check and try again.');
+                goToStep(3);
+                return;
+            }
+
+            // Check password length
+            if (passwordInput.value.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                goToStep(3);
                 return;
             }
 
@@ -1342,7 +660,26 @@
                 return;
             }
 
-            // Collect all seller data
+            // Check for duplicate email / mobile
+            const existingSellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
+            const newEmail = document.getElementById('email').value.trim().toLowerCase();
+            const newMobile = document.getElementById('mobile').value.trim();
+
+            const duplicateEmail = existingSellers.find(s => s.email && s.email.toLowerCase() === newEmail);
+            const duplicateMobile = existingSellers.find(s => s.mobile === newMobile);
+
+            if (duplicateEmail) {
+                alert('An account with this email already exists. Please login instead.');
+                window.location.href = 'login.html';
+                return;
+            }
+            if (duplicateMobile) {
+                alert('An account with this mobile number already exists. Please login instead.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // ========== COLLECT ALL SELLER DATA (WITH PASSWORD) ==========
             const sellerData = {
                 id: 'SELLER_' + Date.now(),
                 registeredAt: new Date().toISOString(),
@@ -1374,24 +711,25 @@
                 // Account Setup
                 referral: document.getElementById('referral').value,
                 propertyCount: document.getElementById('propertyCount').value,
-                // Note: Never store plain passwords in real apps. This is demo only.
+
+                // ✅ CRITICAL FIX: Store password so login works
+                password: passwordInput.value,
                 passwordSet: true
             };
 
-            // Store in localStorage (demo — replace with backend API call)
-            let allSellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
-            allSellers.push(sellerData);
-            localStorage.setItem('estatehaven_sellers', JSON.stringify(allSellers));
+            // Save to localStorage
+            existingSellers.push(sellerData);
+            localStorage.setItem('estatehaven_sellers', JSON.stringify(existingSellers));
 
-            // Also store current seller as logged in
+            // Auto-login the seller
             localStorage.setItem('estatehaven_current_seller', JSON.stringify(sellerData));
 
-            console.log('✅ Seller Registered:', sellerData);
+            console.log('✅ Seller Registered & Logged In:', sellerData);
 
             // Show success message
             document.getElementById('successName').textContent = sellerData.fullName || 'Seller';
             document.getElementById('sellerForm').style.display = 'none';
-            document.querySelector('.form-steps').style.display = 'none';
+            document.getElementById('formSteps').style.display = 'none';
             document.getElementById('successMessage').classList.add('show');
 
             // Scroll to top
@@ -1400,7 +738,6 @@
 
         // ========== INIT ==========
         document.addEventListener('DOMContentLoaded', function () {
-            // Radio options
             document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
                 radio.addEventListener('change', function () {
                     const name = this.name;

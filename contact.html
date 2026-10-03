@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | EstateHaven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        /* HEADER */
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        /* HERO */
+        .page-hero { background: linear-gradient(135deg, #eef7f2 0%, #ffffff 100%); padding: 60px 5% 50px; text-align: center; border-bottom: 1px solid #e2ece7; }
+        .page-hero .badge-pill { display: inline-flex; align-items: center; gap: 8px; background: #dff0e8; color: #1e7e5c; padding: 8px 18px; border-radius: 40px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
+        .page-hero h1 { font-size: 40px; font-weight: 700; color: #0b2b3c; margin-bottom: 14px; letter-spacing: -0.5px; }
+        .page-hero h1 i { color: #1e7e5c; margin-right: 10px; }
+        .page-hero p { font-size: 16px; color: #5b6f7c; max-width: 680px; margin: 0 auto; line-height: 1.7; }
+
+        /* MAIN CONTAINER */
+        .main-container { max-width: 1300px; margin: 0 auto; padding: 50px 5% 60px; }
+
+        /* Contact Info Cards */
+        .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-bottom: 50px; }
+        .info-card { background: white; border-radius: 20px; padding: 32px 28px; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); transition: 0.25s; text-align: center; }
+        .info-card:hover { transform: translateY(-6px); box-shadow: 0 22px 34px -16px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+        .info-icon { width: 68px; height: 68px; border-radius: 22px; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 18px; transition: 0.2s; }
+        .info-card:hover .info-icon { background: #1e7e5c; color: white; transform: scale(1.05); }
+        .info-card.orange .info-icon { background: #fff8ee; color: #ff8c00; }
+        .info-card.orange:hover .info-icon { background: #ff8c00; color: white; }
+        .info-card.blue .info-icon { background: #eef4ff; color: #2563eb; }
+        .info-card.blue:hover .info-icon { background: #2563eb; color: white; }
+        .info-card h3 { font-size: 18px; font-weight: 700; color: #0b2b3c; margin-bottom: 10px; }
+        .info-card p { font-size: 14px; color: #5b6f7c; line-height: 1.65; margin-bottom: 16px; }
+        .info-card a { display: inline-flex; align-items: center; gap: 6px; color: #1e7e5c; font-weight: 600; font-size: 14.5px; text-decoration: none; transition: 0.2s; }
+        .info-card a:hover { color: #0f6b45; text-decoration: underline; }
+
+        /* Two Column Layout */
+        .contact-wrapper { display: grid; grid-template-columns: 1.4fr 1fr; gap: 34px; align-items: flex-start; }
+
+        /* Contact Form */
+        .form-card { background: white; border-radius: 24px; padding: 40px 38px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e9f0ed; }
+        .form-card h2 { font-size: 24px; font-weight: 700; color: #0b2b3c; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .form-card h2 i { color: #1e7e5c; font-size: 22px; }
+        .form-card .form-sub { font-size: 14.5px; color: #7d8f9c; margin-bottom: 28px; line-height: 1.6; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+        .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+        .form-group label { font-size: 13.5px; font-weight: 600; color: #2c3e50; }
+        .form-group label .required { color: #e74c3c; margin-left: 2px; }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1.5px solid #d8e6df;
+            background: #fafdfb;
+            font-size: 14px;
+            color: #1e2b37;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus { border-color: #1e7e5c; background: white; box-shadow: 0 0 0 4px rgba(30,126,92,0.08); }
+        .form-group textarea { resize: vertical; min-height: 130px; }
+        .form-group select { cursor: pointer; }
+        .form-group .hint { font-size: 12px; color: #8a9aa5; }
+
+        .btn-send { width: 100%; padding: 15px 28px; background: #1e7e5c; color: white; border: none; border-radius: 14px; font-size: 15.5px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 18px rgba(30,126,92,0.25); }
+        .btn-send:hover { background: #146349; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(30,126,92,0.35); }
+        .btn-send:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* Form success state */
+        .form-success { display: none; text-align: center; padding: 30px 20px; }
+        .form-success.show { display: block; }
+        .form-success .success-icon { width: 80px; height: 80px; background: #eef7f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-size: 40px; color: #1e7e5c; }
+        .form-success h3 { font-size: 22px; color: #0b2b3c; margin-bottom: 10px; }
+        .form-success p { font-size: 14.5px; color: #5b6f7c; line-height: 1.6; margin-bottom: 22px; }
+
+        /* Side Column */
+        .side-col { display: flex; flex-direction: column; gap: 24px; }
+
+        /* Map Card */
+        .map-card { background: white; border-radius: 22px; padding: 24px; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); }
+        .map-card h3 { font-size: 17px; font-weight: 700; color: #0b2b3c; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .map-card h3 i { color: #1e7e5c; }
+        .map-card .map-sub { font-size: 13px; color: #7d8f9c; margin-bottom: 16px; }
+        .map-embed { width: 100%; height: 240px; border-radius: 14px; overflow: hidden; border: 1px solid #e2ece7; background: #f4f8f6; }
+        .map-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+        /* Office Hours */
+        .hours-card { background: white; border-radius: 22px; padding: 26px 24px; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); }
+        .hours-card h3 { font-size: 17px; font-weight: 700; color: #0b2b3c; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+        .hours-card h3 i { color: #1e7e5c; }
+        .hours-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #eaf3ef; font-size: 14px; }
+        .hours-row:last-child { border-bottom: none; }
+        .hours-row .day { color: #5b6f7c; font-weight: 500; }
+        .hours-row .time { color: #0b2b3c; font-weight: 600; }
+        .hours-row .time.closed { color: #e74c3c; }
+        .hours-row .time.open { color: #1e7e5c; }
+
+        /* Social Card */
+        .social-card { background: linear-gradient(135deg, #0b2b3c 0%, #1e4d3a 100%); border-radius: 22px; padding: 28px 24px; color: white; position: relative; overflow: hidden; }
+        .social-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 180px; height: 180px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .social-card-inner { position: relative; z-index: 1; }
+        .social-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .social-card p { font-size: 13.5px; color: rgba(255,255,255,0.8); margin-bottom: 18px; line-height: 1.6; }
+        .social-links-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .social-links-grid a { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.1); color: white; display: flex; align-items: center; justify-content: center; font-size: 17px; text-decoration: none; transition: 0.2s; border: 1px solid rgba(255,255,255,0.1); }
+        .social-links-grid a:hover { background: #1e7e5c; transform: translateY(-3px); }
+
+        /* FAQ Section */
+        .faq-section { max-width: 1300px; margin: 0 auto; padding: 30px 5% 70px; }
+        .faq-section h2 { font-size: 32px; font-weight: 700; color: #0b2b3c; margin-bottom: 14px; letter-spacing: -0.4px; text-align: center; }
+        .faq-section h2 i { color: #1e7e5c; margin-right: 10px; }
+        .faq-section .section-sub { text-align: center; font-size: 15.5px; color: #5b6f7c; margin-bottom: 40px; max-width: 620px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+        .faq-list { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+        .faq-item { background: white; border-radius: 16px; border: 1px solid #e9f0ed; overflow: hidden; transition: 0.2s; }
+        .faq-item:hover { border-color: #b8dfd0; }
+        .faq-question { width: 100%; padding: 22px 26px; background: none; border: none; text-align: left; font-size: 16px; font-weight: 600; color: #0b2b3c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-family: inherit; transition: 0.2s; }
+        .faq-question:hover { color: #1e7e5c; }
+        .faq-question .faq-toggle { width: 30px; height: 30px; border-radius: 50%; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; transition: 0.3s; }
+        .faq-item.open .faq-toggle { background: #1e7e5c; color: white; transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 26px; }
+        .faq-item.open .faq-answer { max-height: 400px; padding: 0 26px 22px; }
+        .faq-answer p { font-size: 14.5px; color: #5b6f7c; line-height: 1.75; }
+
+        /* CTA Section */
+        .cta-banner { background: #fff8ee; border: 1px solid #f5e6d3; border-radius: 24px; padding: 40px; margin: 0 auto; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+        .cta-banner-content h3 { font-size: 22px; color: #0b2b3c; margin-bottom: 8px; font-weight: 700; }
+        .cta-banner-content p { font-size: 15px; color: #7d5c1a; line-height: 1.65; max-width: 620px; }
+        .cta-banner-btn { background: #ff8c00; color: white; padding: 14px 30px; border-radius: 50px; font-size: 15px; font-weight: 700; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 22px rgba(255,140,0,0.3); white-space: nowrap; }
+        .cta-banner-btn:hover { background: #e07b00; transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,140,0,0.4); }
+
+        /* FOOTER */
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .contact-wrapper { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 900px) {
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+            .page-hero h1 { font-size: 30px; }
+            .form-card { padding: 30px 26px; }
+            .form-row { grid-template-columns: 1fr; }
+            .cta-banner { padding: 32px 26px; flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 550px) {
+            .page-hero h1 { font-size: 24px; }
+            .page-hero p { font-size: 14px; }
+            .info-card { padding: 26px 22px; }
+            .faq-question { font-size: 14.5px; padding: 18px 20px; }
+            .faq-item.open .faq-answer { padding: 0 20px 18px; }
+            .cta-banner { padding: 26px 22px; }
+            .cta-banner-content h3 { font-size: 18px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Listings</a></li>
+                <li><a href="post-property.html">Post Property</a></li>
+                <li><a href="agent.html">Verified Owners</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="badge-pill">
+            <i class="fas fa-headset"></i> We're here to help, 7 days a week
+        </div>
+        <h1><i class="fas fa-envelope"></i> Get in Touch</h1>
+        <p>Have a question, feedback, or need help with your property listing? Our team is ready to assist you. Reach out and we'll get back to you within 24 hours.</p>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main-container">
+
+        <!-- Contact Info Cards -->
+        <div class="contact-cards">
+            <div class="info-card">
+                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                <h3>Call Us</h3>
+                <p>Speak directly with our support team for any assistance.</p>
+                <a href="tel:+919876543210"><i class="fas fa-phone"></i> +91 98765 43210</a>
+            </div>
+            <div class="info-card orange">
+                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                <h3>Email Us</h3>
+                <p>Send us your queries and we'll respond within 24 hours.</p>
+                <a href="mailto:kaleomkar@gmail.com"><i class="fas fa-paper-plane"></i> kaleomkar@gmail.com</a>
+            </div>
+            <div class="info-card blue">
+                <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                <h3>WhatsApp</h3>
+                <p>Chat with us on WhatsApp for quick responses.</p>
+                <a href="https://wa.me/919876543210" target="_blank"><i class="fab fa-whatsapp"></i> Chat Now</a>
+            </div>
+        </div>
+
+        <!-- Contact Form + Side Column -->
+        <div class="contact-wrapper">
+
+            <!-- Contact Form -->
+            <div class="form-card">
+                <div id="formContainer">
+                    <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
+                    <p class="form-sub">Fill in the form below and our team will get back to you as soon as possible. All fields marked with <span style="color:#e74c3c;">*</span> are required.</p>
+
+                    <form id="contactForm" onsubmit="handleSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name <span class="required">*</span></label>
+                                <input type="text" id="name" placeholder="e.g. Rajesh Kumar" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address <span class="required">*</span></label>
+                                <input type="email" id="email" placeholder="e.g. rajesh@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="phone" placeholder="98765 43210" pattern="[0-9]{10}" maxlength="10">
+                            </div>
+                            <div class="form-group">
+                                <label>I am a <span class="required">*</span></label>
+                                <select id="userType" required>
+                                    <option value="">-- Select --</option>
+                                    <option>Buyer / Renter</option>
+                                    <option>Property Owner / Seller</option>
+                                    <option>Builder / Developer</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Subject <span class="required">*</span></label>
+                            <select id="subject" required>
+                                <option value="">-- Select a topic --</option>
+                                <option>General Inquiry</option>
+                                <option>Help with Property Listing</option>
+                                <option>Report a Problem</option>
+                                <option>Feedback / Suggestion</option>
+                                <option>Partnership / Business</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Message <span class="required">*</span></label>
+                            <textarea id="message" placeholder="Tell us how we can help you..." required></textarea>
+                            <span class="hint">Minimum 10 characters</span>
+                        </div>
+
+                        <button type="submit" class="btn-send" id="sendBtn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success State -->
+                <div class="form-success" id="formSuccess">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Message Sent Successfully!</h3>
+                    <p>Thank you for reaching out to EstateHaven. Our team will get back to you within 24 hours at the email you provided.</p>
+                    <button class="btn-send" onclick="resetForm()" style="max-width: 280px; margin: 0 auto;">
+                        <i class="fas fa-plus"></i> Send Another Message
+                    </button>
+                </div>
+            </div>
+
+            <!-- Side Column -->
+            <div class="side-col">
+
+                <!-- Map -->
+                <div class="map-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Visit Our Office</h3>
+                    <p class="map-sub">91 Springboard, Koramangala, Bangalore — 560095</p>
+                    <div class="map-embed">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.945526755815!2d77.6167!3d12.9352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae144e0e0d3b5b%3A0x9f0d5a1f1a4e1e1e!2sKoramangala%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Office Hours -->
+                <div class="hours-card">
+                    <h3><i class="fas fa-clock"></i> Office Hours</h3>
+                    <div class="hours-row">
+                        <span class="day">Monday - Friday</span>
+                        <span class="time open">9:00 AM - 8:00 PM</span>
+                    </div>
+                    <div class="hours-row">
+                        <span class="day">Saturday</span>
+                        <span class="time open">10:00 AM - 6:00 PM</span>
+                    </div>
+                    <div class="hours-row">
+                        <span class="day">Sunday</span>
+                        <span class="time open">11:00 AM - 4:00 PM</span>
+                    </div>
+                    <div class="hours-row">
+                        <span class="day">Public Holidays</span>
+                        <span class="time closed">Closed</span>
+                    </div>
+                </div>
+
+                <!-- Social Card -->
+                <div class="social-card">
+                    <div class="social-card-inner">
+                        <h3>Connect With Us</h3>
+                        <p>Follow EstateHaven on social media for property tips, new listings, and updates.</p>
+                        <div class="social-links-grid">
+                            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ SECTION -->
+    <section class="faq-section">
+        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+        <p class="section-sub">Can't find the answer you're looking for? Our friendly team is just a message away.</p>
+
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Is EstateHaven really free for property owners?
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! Listing your property on EstateHaven is completely free. You can post unlimited properties, upload photos, and receive direct inquiries from buyers and tenants — with zero brokerage or commission.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Do you allow real estate agents or brokers?
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>No. EstateHaven is a strict zero-brokerage platform. Only property owners, family members, and builders can list properties. Any listing from an agent or broker will be removed, and the account will be suspended.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How do I contact a property owner?
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Open any property listing and you'll see three direct contact buttons — WhatsApp, Call, and Email. These connect you straight to the verified owner, with no middlemen involved. You can also use the WhatsApp button which pre-fills a message for you.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Are the listings verified?
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes. Every property owner on EstateHaven is ID-verified using Aadhaar, PAN, or another government-issued ID. We also monitor listings regularly to remove fake or duplicate properties. If you ever spot something suspicious, report it to us immediately.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Can I edit or delete my property listing?
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolutely. Log in to your account, go to "My Listings" in the dashboard, and you can edit, update, mark as sold/rented, or delete any property at any time — with just a few clicks.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How long does it take for my listing to go live?
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Instantly! As soon as you submit a property, it appears live on our listings page. There's no waiting period or approval queue. This means buyers can find your property the same minute you post it.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <div style="padding: 0 5% 60px;">
+        <div class="cta-banner">
+            <div class="cta-banner-content">
+                <h3>Ready to list your property for free?</h3>
+                <p>Join thousands of property owners across India who are saving lakhs in brokerage. Post your property in under 2 minutes.</p>
+            </div>
+            <a href="seller-register.html" class="cta-banner-btn">
+                <i class="fas fa-plus-circle"></i> Register as Owner
+            </a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 18px;">
+                    <i class="fas fa-home"></i> Estate<span style="color: #6fc2a0;">Haven</span>
+                </div>
+                <p>Your trusted partner in finding the perfect home. We connect people with properties they love — directly, with zero brokerage.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="listing.html">Listings</a></li>
+                    <li><a href="post-property.html">Post Property</a></li>
+                    <li><a href="agent.html">Verified Owners</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Aurangabad, Maharashtra</li>
+                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 9876543210</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> kaleomkar@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 EstateHaven. All rights reserved. Made in India 🇮🇳</div>
+            <div>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ========== FAQ ACCORDION ==========
+        function toggleFaq(button) {
+            const item = button.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+
+            // Close all others
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('open');
+            });
+
+            // Toggle this one
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // ========== CONTACT FORM SUBMIT ==========
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const userType = document.getElementById('userType').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value.trim();
+
+            // Validation
+            if (!name || !email || !userType || !subject || !message) {
+                alert('Please fill all required fields.');
+                return;
+            }
+
+            if (message.length < 10) {
+                alert('Message must be at least 10 characters long.');
+                return;
+            }
+
+            const btn = document.getElementById('sendBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            // Simulate sending (in production, replace with actual API call)
+            setTimeout(() => {
+                const inquiry = {
+                    id: 'INQ_' + Date.now(),
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    userType: userType,
+                    subject: subject,
+                    message: message,
+                    submittedAt: new Date().toISOString()
+                };
+
+                // Save to localStorage (demo only)
+                let inquiries = JSON.parse(localStorage.getItem('estatehaven_inquiries') || '[]');
+                inquiries.push(inquiry);
+                localStorage.setItem('estatehaven_inquiries', JSON.stringify(inquiries));
+
+                console.log('✅ Inquiry saved:', inquiry);
+
+                // Show success state
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('formSuccess').classList.add('show');
+            }, 800);
+        }
+
+        // ========== RESET FORM ==========
+        function resetForm() {
+            document.getElementById('contactForm').reset();
+            document.getElementById('formSuccess').classList.remove('show');
+            document.getElementById('formContainer').style.display = 'block';
+
+            const btn = document.getElementById('sendBtn');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        }
+
+        // ========== INPUT VALIDATION FEEDBACK ==========
+        document.getElementById('email').addEventListener('input', function () {
+            const val = this.value.trim();
+            if (val.length === 0) {
+                this.style.borderColor = '';
+                this.style.boxShadow = '';
+                return;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(val)) {
+                this.style.borderColor = '#1e7e5c';
+                this.style.boxShadow = '0 0 0 4px rgba(30,126,92,0.08)';
+            } else {
+                this.style.borderColor = '#e74c3c';
+                this.style.boxShadow = '0 0 0 4px rgba(231,76,60,0.08)';
+            }
+        });
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', function () {
+            // Auto-open first FAQ
+            const firstFaq = document.querySelector('.faq-item');
+            if (firstFaq) firstFaq.classList.add('open');
+        });
+    </script>
+</body>
+</html>
