@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | EstateHaven — Real Estate Tips & Insights</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        /* HEADER */
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        /* HERO */
+        .blog-hero { background: linear-gradient(135deg, #eef7f2 0%, #ffffff 100%); padding: 55px 5% 45px; text-align: center; border-bottom: 1px solid #e2ece7; }
+        .blog-hero .badge-pill { display: inline-flex; align-items: center; gap: 8px; background: #dff0e8; color: #1e7e5c; padding: 8px 18px; border-radius: 40px; font-size: 13px; font-weight: 600; margin-bottom: 18px; }
+        .blog-hero h1 { font-size: 40px; font-weight: 700; color: #0b2b3c; margin-bottom: 14px; letter-spacing: -0.5px; }
+        .blog-hero h1 i { color: #1e7e5c; margin-right: 10px; }
+        .blog-hero p { font-size: 16px; color: #5b6f7c; max-width: 680px; margin: 0 auto; line-height: 1.7; }
+
+        /* FEATURED POST */
+        .featured-wrapper { max-width: 1300px; margin: 40px auto 0; padding: 0 5%; }
+        .featured-post { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 40px -15px rgba(11,43,60,0.15); border: 1px solid #e9f0ed; display: grid; grid-template-columns: 1.1fr 1fr; transition: 0.3s; }
+        .featured-post:hover { box-shadow: 0 22px 50px -20px rgba(30,126,92,0.25); transform: translateY(-4px); }
+        .featured-post-img { position: relative; overflow: hidden; min-height: 380px; }
+        .featured-post-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .featured-post:hover .featured-post-img img { transform: scale(1.05); }
+        .featured-badge { position: absolute; top: 20px; left: 20px; background: #ff8c00; color: white; padding: 8px 18px; border-radius: 40px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; box-shadow: 0 6px 16px rgba(255,140,0,0.3); }
+        .featured-post-body { padding: 44px 40px; display: flex; flex-direction: column; justify-content: center; }
+        .featured-meta { display: flex; align-items: center; gap: 16px; font-size: 13px; color: #7d8f9c; margin-bottom: 18px; flex-wrap: wrap; }
+        .featured-meta .category-tag { background: #eef7f2; color: #1e7e5c; padding: 5px 14px; border-radius: 40px; font-weight: 600; font-size: 12px; }
+        .featured-meta span { display: flex; align-items: center; gap: 6px; }
+        .featured-meta i { color: #1e7e5c; font-size: 12px; }
+        .featured-post-body h2 { font-size: 28px; font-weight: 700; color: #0b2b3c; line-height: 1.3; margin-bottom: 16px; }
+        .featured-post-body p { font-size: 15px; color: #5b6f7c; line-height: 1.75; margin-bottom: 26px; }
+        .featured-author { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .featured-author img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+        .featured-author .author-info h5 { font-size: 14px; font-weight: 700; color: #0b2b3c; }
+        .featured-author .author-info span { font-size: 12px; color: #7d8f9c; }
+        .read-more-btn { display: inline-flex; align-items: center; gap: 8px; color: #1e7e5c; font-weight: 700; font-size: 14.5px; text-decoration: none; transition: 0.2s; width: fit-content; }
+        .read-more-btn:hover { color: #0f6b45; gap: 12px; }
+
+        /* MAIN LAYOUT */
+        .blog-wrapper { max-width: 1300px; margin: 0 auto; padding: 50px 5% 60px; display: grid; grid-template-columns: 1fr 320px; gap: 40px; align-items: flex-start; }
+
+        /* MAIN CONTENT */
+        .main-content { min-width: 0; }
+
+        /* Category Filter Tabs */
+        .category-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1.5px solid #eaf3ef; }
+        .cat-tab { padding: 10px 22px; border-radius: 40px; font-size: 13.5px; font-weight: 600; color: #5b6f7c; cursor: pointer; transition: 0.2s; border: 1.5px solid #e9f0ed; background: white; }
+        .cat-tab:hover { border-color: #b8dfd0; color: #1e7e5c; }
+        .cat-tab.active { background: #1e7e5c; color: white; border-color: #1e7e5c; box-shadow: 0 6px 16px rgba(30,126,92,0.2); }
+
+        /* Blog Grid */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px; }
+
+        .blog-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); transition: 0.25s; display: flex; flex-direction: column; }
+        .blog-card:hover { transform: translateY(-6px); box-shadow: 0 22px 34px -16px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+        .blog-card-img { position: relative; height: 190px; overflow: hidden; background: #f4f8f6; }
+        .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.35s; }
+        .blog-card:hover .blog-card-img img { transform: scale(1.06); }
+        .blog-card-cat { position: absolute; bottom: 12px; left: 12px; background: rgba(255,255,255,0.95); color: #1e7e5c; padding: 5px 14px; border-radius: 30px; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; backdrop-filter: blur(6px); }
+
+        .blog-card-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+        .blog-card-meta { display: flex; align-items: center; gap: 14px; font-size: 12px; color: #7d8f9c; margin-bottom: 12px; }
+        .blog-card-meta span { display: flex; align-items: center; gap: 5px; }
+        .blog-card-meta i { color: #1e7e5c; font-size: 11px; }
+        .blog-card-body h3 { font-size: 17.5px; font-weight: 700; color: #0b2b3c; line-height: 1.4; margin-bottom: 12px; }
+        .blog-card-body p { font-size: 14px; color: #5b6f7c; line-height: 1.65; margin-bottom: 18px; flex: 1; }
+        .blog-card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px dashed #eaf3ef; }
+        .blog-card-author { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #2c3e50; font-weight: 600; }
+        .blog-card-author img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
+        .blog-card-read { color: #1e7e5c; font-size: 13px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.2s; }
+        .blog-card-read:hover { gap: 9px; color: #0f6b45; }
+
+        /* Pagination */
+        .pagination { display: flex; justify-content: center; gap: 10px; margin: 50px 0 20px; flex-wrap: wrap; }
+        .page-btn { width: 42px; height: 42px; border-radius: 12px; background: white; border: 1.5px solid #e9f0ed; color: #2c3e50; font-size: 14.5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+        .page-btn:hover { border-color: #b8dfd0; color: #1e7e5c; background: #f9fdfb; }
+        .page-btn.active { background: #1e7e5c; color: white; border-color: #1e7e5c; box-shadow: 0 6px 16px rgba(30,126,92,0.2); }
+        .page-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* SIDEBAR */
+        .sidebar { display: flex; flex-direction: column; gap: 24px; position: sticky; top: 100px; }
+
+        .sidebar-card { background: white; border-radius: 20px; padding: 26px 24px; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); }
+        .sidebar-card h3 { font-size: 16px; font-weight: 700; color: #0b2b3c; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1.5px solid #eaf3ef; display: flex; align-items: center; gap: 8px; }
+        .sidebar-card h3 i { color: #1e7e5c; font-size: 15px; }
+
+        /* Search Box */
+        .search-box { display: flex; align-items: center; gap: 10px; background: #f4f8f6; padding: 12px 18px; border-radius: 12px; border: 1.5px solid transparent; transition: 0.2s; }
+        .search-box:focus-within { border-color: #1e7e5c; background: white; }
+        .search-box i { color: #1e7e5c; font-size: 15px; }
+        .search-box input { border: none; background: transparent; outline: none; font-size: 14px; color: #1e2b37; width: 100%; font-family: inherit; }
+        .search-box input::placeholder { color: #a3b1bb; }
+
+        /* Popular Posts */
+        .popular-post { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px dashed #eaf3ef; text-decoration: none; transition: 0.2s; }
+        .popular-post:last-child { border-bottom: none; padding-bottom: 0; }
+        .popular-post:hover .popular-post-title { color: #1e7e5c; }
+        .popular-post-img { width: 64px; height: 64px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: #f4f8f6; }
+        .popular-post-img img { width: 100%; height: 100%; object-fit: cover; }
+        .popular-post-content { flex: 1; min-width: 0; }
+        .popular-post-title { font-size: 13.5px; font-weight: 600; color: #0b2b3c; line-height: 1.4; margin-bottom: 4px; transition: 0.2s; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .popular-post-date { font-size: 11.5px; color: #7d8f9c; display: flex; align-items: center; gap: 4px; }
+        .popular-post-date i { color: #1e7e5c; font-size: 10px; }
+
+        /* Categories List */
+        .categories-list { display: flex; flex-direction: column; gap: 6px; }
+        .category-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 10px; font-size: 14px; color: #2c3e50; text-decoration: none; transition: 0.2s; font-weight: 500; }
+        .category-item:hover { background: #eef7f2; color: #1e7e5c; }
+        .category-item .cat-count { background: #eef7f2; color: #1e7e5c; padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+
+        /* Newsletter Card */
+        .newsletter-card { background: linear-gradient(135deg, #0b2b3c 0%, #1e4d3a 100%); color: white; border-radius: 20px; padding: 28px 24px; position: relative; overflow: hidden; }
+        .newsletter-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 180px; height: 180px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+        .newsletter-inner { position: relative; z-index: 1; }
+        .newsletter-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .newsletter-card h3 i { color: #6fc2a0; }
+        .newsletter-card p { font-size: 13.5px; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 18px; }
+        .newsletter-input { display: flex; background: rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.15); }
+        .newsletter-input input { flex: 1; background: transparent; border: none; padding: 13px 16px; color: white; font-size: 13.5px; outline: none; font-family: inherit; }
+        .newsletter-input input::placeholder { color: rgba(255,255,255,0.5); }
+        .newsletter-input button { background: #1e7e5c; color: white; border: none; padding: 0 20px; cursor: pointer; font-weight: 700; font-size: 13.5px; transition: 0.2s; }
+        .newsletter-input button:hover { background: #146349; }
+
+        /* Tags Cloud */
+        .tags-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag-pill { padding: 6px 14px; background: #f4f8f6; color: #2c3e50; border-radius: 30px; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: 0.2s; border: 1px solid transparent; text-decoration: none; }
+        .tag-pill:hover { background: #eef7f2; color: #1e7e5c; border-color: #b8dfd0; }
+
+        /* FOOTER */
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .blog-wrapper { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .featured-post { grid-template-columns: 1fr; }
+            .featured-post-img { min-height: 260px; }
+        }
+        @media (max-width: 900px) {
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+            .blog-hero h1 { font-size: 30px; }
+            .featured-post-body { padding: 30px 26px; }
+            .featured-post-body h2 { font-size: 22px; }
+        }
+        @media (max-width: 550px) {
+            .blog-hero h1 { font-size: 24px; }
+            .blog-hero p { font-size: 14px; }
+            .blog-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Listings</a></li>
+                <li><a href="seller-register.html">Sell Property</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="blog-hero">
+        <div class="badge-pill">
+            <i class="fas fa-newspaper"></i> Insights • Tips • Market Trends
+        </div>
+        <h1><i class="fas fa-blog"></i> EstateHaven Blog</h1>
+        <p>Expert advice, market insights, and practical tips to help you buy, sell, or rent property in India — completely free of brokerage.</p>
+    </section>
+
+    <!-- FEATURED POST -->
+    <div class="featured-wrapper">
+        <div class="featured-post">
+            <div class="featured-post-img">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Featured article">
+                <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
+            </div>
+            <div class="featured-post-body">
+                <div class="featured-meta">
+                    <span class="category-tag">Buying Guide</span>
+                    <span><i class="fas fa-calendar-alt"></i> 2 Oct 2025</span>
+                    <span><i class="fas fa-clock"></i> 8 min read</span>
+                </div>
+                <h2>The Complete Guide to Buying Property in India Without a Broker</h2>
+                <p>Buying your first home is a milestone — but the brokerage fees can eat up lakhs of your savings. Here's your step-by-step guide to buying directly from owners, verifying documents, and closing the deal safely.</p>
+                <div class="featured-author">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Omkar Kale">
+                    <div class="author-info">
+                        <h5>Omkar Kale</h5>
+                        <span>Founder, EstateHaven</span>
+                    </div>
+                </div>
+                <a href="#" class="read-more-btn">
+                    Read Full Article <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BLOG LAYOUT -->
+    <div class="blog-wrapper">
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="cat-tab active">All Posts</button>
+                <button class="cat-tab">Buying Guide</button>
+                <button class="cat-tab">Selling Tips</button>
+                <button class="cat-tab">Rental Advice</button>
+                <button class="cat-tab">Market Trends</button>
+                <button class="cat-tab">Legal & Taxes</button>
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="blog-grid">
+
+                <!-- Post 1 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Selling Tips</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 28 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 6 min</span>
+                        </div>
+                        <h3>10 Things to Do Before Listing Your Property Online</h3>
+                        <p>Get your home ready for buyers with these essential pre-listing steps — from decluttering to setting the right price.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya">
+                                <span>Priya Sharma</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Buying Guide</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 25 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 7 min</span>
+                        </div>
+                        <h3>RERA Explained: What Every Homebuyer Must Know in 2025</h3>
+                        <p>Understand the Real Estate Regulation Act, your rights as a buyer, and how to check if a project is RERA-registered.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Arjun">
+                                <span>Arjun Mehta</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Rental Advice</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 22 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 5 min</span>
+                        </div>
+                        <h3>Rent Agreement vs. Leave & License: Which One Should You Choose?</h3>
+                        <p>A clear comparison of the two most common rental contracts in India — with pros, cons, and stamp duty requirements.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sneha">
+                                <span>Sneha Patil</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Market Trends</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 18 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 9 min</span>
+                        </div>
+                        <h3>Top 7 Cities in India for Real Estate Investment in 2025</h3>
+                        <p>From Bangalore's tech corridor to Pune's growing suburbs — here's where smart investors are putting their money.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Omkar">
+                                <span>Omkar Kale</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 5 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Legal & Taxes</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 15 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 6 min</span>
+                        </div>
+                        <h3>Stamp Duty & Registration Charges in India: State-Wise Guide</h3>
+                        <p>Understand how much you'll pay for stamp duty and registration when buying property in your state.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya">
+                                <span>Priya Sharma</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 6 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Selling Tips</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 12 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 5 min</span>
+                        </div>
+                        <h3>How to Price Your Home Right: A Seller's Ultimate Guide</h3>
+                        <p>Overpricing drives buyers away; underpricing loses you money. Here's how to find the perfect price for your property.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Arjun">
+                                <span>Arjun Mehta</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 7 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1567496898669-ee935f5f647a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Buying Guide</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 08 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 10 min</span>
+                        </div>
+                        <h3>Home Loan Pre-Approval: Steps, Documents & Tips</h3>
+                        <p>Get pre-approved for a home loan before you start house hunting. Here's exactly what you need.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sneha">
+                                <span>Sneha Patil</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 8 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Rental Advice</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 05 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 4 min</span>
+                        </div>
+                        <h3>10 Red Flags to Watch Out for When Renting a Home</h3>
+                        <p>Don't get scammed! Here's how to spot fake listings, shady landlords, and hidden charges before you sign.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Omkar">
+                                <span>Omkar Kale</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Post 9 -->
+                <article class="blog-card">
+                    <div class="blog-card-img">
+                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Post">
+                        <span class="blog-card-cat">Market Trends</span>
+                    </div>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span><i class="fas fa-calendar-alt"></i> 02 Sep 2025</span>
+                            <span><i class="fas fa-clock"></i> 7 min</span>
+                        </div>
+                        <h3>Why 2025 Is the Best Year for First-Time Homebuyers</h3>
+                        <p>Falling interest rates, rising inventory, and government schemes — here's why the timing is perfect.</p>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya">
+                                <span>Priya Sharma</span>
+                            </div>
+                            <a href="#" class="blog-card-read">Read <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="#" class="page-btn disabled"><i class="fas fa-chevron-left"></i></a>
+                <a href="#" class="page-btn active">1</a>
+                <a href="#" class="page-btn">2</a>
+                <a href="#" class="page-btn">3</a>
+                <a href="#" class="page-btn">4</a>
+                <a href="#" class="page-btn"><i class="fas fa-chevron-right"></i></a>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <!-- Search -->
+            <div class="sidebar-card">
+                <h3><i class="fas fa-search"></i> Search Blog</h3>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search articles...">
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="sidebar-card">
+                <h3><i class="fas fa-folder"></i> Categories</h3>
+                <div class="categories-list">
+                    <a href="#" class="category-item">
+                        <span>Buying Guide</span>
+                        <span class="cat-count">12</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <span>Selling Tips</span>
+                        <span class="cat-count">9</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <span>Rental Advice</span>
+                        <span class="cat-count">15</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <span>Market Trends</span>
+                        <span class="cat-count">8</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <span>Legal & Taxes</span>
+                        <span class="cat-count">6</span>
+                    </a>
+                    <a href="#" class="category-item">
+                        <span>Home Interiors</span>
+                        <span class="cat-count">11</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Popular Posts -->
+            <div class="sidebar-card">
+                <h3><i class="fas fa-fire"></i> Popular Posts</h3>
+
+                <a href="#" class="popular-post">
+                    <div class="popular-post-img">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Popular">
+                    </div>
+                    <div class="popular-post-content">
+                        <div class="popular-post-title">7 Mistakes to Avoid When Buying Your First Home</div>
+                        <div class="popular-post-date"><i class="fas fa-calendar-alt"></i> 2 Oct 2025</div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-post">
+                    <div class="popular-post-img">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Popular">
+                    </div>
+                    <div class="popular-post-content">
+                        <div class="popular-post-title">How to Negotiate Property Prices Like a Pro</div>
+                        <div class="popular-post-date"><i class="fas fa-calendar-alt"></i> 28 Sep 2025</div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-post">
+                    <div class="popular-post-img">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Popular">
+                    </div>
+                    <div class="popular-post-content">
+                        <div class="popular-post-title">A Complete Checklist for Your Home Inspection</div>
+                        <div class="popular-post-date"><i class="fas fa-calendar-alt"></i> 22 Sep 2025</div>
+                    </div>
+                </a>
+
+                <a href="#" class="popular-post">
+                    <div class="popular-post-img">
+                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Popular">
+                    </div>
+                    <div class="popular-post-content">
+                        <div class="popular-post-title">Top 10 Tax Saving Tips for Property Owners</div>
+                        <div class="popular-post-date"><i class="fas fa-calendar-alt"></i> 18 Sep 2025</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="newsletter-card">
+                <div class="newsletter-inner">
+                    <h3><i class="fas fa-envelope-open-text"></i> Get Weekly Tips</h3>
+                    <p>Join 5,000+ readers who get our best real estate insights delivered to their inbox.</p>
+                    <form class="newsletter-input" onsubmit="event.preventDefault(); alert('✅ Subscribed! Thank you for joining.');">
+                        <input type="email" placeholder="Your email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="sidebar-card">
+                <h3><i class="fas fa-tags"></i> Popular Tags</h3>
+                <div class="tags-cloud">
+                    <a href="#" class="tag-pill">#RERA</a>
+                    <a href="#" class="tag-pill">#HomeLoan</a>
+                    <a href="#" class="tag-pill">#StampDuty</a>
+                    <a href="#" class="tag-pill">#Brokerage</a>
+                    <a href="#" class="tag-pill">#Investment</a>
+                    <a href="#" class="tag-pill">#Rental</a>
+                    <a href="#" class="tag-pill">#FirstTimeBuyer</a>
+                    <a href="#" class="tag-pill">#InteriorDesign</a>
+                    <a href="#" class="tag-pill">#Vastu</a>
+                    <a href="#" class="tag-pill">#ReadyToMove</a>
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 18px;">
+                    <i class="fas fa-home"></i> Estate<span style="color: #6fc2a0;">Haven</span>
+                </div>
+                <p>Your trusted partner in finding the perfect home. We connect people with properties they love — directly, with zero brokerage.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="listing.html">Listings</a></li>
+                    <li><a href="post-property.html">Post Property</a></li>
+                    <li><a href="agent.html">Verified Owners</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Aurangabad, Maharashtra</li>
+                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 9876543210</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> kaleomkar@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 EstateHaven. All rights reserved. Made in India 🇮🇳</div>
+            <div>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ========== LOGIN STATE ==========
+        (function initUserHeader() {
+            const stored = localStorage.getItem('estatehaven_current_seller');
+            const headerActions = document.querySelector('.header-actions');
+            if (!headerActions) return;
+
+            if (stored) {
+                try {
+                    const seller = JSON.parse(stored);
+                    const name = seller.fullName || 'Seller';
+                    const firstName = name.split(' ')[0];
+                    const initial = name.charAt(0).toUpperCase();
+
+                    headerActions.innerHTML = `
+                        <div class="user-menu-wrapper" style="position: relative;">
+                            <div class="user-profile-trigger" onclick="toggleUserDropdown(event)"
+                                 style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#eef7f2,#e0f0e8);padding:6px 14px 6px 6px;border-radius:50px;cursor:pointer;border:1.5px solid #d4e8e0;user-select:none;">
+                                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1e7e5c,#0f6b45);color:white;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;">${initial}</div>
+                                <div style="display:flex;flex-direction:column;line-height:1.15;">
+                                    <span style="font-size:10.5px;color:#7d8f9c;font-weight:500;text-transform:uppercase;letter-spacing:0.3px;">Welcome back,</span>
+                                    <span style="font-size:14px;font-weight:700;color:#0b2b3c;">${firstName}</span>
+                                </div>
+                                <i class="fas fa-chevron-down" style="font-size:11px;color:#1e7e5c;"></i>
+                            </div>
+                            <div id="userDropdown" style="display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:260px;background:white;border-radius:16px;box-shadow:0 20px 50px -12px rgba(11,43,60,0.25);border:1px solid #e9f0ed;padding:8px;z-index:2000;">
+                                <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+                                    <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1e7e5c,#0f6b45);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;">${initial}</div>
+                                    <div>
+                                        <div style="font-size:14.5px;font-weight:700;color:#0b2b3c;">${name}</div>
+                                        <div style="font-size:12px;color:#7d8f9c;margin-top:2px;">${seller.email || ''}</div>
+                                    </div>
+                                </div>
+                                <div style="height:1px;background:#eaf3ef;margin:6px 4px;"></div>
+                                <a href="seller-dashboard.html" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#2c3e50;text-decoration:none;font-size:14px;font-weight:500;">
+                                    <i class="fas fa-list" style="color:#1e7e5c;"></i> My Dashboard
+                                </a>
+                                <a href="post-property.html" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#2c3e50;text-decoration:none;font-size:14px;font-weight:500;">
+                                    <i class="fas fa-plus-circle" style="color:#1e7e5c;"></i> Post Property
+                                </a>
+                                <div style="height:1px;background:#eaf3ef;margin:6px 4px;"></div>
+                                <button onclick="logoutSeller()" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#e74c3c;background:none;border:none;width:100%;text-align:left;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;">
+                                    <i class="fas fa-sign-out-alt" style="color:#e74c3c;"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+        })();
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            if (!dropdown) return;
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('userDropdown');
+            const trigger = document.querySelector('.user-profile-trigger');
+            if (!dropdown || !trigger) return;
+            if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        function logoutSeller() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('estatehaven_current_seller');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // ========== CATEGORY TABS ==========
+        document.querySelectorAll('.cat-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                // In production: filter blog posts
+            });
+        });
+
+        // ========== PAGINATION ==========
+        document.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (this.querySelector('i')) return; // skip arrow buttons for now
+                document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

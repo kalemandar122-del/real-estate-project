@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center | EstateHaven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #fafbfc; color: #1e2b37; line-height: 1.5; }
+
+        /* HEADER */
+        header { background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.03); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 80px; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 26px; font-weight: 700; color: #0b2b3c; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo i { color: #1e7e5c; font-size: 30px; }
+        .logo span { color: #1e7e5c; }
+        nav ul { display: flex; list-style: none; gap: 28px; }
+        nav ul li a { text-decoration: none; font-weight: 500; color: #2c3e50; font-size: 16px; transition: 0.2s; padding-bottom: 4px; }
+        nav ul li a:hover, nav ul li a.active { color: #1e7e5c; border-bottom: 2px solid #1e7e5c; }
+        .header-actions { display: flex; align-items: center; gap: 14px; }
+        .btn-outline { background: transparent; border: 2px solid #1e7e5c; color: #1e7e5c; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline:hover { background: #1e7e5c; color: white; }
+        .btn-seller { background: #ff8c00; border: 2px solid #ff8c00; color: white; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-seller:hover { background: #e07b00; border-color: #e07b00; }
+
+        /* HERO / SEARCH */
+        .help-hero { background: linear-gradient(135deg, #0b2b3c 0%, #1e4d3a 100%); color: white; padding: 70px 5% 90px; text-align: center; position: relative; overflow: hidden; }
+        .help-hero::before { content: ''; position: absolute; top: -100px; right: -80px; width: 380px; height: 380px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .help-hero::after { content: ''; position: absolute; bottom: -150px; left: -100px; width: 450px; height: 450px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+        .help-hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .help-hero .badge-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); color: #b8dfd0; padding: 8px 20px; border-radius: 40px; font-size: 13px; font-weight: 600; margin-bottom: 22px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .help-hero h1 { font-size: 44px; font-weight: 700; line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.5px; }
+        .help-hero h1 span { color: #6fc2a0; }
+        .help-hero p { font-size: 17px; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 34px; }
+
+        .help-search { display: flex; align-items: center; background: white; border-radius: 60px; padding: 8px 8px 8px 24px; box-shadow: 0 20px 50px -15px rgba(0,0,0,0.3); max-width: 640px; margin: 0 auto; }
+        .help-search i { color: #7d8f9c; font-size: 18px; }
+        .help-search input { flex: 1; border: none; outline: none; padding: 14px 16px; font-size: 15px; color: #1e2b37; background: transparent; font-family: inherit; }
+        .help-search input::placeholder { color: #a3b1bb; }
+        .help-search button { background: #1e7e5c; color: white; border: none; padding: 14px 30px; border-radius: 40px; font-weight: 700; font-size: 14.5px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+        .help-search button:hover { background: #146349; }
+
+        /* QUICK TOPICS */
+        .quick-topics { max-width: 1200px; margin: -50px auto 0; padding: 0 5%; position: relative; z-index: 10; }
+        .topics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .topic-card { background: white; border-radius: 20px; padding: 28px 22px; border: 1px solid #e9f0ed; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.08); transition: 0.25s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .topic-card:hover { transform: translateY(-6px); box-shadow: 0 22px 34px -16px rgba(30,126,92,0.2); border-color: #b8dfd0; }
+        .topic-icon { width: 56px; height: 56px; border-radius: 18px; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; transition: 0.2s; }
+        .topic-card:hover .topic-icon { background: #1e7e5c; color: white; }
+        .topic-card.orange .topic-icon { background: #fff8ee; color: #ff8c00; }
+        .topic-card.orange:hover .topic-icon { background: #ff8c00; color: white; }
+        .topic-card.blue .topic-icon { background: #eef4ff; color: #2563eb; }
+        .topic-card.blue:hover .topic-icon { background: #2563eb; color: white; }
+        .topic-card.purple .topic-icon { background: #f5eeff; color: #7c3aed; }
+        .topic-card.purple:hover .topic-icon { background: #7c3aed; color: white; }
+        .topic-card h3 { font-size: 16px; font-weight: 700; color: #0b2b3c; margin-bottom: 6px; }
+        .topic-card p { font-size: 13px; color: #7d8f9c; line-height: 1.55; }
+
+        /* MAIN CONTENT */
+        .main-container { max-width: 1300px; margin: 0 auto; padding: 60px 5% 60px; display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: flex-start; }
+
+        /* SIDEBAR NAVIGATION */
+        .help-sidebar { position: sticky; top: 100px; background: white; border-radius: 20px; padding: 24px 20px; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); }
+        .help-sidebar h3 { font-size: 14px; font-weight: 700; color: #7d8f9c; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-left: 8px; }
+        .help-nav { display: flex; flex-direction: column; gap: 4px; }
+        .help-nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; color: #2c3e50; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-family: inherit; }
+        .help-nav-item i { color: #1e7e5c; font-size: 15px; width: 18px; text-align: center; }
+        .help-nav-item:hover { background: #eef7f2; color: #1e7e5c; }
+        .help-nav-item.active { background: #1e7e5c; color: white; }
+        .help-nav-item.active i { color: white; }
+
+        /* CONTENT AREA */
+        .help-content { min-width: 0; }
+
+        .content-section { margin-bottom: 50px; scroll-margin-top: 100px; }
+        .content-section h2 { font-size: 26px; font-weight: 700; color: #0b2b3c; margin-bottom: 8px; letter-spacing: -0.3px; display: flex; align-items: center; gap: 12px; }
+        .content-section h2 i { color: #1e7e5c; font-size: 22px; }
+        .content-section .section-sub { font-size: 14.5px; color: #7d8f9c; margin-bottom: 26px; }
+
+        /* FAQ Accordion */
+        .faq-list { display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { background: white; border-radius: 16px; border: 1px solid #e9f0ed; overflow: hidden; transition: 0.2s; }
+        .faq-item:hover { border-color: #b8dfd0; }
+        .faq-question { width: 100%; padding: 20px 24px; background: none; border: none; text-align: left; font-size: 15.5px; font-weight: 600; color: #0b2b3c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-family: inherit; transition: 0.2s; }
+        .faq-question:hover { color: #1e7e5c; }
+        .faq-question .faq-toggle { width: 30px; height: 30px; border-radius: 50%; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; transition: 0.3s; }
+        .faq-item.open .faq-toggle { background: #1e7e5c; color: white; transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 24px; }
+        .faq-item.open .faq-answer { max-height: 500px; padding: 0 24px 22px; }
+        .faq-answer p { font-size: 14.5px; color: #5b6f7c; line-height: 1.75; margin-bottom: 10px; }
+        .faq-answer p:last-child { margin-bottom: 0; }
+        .faq-answer a { color: #1e7e5c; text-decoration: none; font-weight: 600; }
+        .faq-answer a:hover { text-decoration: underline; }
+        .faq-answer ul { padding-left: 20px; margin: 8px 0; }
+        .faq-answer ul li { font-size: 14.5px; color: #5b6f7c; line-height: 1.75; margin-bottom: 6px; }
+
+        /* Guide Cards */
+        .guides-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .guide-card { background: white; border-radius: 18px; padding: 26px 24px; border: 1px solid #e9f0ed; box-shadow: 0 6px 20px rgba(0,0,0,0.03); transition: 0.25s; text-decoration: none; color: inherit; display: block; }
+        .guide-card:hover { transform: translateY(-5px); box-shadow: 0 20px 32px -16px rgba(30,126,92,0.18); border-color: #b8dfd0; }
+        .guide-icon { width: 48px; height: 48px; border-radius: 14px; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; }
+        .guide-card h4 { font-size: 16px; font-weight: 700; color: #0b2b3c; margin-bottom: 8px; }
+        .guide-card p { font-size: 13.5px; color: #5b6f7c; line-height: 1.6; margin-bottom: 14px; }
+        .guide-card .guide-link { font-size: 13px; color: #1e7e5c; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+
+        /* Contact Support Banner */
+        .support-banner { background: linear-gradient(135deg, #1e7e5c 0%, #0f6b45 100%); border-radius: 24px; padding: 44px 40px; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 20px; position: relative; overflow: hidden; }
+        .support-banner::before { content: ''; position: absolute; top: -80px; right: -80px; width: 260px; height: 260px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+        .support-banner-inner { position: relative; z-index: 1; max-width: 620px; }
+        .support-banner h3 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+        .support-banner p { font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.7; }
+        .support-banner-actions { display: flex; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+        .support-btn-primary { background: white; color: #1e7e5c; padding: 14px 28px; border-radius: 50px; font-size: 14.5px; font-weight: 700; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 8px 22px rgba(0,0,0,0.15); }
+        .support-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.2); }
+        .support-btn-secondary { background: rgba(255,255,255,0.15); color: white; padding: 14px 28px; border-radius: 50px; font-size: 14.5px; font-weight: 700; text-decoration: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 10px; border: 1.5px solid rgba(255,255,255,0.25); backdrop-filter: blur(10px); }
+        .support-btn-secondary:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        /* Contact Info Cards */
+        .contact-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 40px; }
+        .contact-method-card { background: white; border-radius: 18px; padding: 26px 22px; border: 1px solid #e9f0ed; text-align: center; transition: 0.2s; }
+        .contact-method-card:hover { transform: translateY(-4px); box-shadow: 0 18px 30px -14px rgba(30,126,92,0.15); border-color: #b8dfd0; }
+        .contact-method-icon { width: 56px; height: 56px; border-radius: 50%; background: #eef7f2; color: #1e7e5c; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 16px; }
+        .contact-method-card h4 { font-size: 15px; font-weight: 700; color: #0b2b3c; margin-bottom: 6px; }
+        .contact-method-card p { font-size: 13px; color: #7d8f9c; margin-bottom: 12px; }
+        .contact-method-card a { color: #1e7e5c; font-weight: 700; font-size: 14px; text-decoration: none; }
+        .contact-method-card a:hover { text-decoration: underline; }
+
+        /* FOOTER */
+        footer { background: #0b2b3c; color: #cbd8e0; padding: 50px 5% 30px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+        .footer-col h4 { color: white; font-size: 18px; margin-bottom: 22px; font-weight: 600; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #a9bcc9; text-decoration: none; transition: 0.2s; font-size: 15px; }
+        .footer-col ul li a:hover { color: #6fc2a0; padding-left: 5px; }
+        .footer-col p { line-height: 1.7; color: #a9bcc9; font-size: 15px; margin-bottom: 18px; }
+        .social-icons { display: flex; gap: 16px; }
+        .social-icons a { background: #1e3a4b; color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
+        .social-icons a:hover { background: #1e7e5c; transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid #1e3a4b; padding-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #8fa6b6; font-size: 14px; }
+        .footer-bottom a { color: #8fa6b6; text-decoration: none; margin-left: 20px; }
+        .footer-bottom a:hover { color: #6fc2a0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .main-container { grid-template-columns: 1fr; }
+            .help-sidebar { position: static; }
+            .help-nav { flex-direction: row; overflow-x: auto; gap: 8px; }
+            .help-nav-item { white-space: nowrap; }
+        }
+        @media (max-width: 900px) {
+            header { flex-wrap: wrap; height: auto; padding: 15px 5%; gap: 15px; }
+            nav ul { gap: 16px; flex-wrap: wrap; }
+            .help-hero h1 { font-size: 30px; }
+            .help-hero p { font-size: 15px; }
+            .help-search { flex-direction: column; border-radius: 20px; padding: 16px; }
+            .help-search i { display: none; }
+            .help-search input { padding: 12px 16px; width: 100%; border: 1.5px solid #e9f0ed; border-radius: 12px; }
+            .help-search button { width: 100%; justify-content: center; }
+            .support-banner { padding: 34px 26px; flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 550px) {
+            .help-hero { padding: 50px 5% 80px; }
+            .help-hero h1 { font-size: 24px; }
+            .content-section h2 { font-size: 20px; }
+            .faq-question { font-size: 14px; padding: 16px 18px; }
+            .faq-item.open .faq-answer { padding: 0 18px 18px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-home"></i> Estate<span>Haven</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listing.html">Listings</a></li>
+                <li><a href="seller-register.html">Sell Property</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions" id="headerActions">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="help-hero">
+        <div class="help-hero-inner">
+            <div class="badge-pill"><i class="fas fa-life-ring"></i> We're here to help, 7 days a week</div>
+            <h1>How can we <span>help you today?</span></h1>
+            <p>Search our knowledge base, browse common questions, or reach out to our support team directly. We respond within 24 hours.</p>
+
+            <div class="help-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="helpSearchInput" placeholder="Search help articles... e.g. 'list property', 'reset password'">
+                <button onclick="performSearch()"><i class="fas fa-arrow-right"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK TOPICS -->
+    <div class="quick-topics">
+        <div class="topics-grid">
+            <a href="#getting-started" class="topic-card" onclick="scrollToSection('getting-started'); return false;">
+                <div class="topic-icon"><i class="fas fa-rocket"></i></div>
+                <h3>Getting Started</h3>
+                <p>New to EstateHaven? Start here with the basics.</p>
+            </a>
+            <a href="#account-security" class="topic-card orange" onclick="scrollToSection('account-security'); return false;">
+                <div class="topic-icon"><i class="fas fa-user-shield"></i></div>
+                <h3>Account & Security</h3>
+                <p>Login, password, and verification help.</p>
+            </a>
+            <a href="#listing-property" class="topic-card blue" onclick="scrollToSection('listing-property'); return false;">
+                <div class="topic-icon"><i class="fas fa-home"></i></div>
+                <h3>Listing a Property</h3>
+                <p>Post, edit, and manage your property listings.</p>
+            </a>
+            <a href="#buying-renting" class="topic-card purple" onclick="scrollToSection('buying-renting'); return false;">
+                <div class="topic-icon"><i class="fas fa-handshake"></i></div>
+                <h3>Buying & Renting</h3>
+                <p>Find properties and connect with owners.</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div class="main-container">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="help-sidebar">
+            <h3>Browse Topics</h3>
+            <div class="help-nav">
+                <button class="help-nav-item active" onclick="scrollToSection('getting-started')">
+                    <i class="fas fa-rocket"></i> Getting Started
+                </button>
+                <button class="help-nav-item" onclick="scrollToSection('account-security')">
+                    <i class="fas fa-user-shield"></i> Account & Security
+                </button>
+                <button class="help-nav-item" onclick="scrollToSection('listing-property')">
+                    <i class="fas fa-home"></i> Listing a Property
+                </button>
+                <button class="help-nav-item" onclick="scrollToSection('buying-renting')">
+                    <i class="fas fa-handshake"></i> Buying & Renting
+                </button>
+                <button class="help-nav-item" onclick="scrollToSection('payments-fees')">
+                    <i class="fas fa-rupee-sign"></i> Payments & Fees
+                </button>
+                <button class="help-nav-item" onclick="scrollToSection('safety-report')">
+                    <i class="fas fa-shield-alt"></i> Safety & Reporting
+                </button>
+                <button class="help-nav-item" onclick="scrollToSection('contact-support')">
+                    <i class="fas fa-headset"></i> Contact Support
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <div class="help-content">
+
+            <!-- GETTING STARTED -->
+            <section class="content-section" id="getting-started">
+                <h2><i class="fas fa-rocket"></i> Getting Started</h2>
+                <p class="section-sub">Everything you need to know about EstateHaven — from signing up to posting your first listing.</p>
+
+                <div class="faq-list">
+                    <div class="faq-item open">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What is EstateHaven and how does it work?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>EstateHaven is India's zero-brokerage real estate platform. We connect property owners directly with buyers and tenants — cutting out middlemen, commissions, and hidden fees.</p>
+                            <p>Owners post properties for free. Buyers browse, filter, and contact owners directly via WhatsApp, call, or email. No agents involved, ever.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Is EstateHaven really free to use?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes, 100% free. There are no listing fees, no commission, and no hidden charges — for both owners and buyers.</p>
+                            <p>You can post unlimited properties, upload photos, and receive direct inquiries without paying a single rupee.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Which cities does EstateHaven serve?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>EstateHaven currently serves all major Indian cities including Mumbai, Delhi NCR, Bangalore, Hyderabad, Pune, Chennai, Kolkata, Ahmedabad, Jaipur, Lucknow, and Aurangabad — plus many smaller cities across India.</p>
+                            <p>If your city isn't listed, you can still post your property by selecting "Other" in the city dropdown.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ACCOUNT & SECURITY -->
+            <section class="content-section" id="account-security">
+                <h2><i class="fas fa-user-shield"></i> Account & Security</h2>
+                <p class="section-sub">Manage your account, login credentials, and keep your data safe.</p>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I create a seller account?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Click <strong>"Register as Seller"</strong> in the top-right corner of any page. Fill in your personal details, contact info, address, and ID proof — it takes about 2 minutes.</p>
+                            <p>Once registered, you'll be automatically logged in and can post your first property right away.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            I forgot my password. What should I do?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Click <strong>"Forgot Password?"</strong> on the login page. Enter your registered email or mobile number, and we'll send you a reset link.</p>
+                            <p>If you don't receive the email within 10 minutes, check your spam folder or contact our support team at <a href="mailto:kaleomkar@gmail.com">kaleomkar@gmail.com</a>.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How is my personal information protected?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Your personal information is encrypted and stored securely. We never sell your data to third parties.</p>
+                            <p>Your ID proof is used only for verification and is never shown publicly. Only your name, WhatsApp number, and email are displayed on your listings — and only to genuine buyers.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I update my profile or contact details?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Log in to your account, click on your avatar in the top-right corner, and select <strong>"My Dashboard"</strong>. From there, you can edit your profile, update your contact details, and change your preferences.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LISTING A PROPERTY -->
+            <section class="content-section" id="listing-property">
+                <h2><i class="fas fa-home"></i> Listing a Property</h2>
+                <p class="section-sub">Learn how to post, edit, and manage your property listings effectively.</p>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I post a property on EstateHaven?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Log in and click <strong>"Post Property"</strong> in the navigation menu. Fill in the 4-step form:</p>
+                            <ul>
+                                <li><strong>Basic Details</strong> — listing type, property type, BHK, furnishing</li>
+                                <li><strong>Location & Area</strong> — city, locality, address, built-up area</li>
+                                <li><strong>Photos & Pricing</strong> — upload photos, set your price</li>
+                                <li><strong>Review & Post</strong> — verify everything and submit</li>
+                            </ul>
+                            <p>Your listing goes live instantly.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How many photos can I upload?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>You can upload up to <strong>15 photos per property</strong>. Accepted formats: JPG, PNG, WEBP. Maximum 5MB per photo.</p>
+                            <p>We recommend uploading at least 5 high-quality photos — properties with more photos get up to <strong>3x more views</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I edit or delete my listing?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Go to <strong>"My Dashboard"</strong> from your avatar menu. You'll see all your properties listed there.</p>
+                            <p>Click <strong>Edit</strong> to update details, or <strong>Delete</strong> to remove a listing. You can also mark a property as <strong>Sold</strong> or <strong>Rented</strong> once the deal is done.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Why isn't my listing showing on the listings page?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>If your listing isn't appearing, check these:</p>
+                            <ul>
+                                <li>Did you complete all mandatory fields?</li>
+                                <li>Is your property marked as "Active" (not Sold/Rented)?</li>
+                                <li>Are you browsing with an active filter (city, budget) that excludes your property?</li>
+                            </ul>
+                            <p>Try clicking <strong>Reset Filters</strong> on the listings page. If it still doesn't show, contact support.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BUYING & RENTING -->
+            <section class="content-section" id="buying-renting">
+                <h2><i class="fas fa-handshake"></i> Buying & Renting</h2>
+                <p class="section-sub">Find your dream property and connect with owners directly.</p>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I search for properties?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Visit the <a href="listing.html">Listings</a> page. Use the search bar and filters to narrow down by:</p>
+                            <ul>
+                                <li>City and locality</li>
+                                <li>Property type (Apartment, House, Villa, Plot)</li>
+                                <li>BHK configuration</li>
+                                <li>Budget range</li>
+                                <li>Furnishing status</li>
+                                <li>Availability</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I contact a property owner?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Open any property listing. You'll see three direct contact buttons:</p>
+                            <ul>
+                                <li><strong>WhatsApp</strong> — sends a pre-filled message to the owner</li>
+                                <li><strong>Call</strong> — initiates a direct phone call</li>
+                                <li><strong>Email</strong> — opens your email client with a draft</li>
+                            </ul>
+                            <p>All inquiries go straight to the verified owner — no middlemen.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Are the property listings verified?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Yes. Every property owner on EstateHaven is ID-verified using Aadhaar, PAN, or another government-issued ID. We do not allow brokers or agents on our platform.</p>
+                            <p>If you ever encounter a suspicious listing, report it immediately using the contact form. We take fraud very seriously.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I save properties I like?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Click the <strong>heart icon</strong> on any property card to save it. Your saved properties are stored in your browser and shown with a filled red heart.</p>
+                            <p>You can view all your saved properties by clicking <strong>"Saved Properties"</strong> in your account dropdown.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAYMENTS & FEES -->
+            <section class="content-section" id="payments-fees">
+                <h2><i class="fas fa-rupee-sign"></i> Payments & Fees</h2>
+                <p class="section-sub">Understand our zero-brokerage model and how money flows on EstateHaven.</p>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Does EstateHaven charge any fees?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Absolutely not. EstateHaven is completely free for both owners and buyers. There are no listing fees, no subscription charges, no commission, and no hidden costs.</p>
+                            <p>We don't handle payments between owners and buyers. All financial transactions happen directly between you and the property owner/tenant.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How much money can I save using EstateHaven?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Traditional brokers typically charge 1-2% of the property value as commission — that's often <strong>₹50,000 to ₹2 lakh+</strong> on an average property.</p>
+                            <p>With EstateHaven, that entire amount stays in your pocket. On rental properties, you save the equivalent of one month's rent (usually paid as brokerage).</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Should I pay any advance to the owner before visiting?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p><strong>Never.</strong> Always visit the property in person and verify all documents before paying any advance or token amount.</p>
+                            <p>Genuine owners will always be happy to show you the property first. If someone asks for money upfront without a site visit, it's a red flag — report them to us immediately.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SAFETY & REPORTING -->
+            <section class="content-section" id="safety-report">
+                <h2><i class="fas fa-shield-alt"></i> Safety & Reporting</h2>
+                <p class="section-sub">Stay safe on EstateHaven and help us keep the platform fraud-free.</p>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I stay safe while transacting?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Follow these golden rules:</p>
+                            <ul>
+                                <li>Always visit the property in person before any payment</li>
+                                <li>Verify ownership documents (sale deed, tax receipts, encumbrance certificate)</li>
+                                <li>Never share OTP, bank details, or pay advance without verification</li>
+                                <li>Meet the owner at the property during daylight hours</li>
+                                <li>Consult a lawyer before signing any agreement</li>
+                                <li>Trust your instincts — if something feels off, walk away</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How do I report a fake or suspicious listing?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>If you spot a fake listing, an agent posing as an owner, or any suspicious activity:</p>
+                            <ul>
+                                <li>Open the listing and take a screenshot</li>
+                                <li>Send details to <a href="mailto:kaleomkar@gmail.com">kaleomkar@gmail.com</a> with the subject "Report Listing"</li>
+                                <li>Or use our <a href="contact.html">Contact form</a> and select "Report a Problem"</li>
+                            </ul>
+                            <p>We investigate all reports within 24 hours and take action against confirmed fraudsters.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What happens if I find an agent on the platform?
+                            <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>EstateHaven has a strict <strong>zero-broker policy</strong>. If you suspect someone is an agent or broker:</p>
+                            <ul>
+                                <li>Report them immediately via the contact form</li>
+                                <li>Include proof (screenshots, chat logs)</li>
+                                <li>We will investigate and permanently ban the account if confirmed</li>
+                            </ul>
+                            <p>Your vigilance helps keep EstateHaven a truly broker-free platform.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GUIDES -->
+            <section class="content-section" id="guides">
+                <h2><i class="fas fa-book"></i> Recommended Guides</h2>
+                <p class="section-sub">In-depth articles to help you make smarter property decisions.</p>
+
+                <div class="guides-grid">
+                    <a href="blog.html" class="guide-card">
+                        <div class="guide-icon"><i class="fas fa-file-contract"></i></div>
+                        <h4>Complete Home Buying Guide</h4>
+                        <p>From budgeting to registration — everything first-time buyers need to know.</p>
+                        <div class="guide-link">Read Guide <i class="fas fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="blog.html" class="guide-card">
+                        <div class="guide-icon"><i class="fas fa-gavel"></i></div>
+                        <h4>RERA & Legal Checklist</h4>
+                        <p>Verify documents, check RERA status, and understand your legal rights.</p>
+                        <div class="guide-link">Read Guide <i class="fas fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="blog.html" class="guide-card">
+                        <div class="guide-icon"><i class="fas fa-percentage"></i></div>
+                        <h4>Home Loan & Tax Guide</h4>
+                        <p>Compare rates, understand eligibility, and maximize your tax deductions.</p>
+                        <div class="guide-link">Read Guide <i class="fas fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="blog.html" class="guide-card">
+                        <div class="guide-icon"><i class="fas fa-camera-retro"></i></div>
+                        <h4>Listing Photography Tips</h4>
+                        <p>How to take property photos that attract 3x more buyers.</p>
+                        <div class="guide-link">Read Guide <i class="fas fa-arrow-right"></i></div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- CONTACT SUPPORT -->
+            <section class="content-section" id="contact-support">
+                <h2><i class="fas fa-headset"></i> Still Need Help?</h2>
+                <p class="section-sub">Can't find the answer you're looking for? Our team is here for you.</p>
+
+                <div class="support-banner">
+                    <div class="support-banner-inner">
+                        <h3>Talk to our support team</h3>
+                        <p>We're available 7 days a week. Expect a response within 24 hours — often much sooner.</p>
+                    </div>
+                    <div class="support-banner-actions">
+                        <a href="contact.html" class="support-btn-primary">
+                            <i class="fas fa-envelope"></i> Send a Message
+                        </a>
+                        <a href="https://wa.me/919876543210" target="_blank" class="support-btn-secondary">
+                            <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-methods">
+                    <div class="contact-method-card">
+                        <div class="contact-method-icon"><i class="fas fa-phone-alt"></i></div>
+                        <h4>Call Us</h4>
+                        <p>Mon-Sun, 9 AM - 8 PM</p>
+                        <a href="tel:+919876543210">+91 98765 43210</a>
+                    </div>
+
+                    <div class="contact-method-card">
+                        <div class="contact-method-icon"><i class="fas fa-envelope"></i></div>
+                        <h4>Email Us</h4>
+                        <p>Response within 24 hours</p>
+                        <a href="mailto:kaleomkar@gmail.com">kaleomkar@gmail.com</a>
+                    </div>
+
+                    <div class="contact-method-card">
+                        <div class="contact-method-icon"><i class="fab fa-whatsapp"></i></div>
+                        <h4>WhatsApp</h4>
+                        <p>Instant replies</p>
+                        <a href="https://wa.me/919876543210" target="_blank">Start Chat</a>
+                    </div>
+
+                    <div class="contact-method-card">
+                        <div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h4>Visit Office</h4>
+                        <p>Koramangala, Bangalore</p>
+                        <a href="contact.html">Get Directions</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color: white; margin-bottom: 18px;">
+                    <i class="fas fa-home"></i> Estate<span style="color: #6fc2a0;">Haven</span>
+                </div>
+                <p>Your trusted partner in finding the perfect home. We connect people with properties they love — directly, with zero brokerage.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="listing.html">Listings</a></li>
+                    <li><a href="post-property.html">Post Property</a></li>
+                    <li><a href="agent.html">Verified Owners</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="help-center.html">Help Center</a></li>
+                    <li><a href="#getting-started">Getting Started</a></li>
+                    <li><a href="#account-security">Account Help</a></li>
+                    <li><a href="#safety-report">Report a Problem</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> Aurangabad, Maharashtra</li>
+                    <li><i class="fas fa-phone-alt" style="margin-right: 8px;"></i> +91 9876543210</li>
+                    <li><i class="fas fa-envelope" style="margin-right: 8px;"></i> kaleomkar@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 EstateHaven. All rights reserved. Made in India 🇮🇳</div>
+            <div>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ========== FAQ ACCORDION ==========
+        function toggleFaq(button) {
+            const item = button.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+
+            // Close all others in the same section
+            const section = item.closest('.content-section');
+            section.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('open');
+            });
+
+            // Toggle this one
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // ========== SCROLL TO SECTION ==========
+        function scrollToSection(id) {
+            const target = document.getElementById(id);
+            if (!target) return;
+
+            const headerOffset = 100;
+            const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - headerOffset;
+
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+
+            // Update active nav item
+            document.querySelectorAll('.help-nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick')?.includes(id)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // ========== SEARCH ==========
+        function performSearch() {
+            const query = document.getElementById('helpSearchInput').value.trim();
+            if (!query) {
+                alert('Please enter a search term.');
+                return;
+            }
+
+            // Highlight matching FAQ questions
+            const allFaqs = document.querySelectorAll('.faq-item');
+            let found = 0;
+            const lowerQuery = query.toLowerCase();
+
+            allFaqs.forEach(faq => {
+                faq.classList.remove('open');
+                faq.style.background = '';
+                faq.style.borderColor = '';
+                const text = faq.textContent.toLowerCase();
+                if (text.includes(lowerQuery)) {
+                    faq.style.background = '#fff8ee';
+                    faq.style.borderColor = '#ff8c00';
+                    faq.classList.add('open');
+                    found++;
+                }
+            });
+
+            if (found === 0) {
+                alert('No articles found for: "' + query + '"\n\nTry different keywords or contact our support team.');
+            } else {
+                const firstMatch = document.querySelector('.faq-item[style*="fff8ee"]');
+                if (firstMatch) {
+                    setTimeout(() => {
+                        firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                }
+            }
+        }
+
+        // Search on Enter
+        document.getElementById('helpSearchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        // ========== AUTO-OPEN ON PAGE LOAD ==========
+        document.addEventListener('DOMContentLoaded', function () {
+            // Open the first FAQ in each section
+            document.querySelectorAll('.content-section').forEach(section => {
+                const firstFaq = section.querySelector('.faq-item');
+                if (firstFaq && section.querySelectorAll('.faq-item').length > 0) {
+                    // Only open in the first section (getting-started) automatically
+                    if (section.id === 'getting-started') {
+                        firstFaq.classList.add('open');
+                    }
+                }
+            });
+
+            // ========== LOGIN STATE ==========
+            const stored = localStorage.getItem('estatehaven_current_seller');
+            const headerActions = document.getElementById('headerActions');
+
+            if (stored && headerActions) {
+                try {
+                    const seller = JSON.parse(stored);
+                    const name = seller.fullName || 'Seller';
+                    const firstName = name.split(' ')[0];
+                    const initial = name.charAt(0).toUpperCase();
+
+                    headerActions.innerHTML = `
+                        <div class="user-menu-wrapper" style="position: relative;">
+                            <div class="user-profile-trigger" onclick="toggleUserDropdown(event)"
+                                 style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#eef7f2,#e0f0e8);padding:6px 14px 6px 6px;border-radius:50px;cursor:pointer;border:1.5px solid #d4e8e0;user-select:none;">
+                                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1e7e5c,#0f6b45);color:white;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;">${initial}</div>
+                                <div style="display:flex;flex-direction:column;line-height:1.15;">
+                                    <span style="font-size:10.5px;color:#7d8f9c;font-weight:500;text-transform:uppercase;letter-spacing:0.3px;">Welcome back,</span>
+                                    <span style="font-size:14px;font-weight:700;color:#0b2b3c;">${firstName}</span>
+                                </div>
+                                <i class="fas fa-chevron-down" style="font-size:11px;color:#1e7e5c;"></i>
+                            </div>
+                            <div id="userDropdown" style="display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:260px;background:white;border-radius:16px;box-shadow:0 20px 50px -12px rgba(11,43,60,0.25);border:1px solid #e9f0ed;padding:8px;z-index:2000;">
+                                <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;">
+                                    <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1e7e5c,#0f6b45);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;">${initial}</div>
+                                    <div>
+                                        <div style="font-size:14.5px;font-weight:700;color:#0b2b3c;">${name}</div>
+                                        <div style="font-size:12px;color:#7d8f9c;margin-top:2px;">${seller.email || ''}</div>
+                                    </div>
+                                </div>
+                                <div style="height:1px;background:#eaf3ef;margin:6px 4px;"></div>
+                                <a href="seller-dashboard.html" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#2c3e50;text-decoration:none;font-size:14px;font-weight:500;">
+                                    <i class="fas fa-list" style="color:#1e7e5c;"></i> My Dashboard
+                                </a>
+                                <a href="post-property.html" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#2c3e50;text-decoration:none;font-size:14px;font-weight:500;">
+                                    <i class="fas fa-plus-circle" style="color:#1e7e5c;"></i> Post Property
+                                </a>
+                                <div style="height:1px;background:#eaf3ef;margin:6px 4px;"></div>
+                                <button onclick="logoutSeller()" style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#e74c3c;background:none;border:none;width:100%;text-align:left;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;">
+                                    <i class="fas fa-sign-out-alt" style="color:#e74c3c;"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } catch (e) { console.error(e); }
+            }
+        });
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            if (!dropdown) return;
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.addEventListener('click', function (e) {
+            const dropdown = document.getElementById('userDropdown');
+            const trigger = document.querySelector('.user-profile-trigger');
+            if (!dropdown || !trigger) return;
+            if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        function logoutSeller() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('estatehaven_current_seller');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

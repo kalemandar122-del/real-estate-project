@@ -174,7 +174,7 @@
                 </div>
             </div>
 
-            <form class="form-body" id="sellerForm" onsubmit="handleSubmit(event)">
+            <form class="form-body" id="sellerForm" novalidate onsubmit="handleSubmit(event); return false;">
 
                 <!-- STEP 1 -->
                 <div class="form-step-content active" data-step-content="0">
@@ -565,25 +565,93 @@
             const stepContent = document.querySelector(`[data-step-content="${step}"]`);
             if (!stepContent) return true;
 
+            // Get all required inputs, selects, textareas AND checkboxes
             const requiredFields = stepContent.querySelectorAll('input[required], select[required], textarea[required]');
             let valid = true;
             let firstInvalid = null;
+            let errorMessages = [];
 
             requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.style.borderColor = '#e74c3c';
-                    field.style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.1)';
+                let isEmpty = false;
+
+                if (field.type === 'checkbox') {
+                    isEmpty = !field.checked;
+                } else if (field.type === 'radio') {
+                    // Only check the group once
+                    const group = stepContent.querySelectorAll(`input[name="${field.name}"]`);
+                    isEmpty = !Array.from(group).some(r => r.checked);
+                } else {
+                    isEmpty = !field.value.trim();
+                }
+
+                if (isEmpty) {
+                    // Highlight the field or its container
+                    if (field.type === 'radio') {
+                        const group = field.closest('.radio-group');
+                        if (group) {
+                            group.querySelectorAll('.radio-option').forEach(opt => {
+                                opt.style.borderColor = '#e74c3c';
+                            });
+                        }
+                    } else if (field.type === 'checkbox') {
+                        field.style.outline = '2px solid #e74c3c';
+                        field.style.outlineOffset = '2px';
+                    } else {
+                        field.style.borderColor = '#e74c3c';
+                        field.style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.1)';
+                    }
                     if (!firstInvalid) firstInvalid = field;
                     valid = false;
                 } else {
-                    field.style.borderColor = '';
-                    field.style.boxShadow = '';
+                    // Clear highlight
+                    if (field.type === 'radio') {
+                        const group = field.closest('.radio-group');
+                        if (group) {
+                            group.querySelectorAll('.radio-option').forEach(opt => {
+                                opt.style.borderColor = '';
+                            });
+                        }
+                    } else if (field.type === 'checkbox') {
+                        field.style.outline = '';
+                        field.style.outlineOffset = '';
+                    } else {
+                        field.style.borderColor = '';
+                        field.style.boxShadow = '';
+                    }
+                }
+            });
+
+            // Check pattern attributes manually (since we're using novalidate)
+            stepContent.querySelectorAll('input[pattern]').forEach(field => {
+                if (field.value.trim() && !field.checkValidity()) {
+                    field.style.borderColor = '#e74c3c';
+                    field.style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.1)';
+                    valid = false;
+                    if (!firstInvalid) firstInvalid = field;
+                    errorMessages.push(field.previousElementSibling?.textContent || 'Invalid input format');
+                }
+            });
+
+            // Check email format manually
+            stepContent.querySelectorAll('input[type="email"]').forEach(field => {
+                if (field.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim())) {
+                    field.style.borderColor = '#e74c3c';
+                    field.style.boxShadow = '0 0 0 4px rgba(231, 76, 60, 0.1)';
+                    valid = false;
+                    if (!firstInvalid) firstInvalid = field;
+                    errorMessages.push('Please enter a valid email address');
                 }
             });
 
             if (!valid) {
-                alert('Please fill all required fields before proceeding.');
-                if (firstInvalid) firstInvalid.focus();
+                let msg = 'Please fill all required fields correctly before proceeding.';
+                if (errorMessages.length > 0) {
+                    msg = errorMessages[0];
+                }
+                alert(msg);
+                if (firstInvalid) {
+                    try { firstInvalid.focus(); } catch(e) {}
+                }
             }
 
             return valid;
@@ -601,6 +669,14 @@
 
             input.checked = true;
             label.classList.add('selected');
+
+            // Clear any error highlight
+            const group = label.closest('.radio-group');
+            if (group) {
+                group.querySelectorAll('.radio-option').forEach(opt => {
+                    opt.style.borderColor = '';
+                });
+            }
         }
 
         // ========== PASSWORD MATCH ==========
@@ -618,6 +694,7 @@
                 passwordHint.textContent = '✓ Passwords match';
                 passwordHint.style.color = '#1e7e5c';
                 confirmPasswordInput.style.borderColor = '#1e7e5c';
+                confirmPasswordInput.style.boxShadow = '';
             } else {
                 passwordHint.textContent = '✗ Passwords do not match';
                 passwordHint.style.color = '#e74c3c';
@@ -630,7 +707,7 @@
 
         // ========== FORM SUBMIT ==========
         function handleSubmit(event) {
-            event.preventDefault();
+            if (event) event.preventDefault();
 
             // Final validation for all steps
             for (let i = 0; i < totalSteps; i++) {
@@ -661,7 +738,13 @@
             }
 
             // Check for duplicate email / mobile
-            const existingSellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
+            let existingSellers = [];
+            try {
+                existingSellers = JSON.parse(localStorage.getItem('estatehaven_sellers') || '[]');
+            } catch (e) {
+                existingSellers = [];
+            }
+
             const newEmail = document.getElementById('email').value.trim().toLowerCase();
             const newMobile = document.getElementById('mobile').value.trim();
 
@@ -712,7 +795,7 @@
                 referral: document.getElementById('referral').value,
                 propertyCount: document.getElementById('propertyCount').value,
 
-                // ✅ CRITICAL FIX: Store password so login works
+                // Store password so login works
                 password: passwordInput.value,
                 passwordSet: true
             };
@@ -738,6 +821,7 @@
 
         // ========== INIT ==========
         document.addEventListener('DOMContentLoaded', function () {
+            // Sync radio selected state
             document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
                 radio.addEventListener('change', function () {
                     const name = this.name;
@@ -747,6 +831,18 @@
                     if (this.checked) {
                         this.closest('.radio-option').classList.add('selected');
                     }
+                });
+            });
+
+            // Clear highlight on input for better UX
+            document.querySelectorAll('.form-group input, .form-group select').forEach(field => {
+                field.addEventListener('input', function () {
+                    this.style.borderColor = '';
+                    this.style.boxShadow = '';
+                });
+                field.addEventListener('change', function () {
+                    this.style.borderColor = '';
+                    this.style.boxShadow = '';
                 });
             });
         });

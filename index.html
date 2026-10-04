@@ -828,14 +828,231 @@
 .owner-badge i {
     font-size: 11px;
 }
+
+/* ---------- LOGGED-IN USER HEADER ---------- */
+.header-guest {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+}
+
+.user-menu-wrapper {
+    position: relative;
+}
+
+.user-profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #eef7f2 0%, #e0f0e8 100%);
+    padding: 6px 14px 6px 6px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1.5px solid #d4e8e0;
+    user-select: none;
+}
+
+.user-profile-trigger:hover {
+    background: linear-gradient(135deg, #d4e8e0 0%, #c1e0d0 100%);
+    border-color: #b8dfd0;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e7e5c, #0f6b45);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(30,126,92,0.25);
+}
+
+.user-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.user-greeting {
+    font-size: 10.5px;
+    color: #7d8f9c;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0b2b3c;
+}
+
+.dropdown-caret {
+    font-size: 11px;
+    color: #1e7e5c;
+    transition: 0.2s;
+    margin-left: 2px;
+}
+
+.user-profile-trigger.active .dropdown-caret {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 260px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px -12px rgba(11,43,60,0.25);
+    border: 1px solid #e9f0ed;
+    padding: 8px;
+    z-index: 2000;
+    animation: dropdownFadeIn 0.2s ease;
+}
+
+.user-dropdown.show {
+    display: block;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+}
+
+.dropdown-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e7e5c, #0f6b45);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.dropdown-name {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #0b2b3c;
+    line-height: 1.2;
+}
+
+.dropdown-email {
+    font-size: 12px;
+    color: #7d8f9c;
+    margin-top: 2px;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #eaf3ef;
+    margin: 6px 4px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    color: #2c3e50;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.dropdown-item i {
+    color: #1e7e5c;
+    font-size: 15px;
+    width: 18px;
+    text-align: center;
+}
+
+.dropdown-item:hover {
+    background: #eef7f2;
+    color: #1e7e5c;
+}
+
+.dropdown-item.logout-item {
+    color: #e74c3c;
+}
+
+.dropdown-item.logout-item i {
+    color: #e74c3c;
+}
+
+.dropdown-item.logout-item:hover {
+    background: #fef2f2;
+    color: #c0392b;
+}
+
+.dropdown-item.logout-item:hover i {
+    color: #c0392b;
+}
+
+/* Hide guest, show user when logged in */
+body.logged-in .header-guest { display: none !important; }
+body.logged-in .header-user { display: flex !important; }
+body:not(.logged-in) .header-user { display: none !important; }
+body:not(.logged-in) .header-guest { display: flex !important; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .user-text { display: none; }
+    .user-profile-trigger { padding: 6px; }
+    .dropdown-caret { display: none; }
+}
+
+@media (max-width: 550px) {
+    .user-dropdown {
+        min-width: 240px;
+        right: -10px;
+    }
+}
     </style>
 </head>
 <body>
     <!-- HEADER / NAVIGATION -->
-    <header>
-    <div class="logo">
+   <header>
+    <a href="index.html" class="logo">
         <i class="fas fa-home"></i> Estate<span>Haven</span>
-    </div>
+    </a>
     <nav>
         <ul>
             <li><a href="index.html" class="active">Home</a></li>
@@ -845,11 +1062,54 @@
             <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
+
     <div class="header-actions">
-        <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
-        <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
-        <div class="user-profile">
-            <i class="fas fa-user-circle"></i> John
+        <!-- GUEST VIEW: shown when NOT logged in -->
+        <div id="guestActions" class="header-guest">
+            <a href="seller-register.html" class="btn-seller"><i class="fas fa-plus-circle"></i> Register as Seller</a>
+            <a href="login.html" class="btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+
+        <!-- USER VIEW: shown when logged in -->
+        <div id="userActions" class="header-user" style="display: none;">
+            <div class="user-menu-wrapper">
+                <div class="user-profile-trigger" onclick="toggleUserDropdown(event)">
+                    <div class="user-avatar" id="headerAvatar">S</div>
+                    <div class="user-text">
+                        <span class="user-greeting">Welcome back,</span>
+                        <span class="user-name" id="headerUserName">Seller</span>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-caret"></i>
+                </div>
+
+                <!-- Dropdown -->
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar" id="dropdownAvatar">S</div>
+                        <div>
+                            <div class="dropdown-name" id="dropdownName">Seller</div>
+                            <div class="dropdown-email" id="dropdownEmail">seller@example.com</div>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="seller-dashboard.html" class="dropdown-item">
+                        <i class="fas fa-list"></i> My Dashboard
+                    </a>
+                    <a href="post-property.html" class="dropdown-item">
+                        <i class="fas fa-plus-circle"></i> Post New Property
+                    </a>
+                    <a href="listing.html" class="dropdown-item">
+                        <i class="fas fa-heart"></i> Saved Properties
+                    </a>
+                    <a href="about.html" class="dropdown-item">
+                        <i class="fas fa-info-circle"></i> Help & Support
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item logout-item" onclick="logoutSeller()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </header>
@@ -1025,8 +1285,7 @@
                 <h4>Quick Links</h4>
                 <ul>
                     <li><a href="about.html">About Us</a></li>
-                    <li><a href="listings.html">Listings</a></li>
-                    <li><a href="agents.html">Agents</a></li>
+                    <li><a href="listing.html">Listings</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -1221,6 +1480,100 @@
             }
         });
     });
+
+    // ========================================================
+// LOGIN STATE DETECTION & USER MENU
+// ========================================================
+(function initUserHeader() {
+    const stored = localStorage.getItem('estatehaven_current_seller');
+
+    if (stored) {
+        try {
+            const seller = JSON.parse(stored);
+            document.body.classList.add('logged-in');
+
+            // Get initials
+            const name = seller.fullName || 'Seller';
+            const initial = name.charAt(0).toUpperCase();
+            const firstName = name.split(' ')[0];
+
+            // Header trigger
+            document.getElementById('headerAvatar').textContent = initial;
+            document.getElementById('headerUserName').textContent = firstName;
+
+            // Dropdown header
+            document.getElementById('dropdownAvatar').textContent = initial;
+            document.getElementById('dropdownName').textContent = name;
+            document.getElementById('dropdownEmail').textContent = seller.email || 'No email';
+        } catch (e) {
+            console.error('Session error:', e);
+            localStorage.removeItem('estatehaven_current_seller');
+        }
+    } else {
+        document.body.classList.remove('logged-in');
+    }
+})();
+
+// ========================================================
+// DROPDOWN TOGGLE
+// ========================================================
+function toggleUserDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('userDropdown');
+    const trigger = event.currentTarget;
+    const isOpen = dropdown.classList.contains('show');
+
+    // Close if already open
+    if (isOpen) {
+        dropdown.classList.remove('show');
+        trigger.classList.remove('active');
+        return;
+    }
+
+    dropdown.classList.add('show');
+    trigger.classList.add('active');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function (e) {
+    const dropdown = document.getElementById('userDropdown');
+    const trigger = document.querySelector('.user-profile-trigger');
+    if (!dropdown || !trigger) return;
+
+    if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+        dropdown.classList.remove('show');
+        trigger.classList.remove('active');
+    }
+});
+
+// Close on Escape
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        const dropdown = document.getElementById('userDropdown');
+        const trigger = document.querySelector('.user-profile-trigger');
+        if (dropdown) dropdown.classList.remove('show');
+        if (trigger) trigger.classList.remove('active');
+    }
+});
+
+// ========================================================
+// LOGOUT
+// ========================================================
+function logoutSeller() {
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('estatehaven_current_seller');
+        window.location.href = 'index.html';
+    }
+}
+
+// ========================================================
+// LIVE REFRESH ON LOGIN/LOGOUT IN OTHER TABS
+// ========================================================
+window.addEventListener('storage', function (e) {
+    if (e.key === 'estatehaven_current_seller') {
+        location.reload();
+    }
+});
 </script>
 </body>
 </html>
